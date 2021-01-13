@@ -1,0 +1,23 @@
+Technologies
+------------
+
+* TDD
+* UI with Figma (Material UI Design Kit?)
+* Material UI
+* Typescript
+* React
+* MultiLanguage Support (i18n) -> Deutsch & English
+* Auth0 authentication & user management (https://auth0.com/blog/complete-guide-to-react-user-authentication)
+* Offline use with service worker & system notifications
+* Backend in MySQL database or MongoDB
+
+
+Commit types
+------------
+
+feat
+refactor
+fix
+style
+test
+docs
