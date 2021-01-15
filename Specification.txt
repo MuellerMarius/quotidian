@@ -2,7 +2,7 @@ Technologies
 ------------
 
 * TDD
-* UI with Figma (Material UI Design Kit?)
+* UI with Figma
 * Material UI
 * Typescript
 * React
