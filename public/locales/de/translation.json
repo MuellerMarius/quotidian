@@ -1,3 +1,8 @@
 {
-  "title": "Welcome to quotidian"
+  "description": "Der tägliche Stimmungs- und Gewohnheitstracker um das Beste aus dir herauszuholen!",
+  "login": "Login",
+  "logout": "Logout",
+  "signup": "Registrieren",
+  "edit acitivies": "Aktivitäten bearbeiten",
+  "edit profile": "Profil bearbeiten"
 }
