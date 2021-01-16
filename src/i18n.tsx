@@ -15,3 +15,8 @@ i18n
   });
 
 export default i18n;
+
+export const languages = [
+  { acr: 'en', display: 'English' },
+  { acr: 'de', display: 'Deutsch' },
+];
