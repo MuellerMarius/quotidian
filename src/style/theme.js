@@ -3,6 +3,9 @@ import { createMuiTheme } from '@material-ui/core/styles';
 const theme = createMuiTheme({
   typography: {
     fontFamily: "'Inter', 'Segoe UI'",
+    h5: {
+      fontWeight: 600,
+    },
   },
   palette: {
     common: {

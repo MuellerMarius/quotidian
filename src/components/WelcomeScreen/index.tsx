@@ -50,7 +50,7 @@ const WelcomeScreen = () => {
       />
       <CardContent>
         <Typography variant="h5" component="h5" gutterBottom>
-          Quotidian
+          quotidian
         </Typography>
 
         <Typography variant="subtitle2" component="p" color="secondary">

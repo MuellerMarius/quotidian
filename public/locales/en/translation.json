@@ -4,5 +4,9 @@
   "logout": "Logout",
   "signup": "Sign up",
   "edit acitivies": "Edit activities",
-  "edit profile": "Edit profile"
+  "edit profile": "Edit profile",
+  "menu": {
+    "entries": "Entries",
+    "statistics": "Statistics"
+  }
 }

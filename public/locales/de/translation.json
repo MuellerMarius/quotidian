@@ -4,5 +4,9 @@
   "logout": "Logout",
   "signup": "Registrieren",
   "edit acitivies": "Aktivitäten bearbeiten",
-  "edit profile": "Profil bearbeiten"
+  "edit profile": "Profil bearbeiten",
+  "menu": {
+    "entries": "Einträge",
+    "statistics": "Statistiken"
+  }
 }
