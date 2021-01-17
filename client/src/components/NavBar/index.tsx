@@ -23,6 +23,7 @@ const useStyles = makeStyles({
     },
   },
   activeLink: {
+    color: '#676973',
     fontWeight: 600,
   },
 });
