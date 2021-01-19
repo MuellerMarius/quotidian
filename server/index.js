@@ -1,20 +1,39 @@
 const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const path = require('path');
+const entries = require('./routes/api/entries');
 
-const app = express();
 const publicPath = path.join(__dirname, '..', 'client', 'build');
-const data = [];
 
-const serveClient = (req, res) => {
-  res.sendFile(path.join(publicPath, 'index.html'));
-};
+dotenv.config();
+const app = express();
+app.use(helmet());
+app.use(cors({ origin: process.env.CLIENT_ORIGIN_URLS.split(',') }));
+app.use(bodyParser.json());
+app.use(express.static(publicPath));
+
+//
+// MongoDB ////////////////////////////////////////////////////////
+//
+
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('MongoDB Connected...'))
+  .catch((err) => console.error(err));
 
 //
 // Routes //////////////////////////////////////////////////////////
-//s
+//
 
-app.use(express.static(publicPath));
-app.get('*', serveClient);
+app.use('/api/entries', entries);
+app.get('*', (req, res) => res.sendFile(path.join(publicPath, 'index.html')));
 
 //
 // Run /////////////////////////////////////////////////////////////
