@@ -8,17 +8,20 @@ import theme from './style/theme';
 import App from './App';
 
 import './i18n';
+import { GlobalProvider } from './context/GlobalContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <Router>
-        <Auth0ProviderWithHistory>
-          <Suspense fallback={<CircularProgress />}>
-            <App />
-          </Suspense>
-        </Auth0ProviderWithHistory>
-      </Router>
+      <GlobalProvider>
+        <Router>
+          <Auth0ProviderWithHistory>
+            <Suspense fallback={<CircularProgress />}>
+              <App />
+            </Suspense>
+          </Auth0ProviderWithHistory>
+        </Router>
+      </GlobalProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
