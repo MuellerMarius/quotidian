@@ -71,7 +71,7 @@ function NavBar() {
         <Grid item xs={2}>
           <LanguageSelector />
         </Grid>
-        <Grid item justify="flex-end">
+        <Grid item>
           <ProfileAvatar />
         </Grid>
       </Grid>

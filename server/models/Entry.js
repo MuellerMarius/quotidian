@@ -19,7 +19,7 @@ const EntrySchema = new mongoose.Schema({
     max: 5,
     required: true,
   },
-  acitivities: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User.activies' }],
+  activities: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User.activies' }],
 });
 
 module.exports = mongoose.model('Entry', EntrySchema);
