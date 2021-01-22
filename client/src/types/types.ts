@@ -1,9 +1,11 @@
 export type EntryType = {
   _id: string;
+  __v?: number | null;
   user: string;
   mood: number;
-  date: Date;
+  date: string;
   activities?: string[] | null;
+  comment: string;
 };
 
 export type ActivityType = {
@@ -12,14 +14,18 @@ export type ActivityType = {
   icon: string;
 };
 
+export type StatusType = 'idle' | 'loading' | 'resolved' | 'error';
+
 export type StateType = {
-  entries: EntryType[] | null;
-  activities: ActivityType[] | null;
+  jwt: string | undefined | null;
+  entries: EntryType[] | undefined | null;
+  activities: ActivityType[] | undefined;
   dispatch?: React.Dispatch<ActionType>;
 };
 
-export enum ActionsNames {
-  GET_ENTRIES = 'GET_ENTRIES',
+export enum ActionNames {
+  SET_JWT,
+  SET_ENTRIES,
 }
 
 type ActionMap<M extends { [index: string]: any }> = {
@@ -29,8 +35,11 @@ type ActionMap<M extends { [index: string]: any }> = {
 };
 
 type Payload = {
-  [ActionsNames.GET_ENTRIES]: {
-    id: number;
+  [ActionNames.SET_JWT]: {
+    jwt: string;
+  };
+  [ActionNames.SET_ENTRIES]: {
+    entries: EntryType[] | null;
   };
 };
 

@@ -3,8 +3,9 @@ import GlobalReducer from './GlobalReducer';
 import { StateType } from '../types/types';
 
 const initialState = {
-  entries: null,
-  activities: null,
+  jwt: undefined,
+  entries: undefined,
+  activities: undefined,
 };
 
 const GlobalContext = createContext<StateType>(initialState);
@@ -14,7 +15,12 @@ export const GlobalProvider: React.FC = ({ children }) => {
 
   return (
     <GlobalContext.Provider
-      value={{ entries: state.entries, activities: state.activities, dispatch }}
+      value={{
+        jwt: state.jwt,
+        entries: state.entries,
+        activities: state.activities,
+        dispatch,
+      }}
     >
       {children}
     </GlobalContext.Provider>

@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import { Route, Switch } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import ProtectedRoute from '../auth/ProtectedRoute';
 import Entries from './Entries';
 import UserProfile from './UserProfile';
 import Statistics from './Statistics';
 import NavBar from './NavBar';
+import { useGlobalContext } from '../context/GlobalContext';
+import { ActionNames } from '../types/types';
 
 function AuthorizedUserScreen() {
+  const { getAccessTokenSilently } = useAuth0();
+  const { dispatch } = useGlobalContext();
+
+  useEffect(() => {
+    getAccessTokenSilently().then((jwt) =>
+      dispatch!({ type: ActionNames.SET_JWT, payload: { jwt } })
+    );
+  }, [getAccessTokenSilently, dispatch]);
+
   return (
     <Grid
       container
