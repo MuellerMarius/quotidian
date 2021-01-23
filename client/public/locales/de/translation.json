@@ -8,5 +8,6 @@
   "menu": {
     "entries": "Einträge",
     "statistics": "Statistiken"
-  }
+  },
+  "datekey": "{{date, dddd, DD.MM.YYYY}}"
 }
