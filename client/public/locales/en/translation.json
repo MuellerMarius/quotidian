@@ -3,11 +3,22 @@
   "login": "Login",
   "logout": "Logout",
   "signup": "Sign up",
+  "edit": "Edit",
+  "delete": "Delete",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
   "edit acitivies": "Edit activities",
   "edit profile": "Edit profile",
   "menu": {
     "entries": "Entries",
     "statistics": "Statistics"
+  },
+  "confirm-delete": {
+    "title": "Delete entry?",
+    "description": "Are you sure you want to delete this entry? This action cannot be undone."
+  },
+  "snackbar": {
+    "deleted": "Entry was deleted successfully!"
   },
   "datekey": "{{date, MM/DD/YYYY}}"
 }

@@ -3,22 +3,31 @@ import { Grid } from '@material-ui/core';
 import { Route, Switch } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import ProtectedRoute from '../auth/ProtectedRoute';
-import Entries from './Entries';
-import UserProfile from './UserProfile';
-import Statistics from './Statistics';
-import NavBar from './NavBar';
+import UserProfile from '../components/UserProfile';
+import Statistics from '../components/Statistics';
+import NavBar from '../components/NavBar';
 import { useGlobalContext } from '../context/GlobalContext';
 import { ActionNames } from '../types/types';
+import useApi from '../hooks/useApi';
+import EntryScreen from './EntryScreen';
+import GlobalSnackbar from '../components/GlobalSnackbar';
 
 function AuthorizedUserScreen() {
   const { getAccessTokenSilently } = useAuth0();
-  const { dispatch } = useGlobalContext();
+  const { jwt, dispatch } = useGlobalContext();
+  const { status, getEntries } = useApi();
 
   useEffect(() => {
-    getAccessTokenSilently().then((jwt) =>
-      dispatch!({ type: ActionNames.SET_JWT, payload: { jwt } })
+    getAccessTokenSilently().then((token) =>
+      dispatch!({ type: ActionNames.SET_JWT, payload: { jwt: token } })
     );
   }, [getAccessTokenSilently, dispatch]);
+
+  useEffect(() => {
+    if (jwt) {
+      getEntries();
+    }
+  }, [getEntries, jwt]);
 
   return (
     <Grid
@@ -34,13 +43,16 @@ function AuthorizedUserScreen() {
       </Grid>
       <Grid item>
         <Switch>
-          <Route exact path="/" component={Entries} />
+          <Route exact path="/">
+            <EntryScreen status={status} />
+          </Route>
           <Route path="/pro" component={UserProfile} />
           <ProtectedRoute path="/profile" component={UserProfile} />
-          <ProtectedRoute path="/entries" component={Entries} />
+          <ProtectedRoute path="/entries" component={EntryScreen} />
           <ProtectedRoute path="/statistics" component={Statistics} />
         </Switch>
       </Grid>
+      <GlobalSnackbar />
     </Grid>
   );
 }

@@ -3,11 +3,22 @@
   "login": "Login",
   "logout": "Logout",
   "signup": "Registrieren",
+  "edit": "Bearbeiten",
+  "delete": "Löschen",
+  "confirm": "Okay",
+  "cancel": "Abbrechen",
   "edit acitivies": "Aktivitäten bearbeiten",
   "edit profile": "Profil bearbeiten",
   "menu": {
     "entries": "Einträge",
     "statistics": "Statistiken"
+  },
+  "confirm-delete": {
+    "title": "Eintrag löschen?",
+    "description": "Sind sie sicher, dass sie diesen Eintrag wirklich unwiederruflich löschen möchten?"
+  },
+  "snackbar": {
+    "deleted": "Eintrag erfolgreich gelöscht!"
   },
   "datekey": "{{date, dddd, DD.MM.YYYY}}"
 }

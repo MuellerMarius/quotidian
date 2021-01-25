@@ -1,6 +1,6 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
   typography: {
     fontFamily: "'Inter', 'Segoe UI'",
     h5: {
@@ -23,4 +23,10 @@ const theme = createMuiTheme({
   },
 });
 
-export default theme;
+export const MoodColors = {
+  1: '#F98774',
+  2: '#FFBC64',
+  3: '#898C9F',
+  4: '#5CECC0',
+  5: '#00B38A',
+};

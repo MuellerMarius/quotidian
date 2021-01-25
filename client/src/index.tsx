@@ -4,7 +4,7 @@ import { CircularProgress, ThemeProvider } from '@material-ui/core';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Auth0ProviderWithHistory from './auth/Auth0ProviderWithHistory';
 import './style/index.scss';
-import theme from './style/theme';
+import { theme } from './style/theme';
 import App from './App';
 
 import './i18n';

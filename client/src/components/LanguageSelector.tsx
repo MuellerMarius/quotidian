@@ -51,7 +51,7 @@ const LanguageSelector = () => {
         keepMounted
       >
         {languages.map((value) => (
-          <MenuItem onClick={() => handleClose(value.acr)}>
+          <MenuItem onClick={() => handleClose(value.acr)} key={value.acr}>
             <ListItemText primary={value.display} />
           </MenuItem>
         ))}
