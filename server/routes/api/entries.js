@@ -39,4 +39,28 @@ router.post('/', auth, (req, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
+/**
+ * @route   DELETE api/entries/:id
+ * @desc    Deletes an entry
+ * @access  Private
+ */
+
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const entry = await Entry.findById(req.params.id);
+    if (!entry || entry.user !== req.user.sub) {
+      throw Error('Entry does not exist');
+    }
+
+    const removed = await entry.remove();
+    if (!removed) {
+      throw Error('Entry could not be deleted');
+    }
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    res.status(400).json({ msg: e.message, success: false });
+  }
+});
+
 module.exports = router;
