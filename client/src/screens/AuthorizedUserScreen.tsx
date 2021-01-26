@@ -41,17 +41,19 @@ function AuthorizedUserScreen() {
       <Grid item>
         <NavBar />
       </Grid>
-      <Grid item>
-        <Switch>
-          <Route exact path="/">
-            <EntryScreen status={status} />
-          </Route>
-          <Route path="/pro" component={UserProfile} />
-          <ProtectedRoute path="/profile" component={UserProfile} />
-          <ProtectedRoute path="/entries" component={EntryScreen} />
-          <ProtectedRoute path="/statistics" component={Statistics} />
-        </Switch>
-      </Grid>
+      <main>
+        <Grid item>
+          <Switch>
+            <Route exact path="/">
+              <EntryScreen status={status} />
+            </Route>
+            <Route path="/pro" component={UserProfile} />
+            <ProtectedRoute path="/profile" component={UserProfile} />
+            <ProtectedRoute path="/entries" component={EntryScreen} />
+            <ProtectedRoute path="/statistics" component={Statistics} />
+          </Switch>
+        </Grid>
+      </main>
       <GlobalSnackbar />
     </Grid>
   );

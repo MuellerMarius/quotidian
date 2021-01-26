@@ -9,6 +9,7 @@
   "cancel": "Abbrechen",
   "edit acitivies": "Aktivitäten bearbeiten",
   "edit profile": "Profil bearbeiten",
+  "add new entry": "Neuen Eintrag hinzufügen",
   "menu": {
     "entries": "Einträge",
     "statistics": "Statistiken"
@@ -18,6 +19,7 @@
     "description": "Sind sie sicher, dass sie diesen Eintrag wirklich unwiederruflich löschen möchten?"
   },
   "snackbar": {
+    "added": "Eintrag erfolgreich erstellt!",
     "deleted": "Eintrag erfolgreich gelöscht!"
   },
   "datekey": "{{date, dddd, DD.MM.YYYY}}"

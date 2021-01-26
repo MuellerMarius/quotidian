@@ -9,6 +9,7 @@
   "cancel": "Cancel",
   "edit acitivies": "Edit activities",
   "edit profile": "Edit profile",
+  "add new entry": "Add a new entry",
   "menu": {
     "entries": "Entries",
     "statistics": "Statistics"
@@ -18,6 +19,7 @@
     "description": "Are you sure you want to delete this entry? This action cannot be undone."
   },
   "snackbar": {
+    "added": "Entry was created successfully!",
     "deleted": "Entry was deleted successfully!"
   },
   "datekey": "{{date, MM/DD/YYYY}}"

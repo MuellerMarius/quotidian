@@ -11,7 +11,17 @@ function App() {
   const { isAuthenticated, isLoading } = useAuth0();
 
   if (isLoading) {
-    return <CircularProgress />;
+    return (
+      <CircularProgress
+        color="primary"
+        style={{
+          position: 'relative',
+          top: '45vh',
+          display: 'block',
+          margin: '0 auto 0 auto',
+        }}
+      />
+    );
   }
 
   return isAuthenticated ? <AuthorizedUserScreen /> : <WelcomeScreen />;
