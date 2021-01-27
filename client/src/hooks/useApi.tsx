@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { useCallback, useState } from 'react';
 import { useGlobalContext } from '../context/GlobalContext';
 import { ActionNames, EntryType, StatusType } from '../types/types';
@@ -9,60 +10,121 @@ const handleHttpErrors = (response: Response) => {
   return response;
 };
 
+const apiFetchOptions = (jwt: string, method: string, body: string | null) => ({
+  method,
+  headers: {
+    Accept: 'application/json, text/plain, */*',
+    Authorization: `Bearer ${jwt}`,
+    'Content-Type': 'application/json',
+  },
+  body,
+});
+
 const useApi = () => {
   const [status, setStatus] = useState<StatusType>('idle');
-  const { jwt, dispatch } = useGlobalContext();
+  const { dispatch } = useGlobalContext();
+  const { getAccessTokenSilently } = useAuth0();
 
-  // TODO: Refactor fetch method
+  const apiFetch = useCallback(
+    async (
+      url: string,
+      method: string,
+      body: string | null,
+      onSuccess: (data: any) => void,
+      onError: (err: any) => void
+    ) => {
+      try {
+        setStatus('loading');
+        const jwt = await getAccessTokenSilently();
+        const options = apiFetchOptions(jwt, method, body);
+        const response = await fetch(url, options);
+        handleHttpErrors(response);
+        onSuccess(await response.json());
+        setStatus('resolved');
+      } catch (err) {
+        onError(err);
+        setStatus('error');
+      }
+    },
+    [getAccessTokenSilently]
+  );
+
+  /**
+   *   Get all entries from user
+   */
+
   const getEntries = useCallback(() => {
-    setStatus('loading');
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/entries`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json, text/plain, */*',
-        Authorization: `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(handleHttpErrors)
-      .then((res) => res.json())
-      .then((data) => {
-        setStatus('resolved');
-        dispatch!({
-          type: ActionNames.SET_ENTRIES,
-          payload: { entries: data as EntryType[] },
-        });
-      })
-      .catch((err) => {
-        setStatus('error');
+    const onSuccess = (data: EntryType[]) => {
+      dispatch!({
+        type: ActionNames.SET_ENTRIES,
+        payload: { entries: data },
       });
-  }, [dispatch, jwt]);
+    };
 
-  const deleteEntry = (entry: EntryType) => {
-    setStatus('loading');
-    fetch(`${process.env.REACT_APP_SERVER_URL}/api/entries/${entry._id}`, {
-      method: 'DELETE',
-      headers: {
-        Accept: 'application/json, text/plain, */*',
-        Authorization: `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(handleHttpErrors)
-      .then((res) => res.json())
-      .then(() => {
-        setStatus('resolved');
-        dispatch!({
-          type: ActionNames.DELETE_ENTRY,
-          payload: { entry },
-        });
-      })
-      .catch((err) => {
-        setStatus('error');
+    const onError = (err: any) => {
+      dispatch!({
+        type: ActionNames.SHOW_SNACKBAR,
+        payload: {
+          snackbar: { message: 'snackbar.failed-load', severity: 'error' },
+        },
       });
+    };
+
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/entries`;
+    apiFetch(url, 'GET', null, onSuccess, onError);
+  }, [apiFetch, dispatch]);
+
+  /**
+   *   Post a new entry
+   */
+
+  const addEntry = (entry: EntryType) => {
+    const onSuccess = (data: EntryType) => {
+      dispatch!({
+        type: ActionNames.ADD_ENTRY,
+        payload: { entry: data },
+      });
+    };
+
+    const onError = (err: any) => {
+      dispatch!({
+        type: ActionNames.SHOW_SNACKBAR,
+        payload: {
+          snackbar: { message: 'snackbar.failed-add', severity: 'error' },
+        },
+      });
+    };
+
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/entries/`;
+    apiFetch(url, 'POST', JSON.stringify(entry), onSuccess, onError);
   };
 
-  return { status, getEntries, deleteEntry };
+  /**
+   *   Delete entry by id
+   */
+
+  const deleteEntry = (entry: EntryType) => {
+    const onSuccess = (data: EntryType) => {
+      dispatch!({
+        type: ActionNames.DELETE_ENTRY,
+        payload: { entry },
+      });
+    };
+
+    const onError = (err: any) => {
+      dispatch!({
+        type: ActionNames.SHOW_SNACKBAR,
+        payload: {
+          snackbar: { message: 'snackbar.failed-delete', severity: 'error' },
+        },
+      });
+    };
+
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/entries/${entry._id}`;
+    apiFetch(url, 'DELETE', null, onSuccess, onError);
+  };
+
+  return { status, getEntries, addEntry, deleteEntry };
 };
 
 export default useApi;

@@ -3,6 +3,7 @@ import {
   ActionType,
   ActionNames,
   SeverityType,
+  EntryType,
 } from '../types/types';
 
 const GlobalReducer = (state: StateType, action: ActionType) => {
@@ -11,6 +12,16 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
       return { ...state, jwt: action.payload.jwt };
     case ActionNames.SET_ENTRIES:
       return { ...state, entries: action.payload.entries };
+    case ActionNames.ADD_ENTRY:
+      return {
+        ...state,
+        entries: [action.payload.entry, ...(state.entries as Array<EntryType>)],
+        snackbar: {
+          message: 'snackbar.added',
+          severity: 'success' as SeverityType,
+          open: true,
+        },
+      };
     case ActionNames.DELETE_ENTRY:
       return {
         ...state,
@@ -19,7 +30,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
         ),
         snackbar: {
           message: 'snackbar.deleted',
-          severity: 'error' as SeverityType,
+          severity: 'success' as SeverityType,
           open: true,
         },
       };
@@ -32,7 +43,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
     case ActionNames.SHOW_SNACKBAR:
       return {
         ...state,
-        snackbar: action.payload.snackbar,
+        snackbar: { open: true, ...action.payload.snackbar },
       };
     default:
       return state;
