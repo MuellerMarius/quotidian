@@ -20,7 +20,10 @@
   },
   "snackbar": {
     "added": "Entry was created successfully!",
-    "deleted": "Entry was deleted successfully!"
+    "failed-add": "Entry could not be created!",
+    "deleted": "Entry was deleted successfully!",
+    "failed-delete": "Entry could not be deleted!",
+    "failed-load": "Entries could not be loaded!"
   },
   "datekey": "{{date, MM/DD/YYYY}}"
 }
