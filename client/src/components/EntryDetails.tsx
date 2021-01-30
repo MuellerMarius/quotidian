@@ -33,8 +33,8 @@ const EntryDetails: React.FC<EntryDetailsProps> = ({ entry, onClose }) => {
 
   return (
     <form>
-      <Grid container direction="column" spacing={4}>
-        <Grid item>
+      <Grid container direction="column" spacing={4} alignItems="center">
+        <Grid item style={{ alignSelf: 'flex-start' }}>
           <Typography variant="h5" component="h5">
             {entry._id ? t('edit entry') : t('add new entry')}
           </Typography>
@@ -45,7 +45,7 @@ const EntryDetails: React.FC<EntryDetailsProps> = ({ entry, onClose }) => {
             onChange={(mood) => setChangedEntry({ ...changedEntry, mood })}
           />
         </Grid>
-        <Grid item style={{ alignSelf: 'center' }}>
+        <Grid item>
           <TextField
             id="date"
             label={t('entry.date')}

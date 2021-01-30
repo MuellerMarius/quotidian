@@ -13,6 +13,8 @@ export type MoodSelectorProps = {
   onChange: (mood: number) => void;
 };
 
+export type MoodAvatarRadioProps = { mood: number };
+
 export type EntryListItemProps = {
   entry: EntryType;
   onClick: (...args: any[]) => void;

@@ -12,6 +12,13 @@
   "edit profile": "Profil bearbeiten",
   "add new entry": "Neuen Eintrag hinzufügen",
   "edit entry": "Eintrag bearbeiten",
+  "moods": {
+    "0": "Lausig",
+    "1": "Schlecht",
+    "2": "Okay",
+    "3": "Gut",
+    "4": "Super"
+  },
   "menu": {
     "entries": "Einträge",
     "statistics": "Statistiken"

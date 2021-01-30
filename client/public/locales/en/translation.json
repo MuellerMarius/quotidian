@@ -16,6 +16,13 @@
     "entries": "Entries",
     "statistics": "Statistics"
   },
+  "moods": {
+    "0": "Horrible",
+    "1": "Bad",
+    "2": "Okay",
+    "3": "Good",
+    "4": "Super"
+  },
   "entry": {
     "mood": "Mood",
     "comment": "Comment",

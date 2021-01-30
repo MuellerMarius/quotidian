@@ -1,4 +1,4 @@
-import { IconButton, ListItemIcon, makeStyles, Theme } from '@material-ui/core';
+import { IconButton, ListItemIcon } from '@material-ui/core';
 import React from 'react';
 import SentimentVerySatisfiedOutlinedIcon from '@material-ui/icons/SentimentVerySatisfiedOutlined';
 import SentimentSatisfiedOutlinedIcon from '@material-ui/icons/SentimentSatisfiedOutlined';
@@ -8,19 +8,6 @@ import SentimentVeryDissatisfiedOutlinedIcon from '@material-ui/icons/SentimentV
 import { MoodAvatarProps } from '../types/proptypes';
 import { MoodColors } from '../style/theme';
 
-const useStyles = makeStyles<Theme, MoodAvatarProps>({
-  moodIcon: {
-    color: (props) => (props.inactive ? '#c7c8d1' : MoodColors[props.mood]),
-  },
-  hoverButton: {
-    color: (props) => (props.inactive ? '#c7c8d1' : MoodColors[props.mood]),
-    '&:hover': {
-      color: (props) => `${MoodColors[props.mood]}!important`,
-    },
-  },
-});
-
-// TODO: onHover color change
 const MoodAvatar: React.FC<MoodAvatarProps> = ({
   mood,
   size,
@@ -28,10 +15,9 @@ const MoodAvatar: React.FC<MoodAvatarProps> = ({
   button,
   onClick,
 }) => {
-  const classes = useStyles({ mood, inactive, button });
   const attributes = {
     fontSize: size || 'large',
-    className: button ? undefined : classes.moodIcon,
+    style: { color: inactive ? '#c7c8d1' : MoodColors[mood] },
   };
 
   const createMoodAvatar = () => {
@@ -51,12 +37,7 @@ const MoodAvatar: React.FC<MoodAvatarProps> = ({
   };
 
   return button ? (
-    <IconButton
-      aria-label="mood-icon"
-      onClick={onClick}
-      className={classes.hoverButton}
-      size="small"
-    >
+    <IconButton aria-label="mood-icon" onClick={onClick} size="small">
       {createMoodAvatar()}
     </IconButton>
   ) : (
