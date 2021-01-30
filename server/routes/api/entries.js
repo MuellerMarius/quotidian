@@ -31,9 +31,31 @@ router.post('/', auth, (req, res) => {
     user: req.user.sub,
     comment: req.body.comment,
     mood: req.body.mood,
+    date: req.body.date,
   });
 
   newEntry
+    .save()
+    .then((item) => res.status(200).json(item))
+    .catch((err) => res.status(400).json(err));
+});
+
+/**
+ * @route   PATCH api/entries/:id
+ * @desc    Updates an existing entry
+ * @access  Private
+ */
+
+router.patch('/:id', auth, async (req, res) => {
+  const entry = await Entry.findById(req.params.id);
+
+  if (entry) {
+    entry.date = req.body.date;
+    entry.mood = req.body.mood;
+    entry.comment = req.body.comment;
+  }
+
+  const updatedEntry = await entry
     .save()
     .then((item) => res.status(200).json(item))
     .catch((err) => res.status(400).json(err));
