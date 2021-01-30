@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ConfirmDialogProps } from '../types/types';
+import { ConfirmDialogProps } from '../types/proptypes';
 
 const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   open,

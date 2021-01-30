@@ -23,10 +23,10 @@ export const theme = createMuiTheme({
   },
 });
 
-export const MoodColors = {
-  1: '#F98774',
-  2: '#FFBC64',
-  3: '#898C9F',
-  4: '#5CECC0',
-  5: '#00B38A',
-};
+export const MoodColors = [
+  '#F98774',
+  '#FFBC64',
+  '#898C9F',
+  '#5CECC0',
+  '#00B38A',
+];

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Grid } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { ScreenProps } from '../types/types';
+import { ScreenProps } from '../types/proptypes';
 import Entries from '../components/Entries';
 
 const EntryScreen: React.FC<ScreenProps> = ({ status }) => {

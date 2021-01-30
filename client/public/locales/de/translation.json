@@ -7,22 +7,35 @@
   "delete": "Löschen",
   "confirm": "Okay",
   "cancel": "Abbrechen",
+  "save": "Speichern",
   "edit acitivies": "Aktivitäten bearbeiten",
   "edit profile": "Profil bearbeiten",
   "add new entry": "Neuen Eintrag hinzufügen",
+  "edit entry": "Eintrag bearbeiten",
   "menu": {
     "entries": "Einträge",
     "statistics": "Statistiken"
   },
+  "entry": {
+    "mood": "Stimmung",
+    "comment": "Kommentar",
+    "date": "Datum"
+  },
   "confirm-delete": {
     "title": "Eintrag löschen?",
-    "description": "Sind sie sicher, dass sie diesen Eintrag wirklich unwiederruflich löschen möchten?"
+    "description": "Sind sie sicher, dass sie diesen Eintrag wirklich unwiderruflich löschen möchten?"
+  },
+  "confirm-discard": {
+    "title": "Änderungen verwerfen?",
+    "description": "Sind haben noch ungespeicherte Änderungen. Sind sie sicher, dass Sie diese verwerfen wollen?"
   },
   "snackbar": {
     "added": "Eintrag erfolgreich erstellt!",
+    "updated": "Eintrag erfolgreich geändert!",
     "failed-add": "Eintrag konnte nicht erstellt werden!",
     "deleted": "Eintrag erfolgreich gelöscht!",
     "failed-delete": "Eintrag konnte nicht gelöscht werden!",
+    "failed-edit": "Eintrag konnte nicht bearbeitet werden!",
     "failed-load": "Einträge konnten nicht geladen werden!"
   },
   "datekey": "{{date, dddd, DD.MM.YYYY}}"

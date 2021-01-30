@@ -1,7 +1,7 @@
 export type EntryType = {
-  _id: string;
+  _id?: string;
   __v?: number | null;
-  user: string;
+  user?: string;
   mood: number;
   date: string;
   activities?: string[] | null;
@@ -19,7 +19,7 @@ export type SeverityType = 'error' | 'success' | 'info' | 'warning';
 export type SnackBarType = {
   message: string;
   severity: SeverityType | undefined;
-  open: boolean;
+  open?: boolean;
   autoHideDuration?: number;
 };
 
@@ -27,8 +27,7 @@ export type StatusType = 'idle' | 'loading' | 'resolved' | 'error';
 
 export type StateType = {
   snackbar: SnackBarType;
-  jwt: string | undefined | null;
-  entries: EntryType[] | undefined | null;
+  entries: EntryType[] | null | undefined;
   activities: ActivityType[] | undefined;
   dispatch?: React.Dispatch<ActionType>;
 };
@@ -36,6 +35,8 @@ export type StateType = {
 export enum ActionNames {
   SET_JWT,
   SET_ENTRIES,
+  ADD_ENTRY,
+  UPDATE_ENTRY,
   DELETE_ENTRY,
   HIDE_SNACKBAR,
   SHOW_SNACKBAR,
@@ -57,6 +58,12 @@ type Payload = {
   [ActionNames.DELETE_ENTRY]: {
     entry: EntryType;
   };
+  [ActionNames.ADD_ENTRY]: {
+    entry: EntryType;
+  };
+  [ActionNames.UPDATE_ENTRY]: {
+    entry: EntryType;
+  };
   [ActionNames.HIDE_SNACKBAR]: {};
   [ActionNames.SHOW_SNACKBAR]: {
     snackbar: SnackBarType;
@@ -65,6 +72,12 @@ type Payload = {
 
 export type ActionType = ActionMap<Payload>[keyof ActionMap<Payload>];
 
-export type MoodAvatarProps = { mood: number };
-export type EntryListItemProps = { entry: EntryType };
-export type ScreenProps = { status: StatusType };
+export type EntryDetailsState = {
+  open: boolean;
+  component: JSX.Element | null;
+};
+
+export type ConfirmDeleteState = {
+  open: boolean;
+  entry: EntryType | null;
+};
