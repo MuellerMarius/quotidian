@@ -94,13 +94,8 @@ const Entries: React.FC<ScreenProps> = ({ status }) => {
   };
 
   const addEntryAction = () => {
-    const component = (
-      <EntryDetails
-        entry={{ mood: 3, date: new Date().toISOString(), comment: '' }}
-        onClose={hideEntryDetails}
-      />
-    );
-    showEntryDetails(component);
+    const entry = { mood: 3, date: new Date().toISOString(), comment: '' };
+    showEntryDetails(<EntryDetails entry={entry} onClose={hideEntryDetails} />);
   };
 
   const deleteEntryConfirmed = () => {

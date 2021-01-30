@@ -24,6 +24,7 @@ const useApi = () => {
   const [status, setStatus] = useState<StatusType>('idle');
   const { dispatch } = useGlobalContext();
   const { getAccessTokenSilently } = useAuth0();
+  const apiBaseUrl = `${process.env.REACT_APP_SERVER_URL}/api/entries`;
 
   const apiFetch = useCallback(
     async (
@@ -69,9 +70,8 @@ const useApi = () => {
       });
     };
 
-    const url = `${process.env.REACT_APP_SERVER_URL}/api/entries`;
-    apiFetch(url, 'GET', null, onSuccess, onError);
-  }, [apiFetch, dispatch]);
+    apiFetch(apiBaseUrl, 'GET', null, onSuccess, onError);
+  }, [apiFetch, dispatch, apiBaseUrl]);
 
   /**
    *   Post a new entry
@@ -93,8 +93,7 @@ const useApi = () => {
       });
     };
 
-    const url = `${process.env.REACT_APP_SERVER_URL}/api/entries/`;
-    apiFetch(url, 'POST', JSON.stringify(entry), onSuccess, onError);
+    apiFetch(apiBaseUrl, 'POST', JSON.stringify(entry), onSuccess, onError);
   };
 
   /**
@@ -117,7 +116,7 @@ const useApi = () => {
       });
     };
 
-    const url = `${process.env.REACT_APP_SERVER_URL}/api/entries/${entry._id}`;
+    const url = `${apiBaseUrl}/${entry._id}`;
     apiFetch(url, 'PATCH', JSON.stringify(entry), onSuccess, onError);
   };
 
@@ -141,7 +140,7 @@ const useApi = () => {
       });
     };
 
-    const url = `${process.env.REACT_APP_SERVER_URL}/api/entries/${entry._id}`;
+    const url = `${apiBaseUrl}/${entry._id}`;
     apiFetch(url, 'DELETE', null, onSuccess, onError);
   };
 
