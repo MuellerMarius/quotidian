@@ -33,8 +33,8 @@ const useApi = () => {
       onSuccess: (data: any) => void,
       onError: (err: any) => void
     ) => {
+      setStatus('loading');
       try {
-        setStatus('loading');
         const jwt = await getAccessTokenSilently();
         const options = apiFetchOptions(jwt, method, body);
         const response = await fetch(url, options);
@@ -52,7 +52,6 @@ const useApi = () => {
   /**
    *   Get all entries from user
    */
-
   const getEntries = useCallback(() => {
     const onSuccess = (data: EntryType[]) => {
       dispatch!({
@@ -77,7 +76,6 @@ const useApi = () => {
   /**
    *   Post a new entry
    */
-
   const addEntry = (entry: EntryType) => {
     const onSuccess = (data: EntryType) => {
       dispatch!({
@@ -100,9 +98,32 @@ const useApi = () => {
   };
 
   /**
+   *   Update a entnry
+   */
+  const updateEntry = (entry: EntryType) => {
+    const onSuccess = (data: EntryType) => {
+      dispatch!({
+        type: ActionNames.UPDATE_ENTRY,
+        payload: { entry: data },
+      });
+    };
+
+    const onError = (err: any) => {
+      dispatch!({
+        type: ActionNames.SHOW_SNACKBAR,
+        payload: {
+          snackbar: { message: 'snackbar.failed-edit', severity: 'error' },
+        },
+      });
+    };
+
+    const url = `${process.env.REACT_APP_SERVER_URL}/api/entries/${entry._id}`;
+    apiFetch(url, 'PATCH', JSON.stringify(entry), onSuccess, onError);
+  };
+
+  /**
    *   Delete entry by id
    */
-
   const deleteEntry = (entry: EntryType) => {
     const onSuccess = (data: EntryType) => {
       dispatch!({
@@ -124,7 +145,7 @@ const useApi = () => {
     apiFetch(url, 'DELETE', null, onSuccess, onError);
   };
 
-  return { status, getEntries, addEntry, deleteEntry };
+  return { status, getEntries, addEntry, deleteEntry, updateEntry };
 };
 
 export default useApi;

@@ -15,9 +15,21 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
     case ActionNames.ADD_ENTRY:
       return {
         ...state,
-        entries: [action.payload.entry, ...(state.entries as Array<EntryType>)],
+        entries: [action.payload.entry, ...(state.entries as EntryType[])],
         snackbar: {
           message: 'snackbar.added',
+          severity: 'success' as SeverityType,
+          open: true,
+        },
+      };
+    case ActionNames.UPDATE_ENTRY:
+      return {
+        ...state,
+        entries: state.entries?.map((entry) =>
+          entry._id === action.payload.entry._id ? action.payload.entry : entry
+        ),
+        snackbar: {
+          message: 'snackbar.updated',
           severity: 'success' as SeverityType,
           open: true,
         },

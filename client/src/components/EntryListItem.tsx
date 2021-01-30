@@ -1,13 +1,8 @@
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Divider,
   IconButton,
   ListItem,
+  ListItemSecondaryAction,
   ListItemText,
   Menu,
   MenuItem,
@@ -15,93 +10,87 @@ import {
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MoreVert from '@material-ui/icons/MoreVert';
-import { EntryListItemProps, ActionNames } from '../types/types';
+import { EntryListItemProps } from '../types/proptypes';
 import MoodAvatar from './MoodAvatar';
 import useApi from '../hooks/useApi';
-import { useGlobalContext } from '../context/GlobalContext';
+import EntryDetails from './EntryDetails';
 
-const EntryListItem: React.FC<EntryListItemProps> = ({ entry }) => {
+const EntryListItem: React.FC<EntryListItemProps> = ({
+  entry,
+  onClick,
+  onClose,
+  confirmDelete,
+}) => {
   const { t } = useTranslation();
-  const { status, deleteEntry } = useApi();
-  const [confirmDelete, showConfirmDelete] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { mood, comment, date } = entry;
-  const { dispatch } = useGlobalContext();
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const openMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+    event.preventDefault();
   };
 
-  const handleClose = (lang?: string) => {
+  const closeMenu = () => {
     setAnchorEl(null);
   };
 
-  // TODO: Create contextmenu and click-action for items
   return (
     <>
       <Divider variant="middle" component="li" light />
-      <ListItem alignItems="center" style={{ marginTop: 10, marginBottom: 10 }}>
+      <ListItem
+        button
+        alignItems="center"
+        onClick={() =>
+          onClick(<EntryDetails entry={entry} onClose={onClose} />)
+        }
+        style={{ marginTop: 10, marginBottom: 10 }}
+      >
         <MoodAvatar mood={mood} />
         <ListItemText
           primary={t('datekey', { date: new Date(date) })}
-          secondary={status}
+          secondary={comment}
         />
-        <IconButton
-          aria-label="settings"
-          aria-controls="settings-menu"
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          <MoreVert fontSize="small" />
-        </IconButton>
-        <Menu
-          id="settings-menu"
-          elevation={2}
-          anchorEl={anchorEl}
-          getContentAnchorEl={null}
-          open={Boolean(anchorEl)}
-          onClose={() => handleClose()}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          keepMounted
-        >
-          <MenuItem onClick={() => handleClose()}>
-            <ListItemText primary={t('edit')} />
-          </MenuItem>
-          <MenuItem onClick={() => showConfirmDelete(true)}>
-            <ListItemText primary={t('delete')} />
-          </MenuItem>
-        </Menu>
+        <ListItemSecondaryAction>
+          <IconButton
+            aria-label="settings"
+            aria-controls="settings-menu"
+            aria-haspopup="true"
+            onClick={openMenu}
+          >
+            <MoreVert fontSize="small" />
+          </IconButton>
+        </ListItemSecondaryAction>
       </ListItem>
-      <Dialog
-        open={confirmDelete}
-        onClose={() => showConfirmDelete(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+
+      <Menu
+        id="settings-menu"
+        elevation={2}
+        anchorEl={anchorEl}
+        getContentAnchorEl={null}
+        open={Boolean(anchorEl)}
+        onClose={() => closeMenu()}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        keepMounted
       >
-        <DialogTitle id="alert-dialog-title">
-          {t('confirm-delete.title')}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {t('confirm-delete.description')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => showConfirmDelete(false)} color="primary">
-            {t('cancel')}
-          </Button>
-          <Button onClick={() => deleteEntry(entry)} color="primary" autoFocus>
-            {t('confirm')}
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <MenuItem onClick={() => closeMenu()}>
+          <ListItemText primary={t('edit')} />
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            closeMenu();
+            confirmDelete(entry);
+          }}
+        >
+          <ListItemText primary={t('delete')} />
+        </MenuItem>
+      </Menu>
     </>
   );
 };
