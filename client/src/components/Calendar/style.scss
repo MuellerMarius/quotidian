@@ -1,0 +1,55 @@
+@import '../../style/var';
+@import 'react-nice-dates/src/style.scss';
+
+$nice-dates-color-gray-dark: $darkBlue;
+$nice-dates-color-gray: $darkBlue;
+$nice-dates-color-gray-light: #ddd;
+$nice-dates-color-accent: $nice-dates-color-gray-dark;
+$nice-dates-font-size-small: 0.8rem;
+$nice-dates-font-size-base: 0.95rem;
+$nice-dates-font-size-big: 1.1rem;
+$moodScale: 0.9;
+$moodOpacity: 0.75;
+
+.nice-dates-day.-horribleMood::before {
+  background-color: $horribleMood;
+  opacity: $moodOpacity;
+  transform: scale($moodScale);
+}
+.nice-dates-day.-horribleMood,
+.nice-dates-day.-horribleMood > .nice-dates-day_month {
+  color: #1a1d31;
+}
+
+.nice-dates-day.-badMood::before {
+  background-color: $badMood;
+  opacity: $moodOpacity;
+  transform: scale($moodScale);
+}
+
+.nice-dates-day.-okayMood::before {
+  background-color: $okayMood;
+  opacity: $moodOpacity;
+  transform: scale($moodScale);
+}
+.nice-dates-day.-okayMood,
+.nice-dates-day.-okayMood > .nice-dates-day_month {
+  color: #eee;
+}
+
+.nice-dates-day.-goodMood::before {
+  background-color: $goodMood;
+  opacity: $moodOpacity;
+  transform: scale($moodScale);
+}
+
+.nice-dates-day.-superMood::before {
+  background-color: $superMood;
+  opacity: 1;
+  transform: scale($moodScale);
+}
+
+.nice-dates-day.-superMood > .nice-dates-day_month,
+.nice-dates-day.-superMood.-outside > .nice-dates-day_date {
+  color: #ddd;
+}

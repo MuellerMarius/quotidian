@@ -3,6 +3,7 @@ import { Card, Grid } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { ScreenProps } from '../types/proptypes';
 import Entries from '../components/Entries';
+import Calendar from '../components/Calendar/Calendar';
 
 const EntryScreen: React.FC<ScreenProps> = ({ status }) => {
   const { t } = useTranslation();
@@ -15,7 +16,9 @@ const EntryScreen: React.FC<ScreenProps> = ({ status }) => {
         </Card>
       </Grid>
       <Grid item xs={12} lg={6}>
-        <Card>Cal</Card>
+        <Card>
+          <Calendar />
+        </Card>
       </Grid>
     </Grid>
   );

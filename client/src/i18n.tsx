@@ -1,9 +1,9 @@
 import i18n from 'i18next';
-import moment from 'moment';
+import { format } from 'date-fns';
 import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
-import 'moment/locale/de';
+import getDateFnsLocale from './util/date';
 
 i18n
   .use(Backend)
@@ -13,10 +13,10 @@ i18n
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
-      format: (value, format, lng = 'en') => {
-        if (format === 'uppercase') return value.toUpperCase();
+      format: (value, form = 'DD', lng = 'en') => {
+        if (form === 'uppercase') return value.toUpperCase();
         if (value instanceof Date) {
-          return moment(value).locale(lng).format(format);
+          return format(value, form, { locale: getDateFnsLocale(lng) });
         }
         return value;
       },

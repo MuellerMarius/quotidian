@@ -45,5 +45,5 @@
     "failed-edit": "Eintrag konnte nicht bearbeitet werden!",
     "failed-load": "Einträge konnten nicht geladen werden!"
   },
-  "datekey": "{{date, dddd, DD.MM.YYYY}}"
+  "datekey": "{{date, EEEE, dd.MM.yyyy}}"
 }
