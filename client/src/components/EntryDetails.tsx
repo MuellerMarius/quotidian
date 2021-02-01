@@ -39,21 +39,14 @@ const EntryDetails: React.FC<EntryDetailsProps> = ({ entry, onClose }) => {
             {entry._id ? t('edit entry') : t('add new entry')}
           </Typography>
         </Grid>
-        <Grid item>
-          <MoodSelector
-            mood={changedEntry.mood}
-            onChange={(mood) => setChangedEntry({ ...changedEntry, mood })}
-          />
-        </Grid>
+
         <Grid item>
           <TextField
             id="date"
+            size="small"
             label={t('entry.date')}
             type="date"
-            defaultValue={moment(changedEntry.date).format('yyyy-MM-DD')}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            value={moment(changedEntry.date).format('yyyy-MM-DD')}
             onChange={(e) =>
               setChangedEntry({
                 ...changedEntry,
@@ -62,17 +55,27 @@ const EntryDetails: React.FC<EntryDetailsProps> = ({ entry, onClose }) => {
             }
           />
         </Grid>
+
         <Grid item>
+          <MoodSelector
+            mood={changedEntry.mood}
+            onChange={(mood) => setChangedEntry({ ...changedEntry, mood })}
+          />
+        </Grid>
+
+        <Grid item style={{ width: '100%' }}>
           <TextField
             id="comment"
             label={t('entry.comment')}
-            defaultValue={entry.comment}
+            value={changedEntry.comment}
             onChange={(e) =>
               setChangedEntry({ ...changedEntry, comment: e.target.value })
             }
+            autoComplete="false"
             fullWidth
           />
         </Grid>
+
         <Grid item style={{ alignSelf: 'flex-end' }}>
           <Button onClick={onCancel} style={{ marginRight: 15 }}>
             {t('cancel')}

@@ -1,0 +1,38 @@
+https://stackoverflow.com/questions/34985846/mongoose-document-references-with-a-one-to-many-relationship
+
+// https://stackoverflow.com/questions/18001478/referencing-another-schema-in-mongoose
+// Entweder populate und Referenz 
+// oder direkt als Subdocuments
+
+server endpoints:
+  /categories
+    gibt alle Kategorien des Users wieder
+  /entries
+    
+
+
+{
+  "_id": "xyz", // internal mongo id
+  "userid": "xcycxyc", // auth0 user id
+  "entries": [
+    {
+      "_id": "xyz", // internal mongo entry id
+      "date": "date-time-string",
+      "comment": "text",
+      "mood": 1, // mood ranges from 0 to 5
+      "activities": ["medID", "jogging"] //elements of categories by their ID
+    }
+  ],
+  "categories": [
+    {
+      "_id": "medID",
+      "name": "Meditation",
+      "icon": "Chilling"
+    },
+    {
+      "_id": "jogID",
+      "name": "Jogging",
+      "icon": "ManRunning"
+    }
+  ]
+}
