@@ -51,7 +51,7 @@ const Entries: React.FC<ScreenProps> = ({ status }) => {
     initEntryEditState
   );
 
-  const hideEntryDetails = () => {
+  const hideEntryEditor = () => {
     setEntryEditor({ open: false, entry: null, editedEntry: null });
   };
 
@@ -83,7 +83,7 @@ const Entries: React.FC<ScreenProps> = ({ status }) => {
       addEntry(entryEditor.editedEntry);
     }
 
-    hideEntryDetails();
+    hideEntryEditor();
     selectDate(null);
   };
 
@@ -112,7 +112,7 @@ const Entries: React.FC<ScreenProps> = ({ status }) => {
 
   // Handle selected date change
   useEffect(() => {
-    const dateHasChanged = () => {
+    const hasDateChanged = () => {
       if (entryEditor.editedEntry?.date && selectedDate) {
         if (isSameDay(new Date(entryEditor.editedEntry.date), selectedDate)) {
           return false;
@@ -124,7 +124,7 @@ const Entries: React.FC<ScreenProps> = ({ status }) => {
       return true;
     };
 
-    const entryHasChanged = () =>
+    const hasEntryChanged = () =>
       JSON.stringify(entryEditor.entry) !==
       JSON.stringify(entryEditor.editedEntry);
 
@@ -136,7 +136,7 @@ const Entries: React.FC<ScreenProps> = ({ status }) => {
       return entry;
     };
 
-    if (!dateHasChanged()) {
+    if (!hasDateChanged()) {
       return;
     }
 
@@ -147,8 +147,8 @@ const Entries: React.FC<ScreenProps> = ({ status }) => {
     }
 
     if (!selectedDate) {
-      if (!entryHasChanged()) {
-        hideEntryDetails();
+      if (!hasEntryChanged()) {
+        hideEntryEditor();
         return;
       }
 
@@ -158,14 +158,14 @@ const Entries: React.FC<ScreenProps> = ({ status }) => {
         title: 'confirm-discard.title',
         content: 'confirm-discard.description',
         onCancel: () => selectDate(new Date(entryEditor.editedEntry!.date)),
-        onConfirm: () => hideEntryDetails(),
+        onConfirm: () => hideEntryEditor(),
       });
       return;
     }
 
     const entryOnSelectedDate = getEntryOrCreateNew(selectedDate);
 
-    if (!entryHasChanged()) {
+    if (!hasEntryChanged()) {
       setEntryEditor({
         open: true,
         entry: entryOnSelectedDate,

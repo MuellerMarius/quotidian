@@ -3,6 +3,7 @@ import {
   Divider,
   IconButton,
   ListItem,
+  ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
   Menu,
@@ -32,6 +33,16 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
     setAnchorEl(null);
   };
 
+  const handleEdit = () => {
+    closeMenu();
+    onEdit(entry);
+  };
+
+  const handleDelete = () => {
+    closeMenu();
+    onDelete(entry);
+  };
+
   return (
     <>
       <Divider variant="middle" component="li" light />
@@ -41,7 +52,10 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
         onClick={() => selectDate(new Date(entry.date))}
         style={{ marginTop: 10, marginBottom: 10 }}
       >
-        <MoodAvatar mood={mood} />
+        <ListItemIcon>
+          <MoodAvatar mood={mood} />
+        </ListItemIcon>
+
         <ListItemText
           primary={t('datekey', { date: new Date(date) })}
           secondary={comment}
@@ -75,20 +89,10 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
         }}
         keepMounted
       >
-        <MenuItem
-          onClick={() => {
-            closeMenu();
-            onEdit(entry);
-          }}
-        >
+        <MenuItem onClick={handleEdit}>
           <ListItemText primary={t('edit')} />
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            closeMenu();
-            onDelete(entry);
-          }}
-        >
+        <MenuItem onClick={handleDelete}>
           <ListItemText primary={t('delete')} />
         </MenuItem>
       </Menu>

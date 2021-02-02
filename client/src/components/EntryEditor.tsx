@@ -18,8 +18,13 @@ const EntryEditor: React.FC<EntryDetailsProps> = ({
     return <>error</>;
   }
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    onSave();
+    e.preventDefault();
+  };
+
   return (
-    <form style={{ padding: 25 }}>
+    <form style={{ padding: 25 }} onSubmit={handleSubmit}>
       <Grid container direction="column" spacing={4} alignItems="center">
         <Grid item style={{ alignSelf: 'flex-start' }}>
           <Typography variant="h5" component="h5">

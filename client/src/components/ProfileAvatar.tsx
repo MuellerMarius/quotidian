@@ -26,17 +26,20 @@ const useStyles = makeStyles({
     fontWeight: 400,
     fontSize: '0.75rem',
   },
-  avatarButton: {
-    height: 48,
-    minWidth: 48,
-    backgroundColor: 'none',
-  },
   listIcon: {
     minWidth: 32,
   },
   divider: {
     marginTop: 20,
     marginBottom: 15,
+  },
+  root: {
+    height: 48,
+    minWidth: 48,
+    backgroundColor: 'none',
+  },
+  focusVisible: {
+    outline: '1px solid #39406d',
   },
 });
 
@@ -61,7 +64,7 @@ const ProfileAvatar = () => {
         aria-controls="user-menu"
         aria-haspopup="true"
         onClick={handleClick}
-        className={classes.avatarButton}
+        classes={{ root: classes.root, focusVisible: classes.focusVisible }}
       >
         <Avatar alt={user.name} src={user.picture} />
         <ArrowDropDownIcon fontSize="small" color="primary" />
@@ -88,6 +91,7 @@ const ProfileAvatar = () => {
           component="div"
           id="user-info"
           className={classes.userInfo}
+          role="none"
         >
           <Typography variant="h6" component="h2" color="primary">
             {user.name}
@@ -99,7 +103,7 @@ const ProfileAvatar = () => {
 
         <Divider light className={classes.divider} />
 
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose} autoFocus>
           <ListItemIcon className={classes.listIcon}>
             <PersonOutlineOutlinedIcon fontSize="small" color="primary" />
           </ListItemIcon>

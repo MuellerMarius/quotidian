@@ -20,11 +20,12 @@ const useStyles = makeStyles({
 
 const MoodAvatarRadio: React.FC<MoodAvatarRadioProps> = (props) => {
   const { mood } = props;
+
   return (
     <Radio
-      disableRipple
-      checkedIcon={<MoodAvatar button mood={mood} />}
-      icon={<MoodAvatar button mood={mood} inactive />}
+      checkedIcon={<MoodAvatar mood={mood} />}
+      icon={<MoodAvatar mood={mood} inactive />}
+      value={mood}
       {...props}
     />
   );
