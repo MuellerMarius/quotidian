@@ -1,28 +1,18 @@
-import React, { useState } from 'react';
-import {
-  Card,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  makeStyles,
-  Slide,
-} from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import EntryListItem from './EntryListItem';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Card, makeStyles, Slide } from '@material-ui/core';
+import { isSameDay } from 'date-fns';
 import { useGlobalContext } from '../context/GlobalContext';
 import useApi from '../hooks/useApi';
-import EntryListItemSkeleton from './EntryListItemSkeleton';
 import ConfirmDialog from './ConfirmDialog';
 import {
-  EntryDetailsState,
-  ConfirmDeleteState,
+  EntryEditState,
+  DialogState,
   EntryType,
   ActionNames,
 } from '../types/types';
 import { ScreenProps } from '../types/proptypes';
-import EntryDetails from './EntryDetails';
+import EntryEditor from './EntryEditor';
+import EntryList from './EntryList';
 
 const useStyles = makeStyles({
   card: {
@@ -36,126 +26,198 @@ const useStyles = makeStyles({
     left: 0,
     right: 0,
     zIndex: 99,
-    padding: 25,
-  },
-  scrollableList: {
-    height: '100%',
-    overflow: 'auto',
-  },
-  stickyHeader: {
-    position: 'sticky',
-    top: 0,
-    backgroundColor: '#F7F9FB',
-    paddingTop: 25,
-    paddingBottom: 25,
-    zIndex: 10,
-    '&:hover': {
-      backgroundColor: '#F7F9FB',
-    },
   },
 });
 
+const initialDialogState = {
+  open: false,
+  entry: null,
+  title: '',
+  content: '',
+};
+
+const initEntryEditState = {
+  open: false,
+  entry: null,
+  editedEntry: null,
+};
+
 const Entries: React.FC<ScreenProps> = ({ status }) => {
-  const { entries, dispatch } = useGlobalContext();
-  const { addEntry, deleteEntry } = useApi();
-  const { t } = useTranslation();
   const classes = useStyles();
-  const [
-    confirmationDialog,
-    setConfirmationDialog,
-  ] = useState<ConfirmDeleteState>({
-    open: false,
-    entry: null,
-  });
-  const [entryDetails, setEntryDetails] = useState<EntryDetailsState>({
-    open: false,
-    component: null,
-  });
+  const { selectedDate, entries, dispatch } = useGlobalContext();
+  const { updateEntry, addEntry, deleteEntry } = useApi();
+  const [dialog, setDialog] = useState<DialogState>(initialDialogState);
+  const [entryEditor, setEntryEditor] = useState<EntryEditState>(
+    initEntryEditState
+  );
+
+  const hideEntryDetails = () => {
+    setEntryEditor({ open: false, entry: null, editedEntry: null });
+  };
+
+  const selectDate = useCallback(
+    (date: Date | null) => {
+      dispatch!({ type: ActionNames.SELECT_DATE, payload: { date } });
+    },
+    [dispatch]
+  );
+
+  const saveEditedEntry = () => {
+    if (!entryEditor.editedEntry) {
+      dispatch!({
+        type: ActionNames.SHOW_SNACKBAR,
+        payload: {
+          snackbar: {
+            open: true,
+            severity: 'error',
+            message: 'snackbar.failed-save',
+          },
+        },
+      });
+      return;
+    }
+
+    if (entryEditor.editedEntry!._id) {
+      updateEntry(entryEditor.editedEntry);
+    } else {
+      addEntry(entryEditor.editedEntry);
+    }
+
+    hideEntryDetails();
+    selectDate(null);
+  };
+
+  const deleteEntryConfirmed = (entry: EntryType) => {
+    setDialog({
+      open: true,
+      entry,
+      title: 'confirm-delete.title',
+      content: 'confirm-delete.description',
+      onConfirm: () => deleteEntry(entry),
+    });
+  };
+
+  useEffect(() => {
+    const dateHasChanged = () => {
+      if (entryEditor.editedEntry?.date && selectedDate) {
+        if (isSameDay(new Date(entryEditor.editedEntry.date), selectedDate)) {
+          return false;
+        }
+      }
+      if (!entryEditor.editedEntry && !selectedDate) {
+        return false;
+      }
+      return true;
+    };
+
+    const entryHasChanged = () =>
+      JSON.stringify(entryEditor.entry) !==
+      JSON.stringify(entryEditor.editedEntry);
+
+    const getEntryOrCreateNew = (date: Date) => {
+      let entry = entries?.find((elem) => isSameDay(new Date(elem.date), date));
+      if (!entry) {
+        entry = { mood: 3, date: date.toISOString(), comment: '' };
+      }
+      return entry;
+    };
+
+    if (!dateHasChanged()) {
+      return;
+    }
+
+    if (!entryEditor.open && selectedDate) {
+      const entry = getEntryOrCreateNew(selectedDate);
+      setEntryEditor({ open: true, entry, editedEntry: entry });
+      return;
+    }
+
+    if (!selectedDate) {
+      if (!entryHasChanged()) {
+        hideEntryDetails();
+        return;
+      }
+
+      setDialog({
+        open: true,
+        entry: entryEditor.editedEntry,
+        title: 'confirm-discard.title',
+        content: 'confirm-discard.description',
+        onCancel: () => selectDate(new Date(entryEditor.editedEntry!.date)),
+        onConfirm: () => hideEntryDetails(),
+      });
+      return;
+    }
+
+    const entryOnSelectedDate = getEntryOrCreateNew(selectedDate);
+
+    if (!entryHasChanged()) {
+      setEntryEditor({
+        open: true,
+        entry: entryOnSelectedDate,
+        editedEntry: entryOnSelectedDate,
+      });
+      return;
+    }
+
+    setDialog({
+      open: true,
+      entry: entryEditor.editedEntry,
+      title: 'confirm-discard-due-datechange.title',
+      content: 'confirm-discard-due-datechange.description',
+      onCancel: () => selectDate(new Date(entryEditor.editedEntry!.date)),
+      onConfirm: () =>
+        setEntryEditor({
+          open: true,
+          entry: entryOnSelectedDate,
+          editedEntry: entryOnSelectedDate,
+        }),
+    });
+  }, [dispatch, entries, entryEditor, selectedDate, selectDate]);
 
   // TODO: Error handling
   if (status === 'error') {
     return <Card>error</Card>;
   }
 
-  const showEntryDetails = (component: JSX.Element) => {
-    setEntryDetails({ open: true, component });
-  };
-
-  const hideEntryDetails = () => {
-    setEntryDetails({ open: false, component: entryDetails.component });
-  };
-
-  const showConfirmationDialog = (entry: EntryType) => {
-    setConfirmationDialog({ open: true, entry });
-  };
-
-  const hideConfirmationDialog = () => {
-    setConfirmationDialog({ open: false, entry: null });
-  };
-
-  const addEntryAction = () => {
-    const entry = { mood: 3, date: new Date().toISOString(), comment: '' };
-    showEntryDetails(<EntryDetails entry={entry} onClose={hideEntryDetails} />);
-  };
-
-  const deleteEntryConfirmed = () => {
-    if (confirmationDialog.entry) {
-      deleteEntry(confirmationDialog.entry!);
-    } else {
-      dispatch!({
-        type: ActionNames.SHOW_SNACKBAR,
-        payload: {
-          snackbar: {
-            message: 'snackbar.failed-delete',
-            severity: 'error',
-          },
-        },
-      });
-    }
-    hideConfirmationDialog();
-  };
-
   return (
     <Card className={classes.card}>
-      <Slide direction="left" in={entryDetails.open} mountOnEnter unmountOnExit>
-        <div className={classes.slide}>{entryDetails.component}</div>
+      <Slide direction="left" in={entryEditor.open} mountOnEnter unmountOnExit>
+        <div className={classes.slide}>
+          <EntryEditor
+            entry={entryEditor.editedEntry}
+            onClose={() => selectDate(null)}
+            onSave={saveEditedEntry}
+            onChange={(editedEntry) =>
+              setEntryEditor({ ...entryEditor, editedEntry })
+            }
+          />
+        </div>
       </Slide>
 
-      <Slide direction="right" appear={false} in={!entryDetails.open}>
-        <List disablePadding className={classes.scrollableList}>
-          <ListItem
-            button
-            onClick={() => addEntryAction()}
-            alignItems="center"
-            className={classes.stickyHeader}
-          >
-            <ListItemIcon>
-              <AddCircleIcon fontSize="large" color="primary" />
-            </ListItemIcon>
-            <ListItemText primary={t('add new entry')} />
-          </ListItem>
-          {status === 'loading' || status === 'idle'
-            ? Array.from({ length: 10 }, (_, k) => (
-                <EntryListItemSkeleton key={k} />
-              ))
-            : entries?.map((entry) => (
-                <EntryListItem
-                  entry={entry}
-                  onClick={showEntryDetails}
-                  onClose={hideEntryDetails}
-                  confirmDelete={showConfirmationDialog}
-                  key={entry._id}
-                />
-              ))}
-        </List>
+      <Slide
+        direction="right"
+        appear={false}
+        in={!entryEditor.open}
+        unmountOnExit
+      >
+        <div className={classes.slide}>
+          <EntryList
+            status={status}
+            onAdd={() => selectDate(new Date())}
+            onEdit={(e: EntryType) => selectDate(new Date(e.date))}
+            onDelete={(e: EntryType) => deleteEntryConfirmed(e)}
+          />
+        </div>
       </Slide>
 
       <ConfirmDialog
-        title="confirm-delete.title"
-        content="confirm-delete.description"
-        open={confirmationDialog.open}
-        onClose={() => hideConfirmationDialog()}
-        onConfirm={() => deleteEntryConfirmed()}
+        title={dialog.title}
+        content={dialog.content}
+        open={dialog.open}
+        onClose={() => setDialog({ ...dialog, open: false })}
+        onCancel={dialog.onCancel}
+        onConfirm={dialog.onConfirm}
       />
     </Card>
   );

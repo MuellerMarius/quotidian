@@ -8,8 +8,8 @@ import {
 
 const GlobalReducer = (state: StateType, action: ActionType) => {
   switch (action.type) {
-    case ActionNames.SET_JWT:
-      return { ...state, jwt: action.payload.jwt };
+    case ActionNames.SELECT_DATE:
+      return { ...state, selectedDate: action.payload.date };
     case ActionNames.SET_ENTRIES:
       return { ...state, entries: action.payload.entries };
     case ActionNames.ADD_ENTRY:

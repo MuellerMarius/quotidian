@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { DatePickerCalendar } from 'react-nice-dates';
 import { isSameDay } from 'date-fns';
 import { useGlobalContext } from '../../context/GlobalContext';
 import getDateFnsLocale from '../../util/date';
-
+import { ActionNames } from '../../types/types';
 import './style.scss';
 
 const useStyles = makeStyles({
   root: {
     padding: 25,
+    height: '70vh',
   },
 });
 
 const Calendar = () => {
-  const [datum, setDate] = useState<Date | null>();
-  const { entries, dispatch } = useGlobalContext();
-  const { t, i18n } = useTranslation();
+  const { selectedDate, entries, dispatch } = useGlobalContext();
+  const { i18n } = useTranslation();
   const classes = useStyles();
   const locale = getDateFnsLocale(i18n.language);
 
@@ -29,6 +29,10 @@ const Calendar = () => {
     return false;
   };
 
+  const selectDate = (date: Date | null) => {
+    dispatch!({ type: ActionNames.SELECT_DATE, payload: { date } });
+  };
+
   const modifiers = {
     horrible: (date: Date) => isMoodOnDate(date, 0),
     bad: (date: Date) => isMoodOnDate(date, 1),
@@ -38,19 +42,19 @@ const Calendar = () => {
   };
 
   const modifiersClassNames = {
-    horrible: '-horribleMood',
-    bad: '-badMood',
-    okay: '-okayMood',
-    good: '-goodMood',
-    super: '-superMood',
+    horrible: '-horrible-mood',
+    bad: '-bad-mood',
+    okay: '-okay-mood',
+    good: '-good-mood',
+    super: '-super-mood',
   };
 
   return (
     <div className={classes.root}>
       <DatePickerCalendar
         locale={locale}
-        date={datum || undefined}
-        onDateChange={setDate}
+        date={selectedDate || undefined}
+        onDateChange={(date) => selectDate(date)}
         modifiers={modifiers}
         modifiersClassNames={modifiersClassNames}
       />

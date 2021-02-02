@@ -3,6 +3,7 @@ import GlobalReducer from './GlobalReducer';
 import { StateType } from '../types/types';
 
 const initialState = {
+  selectedDate: undefined,
   snackbar: { message: '', severity: undefined, open: false },
   entries: undefined,
   activities: undefined,
@@ -16,6 +17,7 @@ export const GlobalProvider: React.FC = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
+        selectedDate: state.selectedDate,
         snackbar: state.snackbar,
         entries: state.entries,
         activities: state.activities,

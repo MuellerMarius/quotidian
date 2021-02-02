@@ -10,6 +10,7 @@
   "save": "Speichern",
   "edit acitivies": "Aktivitäten bearbeiten",
   "edit profile": "Profil bearbeiten",
+  "add todays entry": "Heutigen Eintrag hinzufügen",
   "add new entry": "Neuen Eintrag hinzufügen",
   "edit entry": "Eintrag bearbeiten",
   "moods": {
@@ -36,13 +37,16 @@
     "title": "Änderungen verwerfen?",
     "description": "Sind haben noch ungespeicherte Änderungen. Sind sie sicher, dass Sie diese verwerfen wollen?"
   },
+  "confirm-discard-due-datechange": {
+    "title": "Änderungen verwerfen?",
+    "description": "Sind sind dabei ein anderes Datum auszuwählen und haben noch ungespeicherte Änderungen. Sind sie sicher, dass Sie diese verwerfen wollen?"
+  },
   "snackbar": {
     "added": "Eintrag erfolgreich erstellt!",
     "updated": "Eintrag erfolgreich geändert!",
-    "failed-add": "Eintrag konnte nicht erstellt werden!",
+    "failed-save": "Eintrag konnte nicht gespeichert werden!",
     "deleted": "Eintrag erfolgreich gelöscht!",
     "failed-delete": "Eintrag konnte nicht gelöscht werden!",
-    "failed-edit": "Eintrag konnte nicht bearbeitet werden!",
     "failed-load": "Einträge konnten nicht geladen werden!"
   },
   "datekey": "{{date, EEEE, dd.MM.yyyy}}"

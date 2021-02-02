@@ -15,16 +15,24 @@ export type MoodSelectorProps = {
 
 export type MoodAvatarRadioProps = { mood: number };
 
+export type EntryListProps = {
+  status: StatusType;
+  onAdd: (...args: any) => void;
+  onEdit: (entry: EntryType) => void;
+  onDelete: (entry: EntryType) => void;
+};
+
 export type EntryListItemProps = {
   entry: EntryType;
-  onClick: (...args: any[]) => void;
-  onClose: (...args: any[]) => void;
-  confirmDelete: (entry: EntryType) => void;
+  onEdit: (entry: EntryType) => void;
+  onDelete: (entry: EntryType) => void;
 };
 
 export type EntryDetailsProps = {
-  entry: EntryType;
+  entry: EntryType | null | undefined;
   onClose: (...args: any[]) => void;
+  onSave: (...args: any[]) => void;
+  onChange: (entry: EntryType) => void;
 };
 
 export type ScreenProps = { status: StatusType };
@@ -33,6 +41,7 @@ export type ConfirmDialogProps = {
   open: boolean;
   title: string;
   content: string;
-  onConfirm: () => void;
-  onClose: () => void;
+  onConfirm?: (...args: any[]) => void | null | undefined;
+  onCancel?: (...args: any[]) => void | null | undefined;
+  onClose: (...args: any[]) => void;
 };

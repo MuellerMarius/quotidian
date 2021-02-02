@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Divider,
   IconButton,
@@ -7,21 +8,20 @@ import {
   Menu,
   MenuItem,
 } from '@material-ui/core';
-import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MoreVert from '@material-ui/icons/MoreVert';
-import { EntryListItemProps } from '../types/proptypes';
 import MoodAvatar from './MoodAvatar';
-import useApi from '../hooks/useApi';
-import EntryDetails from './EntryDetails';
+import { useGlobalContext } from '../context/GlobalContext';
+import { EntryListItemProps } from '../types/proptypes';
+import { ActionNames } from '../types/types';
 
 const EntryListItem: React.FC<EntryListItemProps> = ({
   entry,
-  onClick,
-  onClose,
-  confirmDelete,
+  onEdit,
+  onDelete,
 }) => {
   const { t } = useTranslation();
+  const { dispatch } = useGlobalContext();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { mood, comment, date } = entry;
 
@@ -34,15 +34,20 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
     setAnchorEl(null);
   };
 
+  const selectDate = (d: string) => {
+    dispatch!({
+      type: ActionNames.SELECT_DATE,
+      payload: { date: new Date(d) },
+    });
+  };
+
   return (
     <>
       <Divider variant="middle" component="li" light />
       <ListItem
         button
         alignItems="center"
-        onClick={() =>
-          onClick(<EntryDetails entry={entry} onClose={onClose} />)
-        }
+        onClick={() => selectDate(entry.date)}
         style={{ marginTop: 10, marginBottom: 10 }}
       >
         <MoodAvatar mood={mood} />
@@ -79,13 +84,18 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
         }}
         keepMounted
       >
-        <MenuItem onClick={() => closeMenu()}>
+        <MenuItem
+          onClick={() => {
+            closeMenu();
+            onEdit(entry);
+          }}
+        >
           <ListItemText primary={t('edit')} />
         </MenuItem>
         <MenuItem
           onClick={() => {
             closeMenu();
-            confirmDelete(entry);
+            onDelete(entry);
           }}
         >
           <ListItemText primary={t('delete')} />

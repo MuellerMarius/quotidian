@@ -10,6 +10,7 @@
   "save": "Save",
   "edit acitivies": "Edit activities",
   "edit profile": "Edit profile",
+  "add todays entry": "Add today's entry",
   "add new entry": "Add a new entry",
   "edit entry": "Edit entry",
   "menu": {
@@ -36,13 +37,16 @@
     "title": "Discard changes?",
     "description": "You have some unsaved changes. Are you sure you want to discard those and continue?"
   },
+  "confirm-discard-due-datechange": {
+    "title": "Discard changes?",
+    "description": "You are about to switch to another date and still have some unsaved changes. Are you sure you want to discard those and continue?"
+  },
   "snackbar": {
     "added": "Entry was created successfully!",
     "updated": "Entry was updated successfully!",
-    "failed-add": "Entry could not be created!",
+    "failed-save": "Entry could not be saved!",
     "deleted": "Entry was deleted successfully!",
     "failed-delete": "Entry could not be deleted!",
-    "failed-edit": "Entry could not be edited!",
     "failed-load": "Entries could not be loaded!"
   },
   "datekey": "{{date, MM/dd/yyyy}}"

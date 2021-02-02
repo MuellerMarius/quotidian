@@ -15,14 +15,28 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   title,
   content,
   onConfirm,
+  onCancel,
   onClose,
 }) => {
   const { t } = useTranslation();
 
+  const handleClose = () => {
+    if (onCancel) {
+      onCancel();
+    }
+    onClose();
+  };
+
+  const handleConfirm = () => {
+    if (onConfirm) {
+      onConfirm!();
+    }
+    onClose();
+  };
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
@@ -33,10 +47,10 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={handleClose} color="primary">
           {t('cancel')}
         </Button>
-        <Button onClick={onConfirm} color="primary" autoFocus>
+        <Button onClick={handleConfirm} color="primary" autoFocus>
           {t('confirm')}
         </Button>
       </DialogActions>

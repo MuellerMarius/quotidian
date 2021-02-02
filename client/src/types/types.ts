@@ -26,6 +26,7 @@ export type SnackBarType = {
 export type StatusType = 'idle' | 'loading' | 'resolved' | 'error';
 
 export type StateType = {
+  selectedDate: Date | null | undefined;
   snackbar: SnackBarType;
   entries: EntryType[] | null | undefined;
   activities: ActivityType[] | undefined;
@@ -33,13 +34,13 @@ export type StateType = {
 };
 
 export enum ActionNames {
-  SET_JWT,
   SET_ENTRIES,
   ADD_ENTRY,
   UPDATE_ENTRY,
   DELETE_ENTRY,
   HIDE_SNACKBAR,
   SHOW_SNACKBAR,
+  SELECT_DATE,
 }
 
 type ActionMap<M extends { [index: string]: any }> = {
@@ -49,9 +50,6 @@ type ActionMap<M extends { [index: string]: any }> = {
 };
 
 type Payload = {
-  [ActionNames.SET_JWT]: {
-    jwt: string;
-  };
   [ActionNames.SET_ENTRIES]: {
     entries: EntryType[] | null;
   };
@@ -64,6 +62,9 @@ type Payload = {
   [ActionNames.UPDATE_ENTRY]: {
     entry: EntryType;
   };
+  [ActionNames.SELECT_DATE]: {
+    date: Date | null;
+  };
   [ActionNames.HIDE_SNACKBAR]: {};
   [ActionNames.SHOW_SNACKBAR]: {
     snackbar: SnackBarType;
@@ -72,12 +73,17 @@ type Payload = {
 
 export type ActionType = ActionMap<Payload>[keyof ActionMap<Payload>];
 
-export type EntryDetailsState = {
+export type EntryEditState = {
   open: boolean;
-  component: JSX.Element | null;
+  entry: EntryType | null | undefined;
+  editedEntry: EntryType | null | undefined;
 };
 
-export type ConfirmDeleteState = {
+export type DialogState = {
   open: boolean;
-  entry: EntryType | null;
+  entry: EntryType | null | undefined;
+  title: string;
+  content: string;
+  onConfirm?: (...args: any[]) => void | null | undefined;
+  onCancel?: (...args: any[]) => void | null | undefined;
 };

@@ -88,7 +88,7 @@ const useApi = () => {
       dispatch!({
         type: ActionNames.SHOW_SNACKBAR,
         payload: {
-          snackbar: { message: 'snackbar.failed-add', severity: 'error' },
+          snackbar: { message: 'snackbar.failed-save', severity: 'error' },
         },
       });
     };
@@ -111,7 +111,7 @@ const useApi = () => {
       dispatch!({
         type: ActionNames.SHOW_SNACKBAR,
         payload: {
-          snackbar: { message: 'snackbar.failed-edit', severity: 'error' },
+          snackbar: { message: 'snackbar.failed-save', severity: 'error' },
         },
       });
     };
