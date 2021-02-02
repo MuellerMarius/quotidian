@@ -33,6 +33,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     }
     onClose();
   };
+
   return (
     <Dialog
       open={open}

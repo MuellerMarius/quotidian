@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth0 } from '@auth0/auth0-react';
 
+import { GlobalProvider } from './context/GlobalContext';
 import WelcomeScreen from './screens/WelcomeScreen';
 import AuthorizedUserScreen from './screens/AuthorizedUserScreen';
 import CenteredCircularProgress from './components/CenteredCircularProgress';
@@ -14,7 +15,13 @@ function App() {
     return <CenteredCircularProgress />;
   }
 
-  return isAuthenticated ? <AuthorizedUserScreen /> : <WelcomeScreen />;
+  return isAuthenticated ? (
+    <GlobalProvider>
+      <AuthorizedUserScreen />
+    </GlobalProvider>
+  ) : (
+    <WelcomeScreen />
+  );
 }
 
 export default App;

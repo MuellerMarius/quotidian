@@ -87,16 +87,30 @@ const Entries: React.FC<ScreenProps> = ({ status }) => {
     selectDate(null);
   };
 
-  const deleteEntryConfirmed = (entry: EntryType) => {
-    setDialog({
-      open: true,
-      entry,
-      title: 'confirm-delete.title',
-      content: 'confirm-delete.description',
-      onConfirm: () => deleteEntry(entry),
-    });
-  };
+  const deleteEntryConfirmed = useCallback(
+    (entry: EntryType) => {
+      setDialog({
+        open: true,
+        entry,
+        title: 'confirm-delete.title',
+        content: 'confirm-delete.description',
+        onConfirm: () => deleteEntry(entry),
+      });
+    },
+    [deleteEntry]
+  );
 
+  const onAdd = useCallback(() => selectDate(new Date()), [selectDate]);
+
+  const onEdit = useCallback((e: EntryType) => selectDate(new Date(e.date)), [
+    selectDate,
+  ]);
+
+  const onDelete = useCallback((e: EntryType) => deleteEntryConfirmed(e), [
+    deleteEntryConfirmed,
+  ]);
+
+  // Handle selected date change
   useEffect(() => {
     const dateHasChanged = () => {
       if (entryEditor.editedEntry?.date && selectedDate) {
@@ -194,23 +208,17 @@ const Entries: React.FC<ScreenProps> = ({ status }) => {
           />
         </div>
       </Slide>
-
-      <Slide
-        direction="right"
-        appear={false}
-        in={!entryEditor.open}
-        unmountOnExit
-      >
+      <Slide direction="right" appear={false} in={!entryEditor.open}>
         <div className={classes.slide}>
           <EntryList
             status={status}
-            onAdd={() => selectDate(new Date())}
-            onEdit={(e: EntryType) => selectDate(new Date(e.date))}
-            onDelete={(e: EntryType) => deleteEntryConfirmed(e)}
+            onAdd={onAdd}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            selectDate={selectDate}
           />
         </div>
       </Slide>
-
       <ConfirmDialog
         title={dialog.title}
         content={dialog.content}

@@ -11,17 +11,15 @@ import {
 import { useTranslation } from 'react-i18next';
 import MoreVert from '@material-ui/icons/MoreVert';
 import MoodAvatar from './MoodAvatar';
-import { useGlobalContext } from '../context/GlobalContext';
 import { EntryListItemProps } from '../types/proptypes';
-import { ActionNames } from '../types/types';
 
 const EntryListItem: React.FC<EntryListItemProps> = ({
   entry,
+  selectDate,
   onEdit,
   onDelete,
 }) => {
   const { t } = useTranslation();
-  const { dispatch } = useGlobalContext();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { mood, comment, date } = entry;
 
@@ -34,20 +32,13 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
     setAnchorEl(null);
   };
 
-  const selectDate = (d: string) => {
-    dispatch!({
-      type: ActionNames.SELECT_DATE,
-      payload: { date: new Date(d) },
-    });
-  };
-
   return (
     <>
       <Divider variant="middle" component="li" light />
       <ListItem
         button
         alignItems="center"
-        onClick={() => selectDate(entry.date)}
+        onClick={() => selectDate(new Date(entry.date))}
         style={{ marginTop: 10, marginBottom: 10 }}
       >
         <MoodAvatar mood={mood} />
@@ -105,4 +96,4 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
   );
 };
 
-export default EntryListItem;
+export default React.memo(EntryListItem);

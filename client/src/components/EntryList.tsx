@@ -35,6 +35,7 @@ const EntryList: React.FC<EntryListProps> = ({
   onAdd,
   onEdit,
   onDelete,
+  selectDate,
   status,
 }) => {
   const { t } = useTranslation();
@@ -61,13 +62,15 @@ const EntryList: React.FC<EntryListProps> = ({
           ))
         : entries?.map((entry) => (
             <EntryListItem
-              entry={entry}
-              onEdit={() => onEdit(entry)}
-              onDelete={() => onDelete(entry)}
               key={entry._id}
+              entry={entry}
+              selectDate={selectDate}
+              onEdit={onEdit}
+              onDelete={onDelete}
             />
           ))}
     </List>
   );
 };
-export default EntryList;
+
+export default React.memo(EntryList);

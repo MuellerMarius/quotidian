@@ -97,7 +97,7 @@ const useApi = () => {
   };
 
   /**
-   *   Update a entnry
+   *   Update an entry
    */
   const updateEntry = (entry: EntryType) => {
     const onSuccess = (data: EntryType) => {
@@ -123,26 +123,29 @@ const useApi = () => {
   /**
    *   Delete entry by id
    */
-  const deleteEntry = (entry: EntryType) => {
-    const onSuccess = (data: EntryType) => {
-      dispatch!({
-        type: ActionNames.DELETE_ENTRY,
-        payload: { entry },
-      });
-    };
+  const deleteEntry = useCallback(
+    (entry: EntryType) => {
+      const onSuccess = (data: EntryType) => {
+        dispatch!({
+          type: ActionNames.DELETE_ENTRY,
+          payload: { entry },
+        });
+      };
 
-    const onError = (err: any) => {
-      dispatch!({
-        type: ActionNames.SHOW_SNACKBAR,
-        payload: {
-          snackbar: { message: 'snackbar.failed-delete', severity: 'error' },
-        },
-      });
-    };
+      const onError = (err: any) => {
+        dispatch!({
+          type: ActionNames.SHOW_SNACKBAR,
+          payload: {
+            snackbar: { message: 'snackbar.failed-delete', severity: 'error' },
+          },
+        });
+      };
 
-    const url = `${apiBaseUrl}/${entry._id}`;
-    apiFetch(url, 'DELETE', null, onSuccess, onError);
-  };
+      const url = `${apiBaseUrl}/${entry._id}`;
+      apiFetch(url, 'DELETE', null, onSuccess, onError);
+    },
+    [apiBaseUrl, apiFetch, dispatch]
+  );
 
   return { status, getEntries, addEntry, deleteEntry, updateEntry };
 };

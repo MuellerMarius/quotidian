@@ -20,10 +20,12 @@ export type EntryListProps = {
   onAdd: (...args: any) => void;
   onEdit: (entry: EntryType) => void;
   onDelete: (entry: EntryType) => void;
+  selectDate: (date: Date | null) => void;
 };
 
 export type EntryListItemProps = {
   entry: EntryType;
+  selectDate: (date: Date | null) => void;
   onEdit: (entry: EntryType) => void;
   onDelete: (entry: EntryType) => void;
 };
