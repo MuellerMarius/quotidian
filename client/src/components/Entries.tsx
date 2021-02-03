@@ -4,7 +4,7 @@ import { useGlobalContext } from '../context/GlobalContext';
 import useApi from '../hooks/useApi';
 import ConfirmDialog from './ConfirmDialog';
 import { DialogState, EntryType, ActionNames } from '../types/types';
-import { ScreenProps } from '../types/proptypes';
+import { EntriesProps } from '../types/proptypes';
 import EntryEditor from './EntryEditor';
 import EntryList from './EntryList';
 
@@ -30,7 +30,7 @@ const initialDialogState = {
   content: '',
 };
 
-const Entries: React.FC<ScreenProps> = ({ status }) => {
+const Entries: React.FC<EntriesProps> = ({ status, activeMonth }) => {
   const classes = useStyles();
   const { selectedDate, dispatch } = useGlobalContext();
   const { deleteEntry } = useApi();
@@ -90,6 +90,7 @@ const Entries: React.FC<ScreenProps> = ({ status }) => {
         <div className={classes.slide}>
           <EntryList
             status={status}
+            activeMonth={activeMonth}
             onAdd={onAdd}
             onEdit={onEdit}
             onDelete={onDelete}
