@@ -21,11 +21,7 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
       let entry = entries?.find((elem) => isSameDay(new Date(elem.date), date));
 
       if (!entry) {
-        entry = {
-          mood: 3,
-          date: date.toISOString(),
-          comment: '',
-        };
+        entry = { mood: 3, date: date.toISOString(), comment: '' };
       }
       return entry;
     },
@@ -43,48 +39,9 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
     if (!editedEntry) {
       return false;
     }
-    return (
-      JSON.stringify(getOriginalEntry(new Date(editedEntry.date))) !==
-      JSON.stringify(editedEntry)
-    );
+    const originalEntry = getOriginalEntry(new Date(editedEntry.date));
+    return JSON.stringify(originalEntry) !== JSON.stringify(editedEntry);
   }, [editedEntry, getOriginalEntry]);
-
-  const saveEntry = () => {
-    if (!editedEntry) {
-      dispatch!({
-        type: ActionNames.SHOW_SNACKBAR,
-        payload: {
-          snackbar: {
-            open: true,
-            severity: 'error',
-            message: 'snackbar.failed-save',
-          },
-        },
-      });
-      return;
-    }
-
-    if (editedEntry!._id) {
-      updateEntry(editedEntry);
-    } else {
-      addEntry(editedEntry);
-    }
-    selectDate(null);
-  };
-
-  const handleClose = () => {
-    if (!hasEntryChanged()) {
-      selectDate(null);
-      return;
-    }
-
-    setDialog({
-      open: true,
-      title: 'confirm-discard.title',
-      content: 'confirm-discard.description',
-      onConfirm: () => selectDate(null),
-    });
-  };
 
   useEffect(() => {
     const hasDateChanged = () => {
@@ -131,14 +88,37 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
     getOriginalEntry,
   ]);
 
-  // TODO: Error handling
   if (!editedEntry) {
-    return <>error</>;
+    // no entry currently selected
+    return null;
   }
+
+  const saveEntry = () => {
+    if (editedEntry._id) {
+      updateEntry(editedEntry);
+    } else {
+      addEntry(editedEntry);
+    }
+    selectDate(null);
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     saveEntry();
     e.preventDefault();
+  };
+
+  const handleClose = () => {
+    if (!hasEntryChanged()) {
+      selectDate(null);
+      return;
+    }
+
+    setDialog({
+      open: true,
+      title: 'confirm-discard.title',
+      content: 'confirm-discard.description',
+      onConfirm: () => selectDate(null),
+    });
   };
 
   return (

@@ -47,7 +47,8 @@
     "failed-save": "Entry could not be saved!",
     "deleted": "Entry was deleted successfully!",
     "failed-delete": "Entry could not be deleted!",
-    "failed-load": "Entries could not be loaded!"
+    "failed-load": "Entries could not be loaded!",
+    "failed-load-single": "Entry could not be loaded!"
   },
   "datekey": "{{date, MM/dd/yyyy}}"
 }

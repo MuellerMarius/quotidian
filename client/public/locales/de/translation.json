@@ -47,7 +47,8 @@
     "failed-save": "Eintrag konnte nicht gespeichert werden!",
     "deleted": "Eintrag erfolgreich gelöscht!",
     "failed-delete": "Eintrag konnte nicht gelöscht werden!",
-    "failed-load": "Einträge konnten nicht geladen werden!"
+    "failed-load": "Einträge konnten nicht geladen werden!",
+    "failed-load-single": "Eintrag konnten nicht geladen werden!"
   },
   "datekey": "{{date, EEEE, dd.MM.yyyy}}"
 }
