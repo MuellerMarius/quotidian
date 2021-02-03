@@ -1,11 +1,9 @@
-import { EntryType, StatusType } from './types';
+import { DialogState, EntryType, StatusType } from './types';
 
 export type MoodAvatarProps = {
   mood: number;
   size?: 'large' | 'small';
-  button?: boolean;
   inactive?: boolean;
-  onClick?: (...args: any[]) => void;
 };
 
 export type MoodSelectorProps = {
@@ -20,21 +18,16 @@ export type EntryListProps = {
   onAdd: (...args: any) => void;
   onEdit: (entry: EntryType) => void;
   onDelete: (entry: EntryType) => void;
-  selectDate: (date: Date | null) => void;
 };
 
 export type EntryListItemProps = {
   entry: EntryType;
-  selectDate: (date: Date | null) => void;
   onEdit: (entry: EntryType) => void;
   onDelete: (entry: EntryType) => void;
 };
 
-export type EntryDetailsProps = {
-  entry: EntryType | null | undefined;
-  onClose: (...args: any[]) => void;
-  onSave: (...args: any[]) => void;
-  onChange: (entry: EntryType) => void;
+export type EntryEditorProps = {
+  setDialog: (dialog: DialogState) => void;
 };
 
 export type ScreenProps = { status: StatusType };

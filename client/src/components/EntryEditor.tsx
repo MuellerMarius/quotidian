@@ -1,25 +1,143 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next/';
-import { format } from 'date-fns';
-import { EntryDetailsProps } from '../types/proptypes';
+import { format, isSameDay } from 'date-fns';
+import { EntryEditorProps } from '../types/proptypes';
 import MoodSelector from './MoodSelector';
+import { ActionNames, EntryType } from '../types/types';
+import { useGlobalContext } from '../context/GlobalContext';
+import useApi from '../hooks/useApi';
 
-const EntryEditor: React.FC<EntryDetailsProps> = ({
-  entry,
-  onClose,
-  onSave,
-  onChange,
-}) => {
+const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
   const { t } = useTranslation();
+  const { selectedDate, entries, dispatch } = useGlobalContext();
+  const { updateEntry, addEntry } = useApi();
+  const [editedEntry, setEditedEntry] = useState<EntryType | null | undefined>(
+    undefined
+  );
+
+  const getOriginalEntry = useCallback(
+    (date: Date) => {
+      let entry = entries?.find((elem) => isSameDay(new Date(elem.date), date));
+
+      if (!entry) {
+        entry = {
+          mood: 3,
+          date: date.toISOString(),
+          comment: '',
+        };
+      }
+      return entry;
+    },
+    [entries]
+  );
+
+  const selectDate = useCallback(
+    (date: Date | null) => {
+      dispatch!({ type: ActionNames.SELECT_DATE, payload: { date } });
+    },
+    [dispatch]
+  );
+
+  const hasEntryChanged = useCallback(() => {
+    if (!editedEntry) {
+      return false;
+    }
+    return (
+      JSON.stringify(getOriginalEntry(new Date(editedEntry.date))) !==
+      JSON.stringify(editedEntry)
+    );
+  }, [editedEntry, getOriginalEntry]);
+
+  const saveEntry = () => {
+    if (!editedEntry) {
+      dispatch!({
+        type: ActionNames.SHOW_SNACKBAR,
+        payload: {
+          snackbar: {
+            open: true,
+            severity: 'error',
+            message: 'snackbar.failed-save',
+          },
+        },
+      });
+      return;
+    }
+
+    if (editedEntry!._id) {
+      updateEntry(editedEntry);
+    } else {
+      addEntry(editedEntry);
+    }
+    selectDate(null);
+  };
+
+  const handleClose = () => {
+    if (!hasEntryChanged()) {
+      selectDate(null);
+      return;
+    }
+
+    setDialog({
+      open: true,
+      title: 'confirm-discard.title',
+      content: 'confirm-discard.description',
+      onConfirm: () => selectDate(null),
+    });
+  };
+
+  useEffect(() => {
+    const hasDateChanged = () => {
+      if (editedEntry?.date && selectedDate) {
+        if (isSameDay(new Date(editedEntry.date), selectedDate)) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    const setEditorStateToDate = (date: Date) => {
+      setEditedEntry(getOriginalEntry(date));
+    };
+
+    if (!hasDateChanged()) {
+      return;
+    }
+
+    if (!selectedDate) {
+      setEditedEntry(null);
+      return;
+    }
+
+    if (!editedEntry || !hasEntryChanged()) {
+      setEditorStateToDate(selectedDate);
+      return;
+    }
+
+    setDialog({
+      open: true,
+      title: 'confirm-discard-due-datechange.title',
+      content: 'confirm-discard-due-datechange.description',
+      onCancel: () => selectDate(new Date(editedEntry!.date)),
+      onConfirm: () => setEditorStateToDate(selectedDate),
+    });
+  }, [
+    editedEntry,
+    entries,
+    selectDate,
+    selectedDate,
+    setDialog,
+    hasEntryChanged,
+    getOriginalEntry,
+  ]);
 
   // TODO: Error handling
-  if (!entry) {
+  if (!editedEntry) {
     return <>error</>;
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    onSave();
+    saveEntry();
     e.preventDefault();
   };
 
@@ -28,16 +146,18 @@ const EntryEditor: React.FC<EntryDetailsProps> = ({
       <Grid container direction="column" spacing={4} alignItems="center">
         <Grid item style={{ alignSelf: 'flex-start' }}>
           <Typography variant="h5" component="h5">
-            {entry._id ? t('edit entry') : t('add new entry')}
+            {editedEntry._id ? t('edit entry') : t('add new entry')}
           </Typography>
         </Grid>
 
-        <Grid item>Date: {format(new Date(entry.date), 'yyyy-MM-dd')}</Grid>
+        <Grid item>
+          Date: {format(new Date(editedEntry.date), 'yyyy-MM-dd')}
+        </Grid>
 
         <Grid item>
           <MoodSelector
-            mood={entry.mood}
-            onChange={(mood) => onChange({ ...entry, mood })}
+            mood={editedEntry.mood}
+            onChange={(mood) => setEditedEntry({ ...editedEntry, mood })}
           />
         </Grid>
 
@@ -45,18 +165,20 @@ const EntryEditor: React.FC<EntryDetailsProps> = ({
           <TextField
             id="comment"
             label={t('entry.comment')}
-            value={entry.comment}
-            onChange={(e) => onChange({ ...entry, comment: e.target.value })}
+            value={editedEntry.comment}
+            onChange={(e) =>
+              setEditedEntry({ ...editedEntry, comment: e.target.value })
+            }
             autoComplete="false"
             fullWidth
           />
         </Grid>
 
         <Grid item style={{ alignSelf: 'flex-end' }}>
-          <Button onClick={onClose} style={{ marginRight: 15 }}>
+          <Button onClick={handleClose} style={{ marginRight: 15 }}>
             {t('cancel')}
           </Button>
-          <Button onClick={onSave} color="primary">
+          <Button onClick={saveEntry} color="primary">
             {t('save')}
           </Button>
         </Grid>

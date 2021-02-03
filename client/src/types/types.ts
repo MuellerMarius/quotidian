@@ -73,15 +73,8 @@ type Payload = {
 
 export type ActionType = ActionMap<Payload>[keyof ActionMap<Payload>];
 
-export type EntryEditState = {
-  open: boolean;
-  entry: EntryType | null | undefined;
-  editedEntry: EntryType | null | undefined;
-};
-
 export type DialogState = {
   open: boolean;
-  entry: EntryType | null | undefined;
   title: string;
   content: string;
   onConfirm?: (...args: any[]) => void | null | undefined;

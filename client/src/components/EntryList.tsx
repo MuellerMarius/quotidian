@@ -33,9 +33,8 @@ const useStyles = makeStyles({
 
 const EntryList: React.FC<EntryListProps> = ({
   onAdd,
-  onEdit,
   onDelete,
-  selectDate,
+  onEdit,
   status,
 }) => {
   const { t } = useTranslation();
@@ -64,7 +63,6 @@ const EntryList: React.FC<EntryListProps> = ({
             <EntryListItem
               key={entry._id}
               entry={entry}
-              selectDate={selectDate}
               onEdit={onEdit}
               onDelete={onDelete}
             />

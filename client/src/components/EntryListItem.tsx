@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Divider,
   IconButton,
@@ -6,42 +6,19 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
-  Menu,
-  MenuItem,
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import MoreVert from '@material-ui/icons/MoreVert';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import MoodAvatar from './MoodAvatar';
 import { EntryListItemProps } from '../types/proptypes';
 
 const EntryListItem: React.FC<EntryListItemProps> = ({
   entry,
-  selectDate,
   onEdit,
   onDelete,
 }) => {
   const { t } = useTranslation();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { mood, comment, date } = entry;
-
-  const openMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-    event.preventDefault();
-  };
-
-  const closeMenu = () => {
-    setAnchorEl(null);
-  };
-
-  const handleEdit = () => {
-    closeMenu();
-    onEdit(entry);
-  };
-
-  const handleDelete = () => {
-    closeMenu();
-    onDelete(entry);
-  };
 
   return (
     <>
@@ -49,7 +26,7 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
       <ListItem
         button
         alignItems="center"
-        onClick={() => selectDate(new Date(entry.date))}
+        onClick={() => onEdit(entry)}
         style={{ marginTop: 10, marginBottom: 10 }}
       >
         <ListItemIcon>
@@ -61,41 +38,11 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
           secondary={comment}
         />
         <ListItemSecondaryAction>
-          <IconButton
-            aria-label="settings"
-            aria-controls="settings-menu"
-            aria-haspopup="true"
-            onClick={openMenu}
-          >
-            <MoreVert fontSize="small" />
+          <IconButton aria-label="delete" onClick={() => onDelete(entry)}>
+            <DeleteOutlineIcon fontSize="small" />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
-
-      <Menu
-        id="settings-menu"
-        elevation={2}
-        anchorEl={anchorEl}
-        getContentAnchorEl={null}
-        open={Boolean(anchorEl)}
-        onClose={() => closeMenu()}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        keepMounted
-      >
-        <MenuItem onClick={handleEdit}>
-          <ListItemText primary={t('edit')} />
-        </MenuItem>
-        <MenuItem onClick={handleDelete}>
-          <ListItemText primary={t('delete')} />
-        </MenuItem>
-      </Menu>
     </>
   );
 };
