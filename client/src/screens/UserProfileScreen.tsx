@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-function UserProfile() {
+function UserProfileScreen() {
   const { t } = useTranslation();
 
   return <div>UserProfile</div>;
 }
 
-export default UserProfile;
+export default UserProfileScreen;

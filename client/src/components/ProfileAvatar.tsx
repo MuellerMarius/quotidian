@@ -17,6 +17,7 @@ import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import DirectionsRunOutlinedIcon from '@material-ui/icons/DirectionsRunOutlined';
 import { useTranslation } from 'react-i18next';
+import LinkMenuItem from './LinkMenuItem';
 
 const useStyles = makeStyles({
   userInfo: {
@@ -103,23 +104,25 @@ const ProfileAvatar = () => {
 
         <Divider light className={classes.divider} />
 
-        <MenuItem onClick={handleClose} autoFocus>
+        <LinkMenuItem to="/profile" onClick={handleClose}>
           <ListItemIcon className={classes.listIcon}>
             <PersonOutlineOutlinedIcon fontSize="small" color="primary" />
           </ListItemIcon>
           <ListItemText primary={t('edit profile')} />
-        </MenuItem>
+        </LinkMenuItem>
 
-        <MenuItem onClick={handleClose}>
+        <LinkMenuItem to="/activities" onClick={handleClose}>
           <ListItemIcon className={classes.listIcon}>
             <DirectionsRunOutlinedIcon fontSize="small" color="primary" />
           </ListItemIcon>
           <ListItemText primary={t('edit acitivies')} />
-        </MenuItem>
+        </LinkMenuItem>
 
         <Divider light className={classes.divider} />
 
-        <MenuItem onClick={() => logout()}>
+        <MenuItem
+          onClick={() => logout({ returnTo: `${window.location.origin}/home` })}
+        >
           <ListItemIcon className={classes.listIcon}>
             <ExitToAppIcon fontSize="small" color="primary" />
           </ListItemIcon>

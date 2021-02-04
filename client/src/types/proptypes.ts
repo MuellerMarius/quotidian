@@ -1,5 +1,10 @@
 import { DialogState, EntryType, StatusType } from './types';
 
+export type LinkProps = {
+  to: string;
+  onClick: React.MouseEventHandler<HTMLLIElement>;
+};
+
 export type MoodAvatarProps = {
   mood: number;
   size?: 'large' | 'small';
@@ -15,6 +20,7 @@ export type MoodAvatarRadioProps = { mood: number };
 
 export type EntryListProps = {
   status: StatusType;
+  activeMonth: Date;
   onAdd: (...args: any) => void;
   onEdit: (entry: EntryType) => void;
   onDelete: (entry: EntryType) => void;
@@ -30,7 +36,11 @@ export type EntryEditorProps = {
   setDialog: (dialog: DialogState) => void;
 };
 
-export type ScreenProps = { status: StatusType };
+export type EntryScreenProps = { status: StatusType };
+
+export type EntriesProps = EntryScreenProps & {
+  activeMonth: Date;
+};
 
 export type ConfirmDialogProps = {
   open: boolean;
@@ -39,4 +49,9 @@ export type ConfirmDialogProps = {
   onConfirm?: (...args: any[]) => void | null | undefined;
   onCancel?: (...args: any[]) => void | null | undefined;
   onClose: (...args: any[]) => void;
+};
+
+export type CalendarProps = {
+  activeMonth: Date;
+  setActiveMonth: (month: Date) => void;
 };

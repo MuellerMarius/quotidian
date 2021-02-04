@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import { Route, Switch } from 'react-router-dom';
-import ProtectedRoute from '../auth/ProtectedRoute';
-import UserProfile from '../components/UserProfile';
-import Statistics from '../components/Statistics';
+import UserProfileScreen from './UserProfileScreen';
+import StatisticsScreen from './StatisticsScreen';
+import ActivityScreen from './ActivityScreen';
 import NavBar from '../components/NavBar';
 import useApi from '../hooks/useApi';
 import EntryScreen from './EntryScreen';
@@ -34,10 +34,9 @@ function AuthorizedUserScreen() {
             <Route exact path="/">
               <EntryScreen status={status} />
             </Route>
-            <Route path="/pro" component={UserProfile} />
-            <ProtectedRoute path="/profile" component={UserProfile} />
-            <ProtectedRoute path="/entries" component={EntryScreen} />
-            <ProtectedRoute path="/statistics" component={Statistics} />
+            <Route path="/profile" component={UserProfileScreen} />
+            <Route path="/statistics" component={StatisticsScreen} />
+            <Route path="/activities" component={ActivityScreen} />
           </Switch>
         </Grid>
       </main>

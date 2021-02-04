@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-function Statistics() {
+function ActivityScreen() {
   const { t } = useTranslation();
 
-  return <div>Statistics</div>;
+  return <div>Activities</div>;
 }
 
-export default Statistics;
+export default ActivityScreen;

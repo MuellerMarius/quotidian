@@ -1,26 +1,18 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useAuth0 } from '@auth0/auth0-react';
-
+import { Route, Switch } from 'react-router-dom';
 import { GlobalProvider } from './context/GlobalContext';
 import WelcomeScreen from './screens/WelcomeScreen';
 import AuthorizedUserScreen from './screens/AuthorizedUserScreen';
-import CenteredCircularProgress from './components/CenteredCircularProgress';
+import ProtectedRoute from './auth/ProtectedRoute';
 
 function App() {
-  const { t } = useTranslation();
-  const { isAuthenticated, isLoading } = useAuth0();
-
-  if (isLoading) {
-    return <CenteredCircularProgress />;
-  }
-
-  return isAuthenticated ? (
+  return (
     <GlobalProvider>
-      <AuthorizedUserScreen />
+      <Switch>
+        <Route path="/home" component={WelcomeScreen} />
+        <ProtectedRoute path="/" component={AuthorizedUserScreen} />
+      </Switch>
     </GlobalProvider>
-  ) : (
-    <WelcomeScreen />
   );
 }
 
