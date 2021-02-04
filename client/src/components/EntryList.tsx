@@ -7,11 +7,13 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { compareDesc, isSameMonth } from 'date-fns';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EntryListItemSkeleton from './EntryListItemSkeleton';
 import EntryListItem from './EntryListItem';
 import { useGlobalContext } from '../context/GlobalContext';
 import { EntryListProps } from '../types/proptypes';
+import { EntryType } from '../types/types';
 
 const useStyles = makeStyles({
   scrollableList: {
@@ -31,15 +33,22 @@ const useStyles = makeStyles({
   },
 });
 
+const byDate = (a: EntryType, b: EntryType) =>
+  compareDesc(new Date(a.date), new Date(b.date));
+
 const EntryList: React.FC<EntryListProps> = ({
+  status,
+  activeMonth,
   onAdd,
   onDelete,
   onEdit,
-  status,
 }) => {
   const { t } = useTranslation();
   const { entries } = useGlobalContext();
   const classes = useStyles();
+  const sortedEntries = entries
+    ?.filter((entry) => isSameMonth(new Date(entry.date), activeMonth))
+    .sort(byDate);
 
   return (
     <List disablePadding className={classes.scrollableList}>
@@ -59,7 +68,7 @@ const EntryList: React.FC<EntryListProps> = ({
         ? Array.from({ length: 10 }, (_, k) => (
             <EntryListItemSkeleton key={k} />
           ))
-        : entries?.map((entry) => (
+        : sortedEntries?.map((entry) => (
             <EntryListItem
               key={entry._id}
               entry={entry}

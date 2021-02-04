@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { DatePickerCalendar } from 'react-nice-dates';
 import { isSameDay } from 'date-fns';
 import { useGlobalContext } from '../../context/GlobalContext';
+import { CalendarProps } from '../../types/proptypes';
 import getDateFnsLocale from '../../util/date';
 import { ActionNames } from '../../types/types';
 import './style.scss';
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Calendar = () => {
+const Calendar: React.FC<CalendarProps> = ({ activeMonth, setActiveMonth }) => {
   const { selectedDate, entries, dispatch } = useGlobalContext();
   const { i18n } = useTranslation();
   const classes = useStyles();
@@ -54,6 +55,8 @@ const Calendar = () => {
       <DatePickerCalendar
         locale={locale}
         date={selectedDate || undefined}
+        month={activeMonth}
+        onMonthChange={(month) => setActiveMonth(month || new Date())}
         onDateChange={(date) => selectDate(date)}
         modifiers={modifiers}
         modifiersClassNames={modifiersClassNames}
