@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Card, Grid } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
 import { EntryScreenProps } from '../types/proptypes';
 import Entries from '../components/Entries';
 import Calendar from '../components/Calendar';
 
 const EntryScreen: React.FC<EntryScreenProps> = ({ status }) => {
-  const { t } = useTranslation();
   const [activeMonth, setActiveMonth] = useState<Date>(new Date());
 
   return (

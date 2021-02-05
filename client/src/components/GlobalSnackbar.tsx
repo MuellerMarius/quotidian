@@ -19,7 +19,7 @@ const GlobalSnackbar = () => {
   return (
     <Snackbar
       open={snackbar.open}
-      autoHideDuration={snackbar.autoHideDuration || 6000}
+      autoHideDuration={snackbar.autoHideDuration || 5000}
       onClose={hideSnackbar}
     >
       <Alert onClose={hideSnackbar} severity={snackbar.severity}>

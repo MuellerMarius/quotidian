@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   },
 });
 
-function NavBar() {
+const NavBar = () => {
   const { t } = useTranslation();
   const classes = useStyles();
 
@@ -77,6 +77,6 @@ function NavBar() {
       </Grid>
     </header>
   );
-}
+};
 
 export default React.memo(NavBar);

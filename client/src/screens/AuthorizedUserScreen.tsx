@@ -40,7 +40,6 @@ function AuthorizedUserScreen() {
           </Switch>
         </Grid>
       </main>
-      <GlobalSnackbar />
     </Grid>
   );
 }
