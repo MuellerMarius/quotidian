@@ -3,12 +3,11 @@ import ReactDOM from 'react-dom';
 import { ThemeProvider } from '@material-ui/core';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Auth0ProviderWithHistory from './auth/Auth0ProviderWithHistory';
+import CenteredCircularProgress from './components/CenteredCircularProgress';
+import App from './App';
+import './i18n';
 import './style/index.scss';
 import { theme } from './style/theme';
-import App from './App';
-
-import './i18n';
-import CenteredCircularProgress from './components/CenteredCircularProgress';
 
 ReactDOM.render(
   <React.StrictMode>
