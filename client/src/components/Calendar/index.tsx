@@ -12,7 +12,7 @@ import './style.scss';
 const useStyles = makeStyles({
   root: {
     padding: 25,
-    height: '70vh',
+    height: '73vh',
   },
 });
 
@@ -23,7 +23,7 @@ const Calendar: React.FC<CalendarProps> = ({ activeMonth, setActiveMonth }) => {
   const locale = getDateFnsLocale(i18n.language);
 
   const isMoodOnDate = (date: Date, mood: number) => {
-    const entry = entries?.find((elem) => isSameDay(new Date(elem.date), date));
+    const entry = entries?.find((elem) => isSameDay(elem.date, date));
     if (entry && entry.mood === mood) {
       return true;
     }

@@ -7,6 +7,9 @@ export const theme = createMuiTheme({
     h5: {
       fontWeight: 600,
     },
+    subtitle2: {
+      marginBottom: 3,
+    },
   },
   palette: {
     common: {

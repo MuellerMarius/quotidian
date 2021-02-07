@@ -33,8 +33,7 @@ const useStyles = makeStyles({
   },
 });
 
-const byDate = (a: EntryType, b: EntryType) =>
-  compareDesc(new Date(a.date), new Date(b.date));
+const byDateDesc = (a: EntryType, b: EntryType) => compareDesc(a.date, b.date);
 
 const EntryList: React.FC<EntryListProps> = ({
   status,
@@ -47,8 +46,8 @@ const EntryList: React.FC<EntryListProps> = ({
   const { entries } = useGlobalContext();
   const classes = useStyles();
   const sortedEntries = entries
-    ?.filter((entry) => isSameMonth(new Date(entry.date), activeMonth))
-    .sort(byDate);
+    ?.filter((entry) => isSameMonth(entry.date, activeMonth))
+    .sort(byDateDesc);
 
   return (
     <List disablePadding className={classes.scrollableList}>

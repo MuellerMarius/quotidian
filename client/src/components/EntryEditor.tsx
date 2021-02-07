@@ -1,15 +1,53 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Grid, TextField, Typography } from '@material-ui/core';
+import {
+  Avatar,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Divider,
+  Grid,
+  makeStyles,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import { useTranslation } from 'react-i18next/';
-import { format, isSameDay } from 'date-fns';
+import { isSameDay } from 'date-fns';
 import { EntryEditorProps } from '../types/proptypes';
 import MoodSelector from './MoodSelector';
 import { ActionNames, EntryType } from '../types/types';
 import { useGlobalContext } from '../context/GlobalContext';
 import useApi from '../hooks/useApi';
 
+const useStyles = makeStyles({
+  form: {
+    padding: 25,
+  },
+  chipRoot: {
+    marginRight: 7,
+    marginBottom: 5,
+  },
+  dividerRoot: {
+    marginTop: 8,
+    marginBottom: 5,
+  },
+  flexStart: {
+    alignSelf: 'flex-start',
+  },
+  flexEnd: {
+    alignSelf: 'flex-end',
+  },
+  fullWidth: {
+    width: '100%',
+  },
+  cancelBtn: {
+    marginRight: 15,
+  },
+});
+
 const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
   const { t } = useTranslation();
+  const classes = useStyles();
   const { selectedDate, entries, dispatch } = useGlobalContext();
   const { updateEntry, addEntry } = useApi();
   const [editedEntry, setEditedEntry] = useState<EntryType | null | undefined>(
@@ -18,10 +56,10 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
 
   const getOriginalEntry = useCallback(
     (date: Date) => {
-      let entry = entries?.find((elem) => isSameDay(new Date(elem.date), date));
+      let entry = entries?.find((elem) => isSameDay(elem.date, date));
 
       if (!entry) {
-        entry = { mood: 3, date: date.toISOString(), comment: '' };
+        entry = { mood: 3, date, comment: '' };
       }
       return entry;
     },
@@ -39,14 +77,14 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
     if (!editedEntry) {
       return false;
     }
-    const originalEntry = getOriginalEntry(new Date(editedEntry.date));
+    const originalEntry = getOriginalEntry(editedEntry.date);
     return JSON.stringify(originalEntry) !== JSON.stringify(editedEntry);
   }, [editedEntry, getOriginalEntry]);
 
   useEffect(() => {
     const hasDateChanged = () => {
       if (editedEntry?.date && selectedDate) {
-        if (isSameDay(new Date(editedEntry.date), selectedDate)) {
+        if (isSameDay(editedEntry.date, selectedDate)) {
           return false;
         }
       }
@@ -75,7 +113,7 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
       open: true,
       title: 'confirm-discard-due-datechange.title',
       content: 'confirm-discard-due-datechange.description',
-      onCancel: () => selectDate(new Date(editedEntry!.date)),
+      onCancel: () => selectDate(editedEntry!.date),
       onConfirm: () => setEditorStateToDate(selectedDate),
     });
   }, [
@@ -122,16 +160,18 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
   };
 
   return (
-    <form style={{ padding: 25 }} onSubmit={handleSubmit}>
+    <form className={classes.form} onSubmit={handleSubmit}>
       <Grid container direction="column" spacing={4} alignItems="center">
-        <Grid item style={{ alignSelf: 'flex-start' }}>
+        <Grid item classes={{ root: classes.flexStart }}>
           <Typography variant="h5" component="h5">
             {editedEntry._id ? t('edit entry') : t('add new entry')}
           </Typography>
         </Grid>
 
         <Grid item>
-          Date: {format(new Date(editedEntry.date), 'yyyy-MM-dd')}
+          <Typography color="secondary">
+            {t('datekey', { date: editedEntry.date })}
+          </Typography>
         </Grid>
 
         <Grid item>
@@ -141,7 +181,60 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
           />
         </Grid>
 
-        <Grid item style={{ width: '100%' }}>
+        <Grid item classes={{ root: classes.fullWidth }}>
+          <Card variant="outlined">
+            <CardContent>
+              <Typography variant="subtitle1" component="h5">
+                {t('activities')}
+              </Typography>
+
+              <Typography variant="subtitle2" component="h5" color="secondary">
+                Diverses
+              </Typography>
+              <Chip
+                color="primary"
+                avatar={<Avatar>F</Avatar>}
+                label="Sport"
+                classes={{ root: classes.chipRoot }}
+                clickable
+              />
+              <Chip
+                variant="outlined"
+                avatar={<Avatar>V</Avatar>}
+                label="Vietnamesisch"
+                classes={{ root: classes.chipRoot }}
+                clickable
+              />
+              <Chip
+                variant="outlined"
+                avatar={<Avatar>M</Avatar>}
+                label="Meditation"
+                classes={{ root: classes.chipRoot }}
+                clickable
+              />
+              <Divider classes={{ root: classes.dividerRoot }} />
+              <Typography variant="subtitle2" component="h5" color="secondary">
+                Sport
+              </Typography>
+              <Chip
+                variant="outlined"
+                avatar={<Avatar>V</Avatar>}
+                label="Vietnamesisch"
+                classes={{ root: classes.chipRoot }}
+                clickable
+              />
+              <Chip
+                variant="outlined"
+                avatar={<Avatar>M</Avatar>}
+                label="Meditation"
+                classes={{ root: classes.chipRoot }}
+                clickable
+              />
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item classes={{ root: classes.fullWidth }}>
           <TextField
             id="comment"
             label={t('entry.comment')}
@@ -154,8 +247,8 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
           />
         </Grid>
 
-        <Grid item style={{ alignSelf: 'flex-end' }}>
-          <Button onClick={handleClose} style={{ marginRight: 15 }}>
+        <Grid item classes={{ root: classes.flexEnd }}>
+          <Button onClick={handleClose} classes={{ root: classes.cancelBtn }}>
             {t('cancel')}
           </Button>
           <Button onClick={saveEntry} color="primary">

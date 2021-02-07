@@ -11,7 +11,7 @@ import EntryList from './EntryList';
 const useStyles = makeStyles({
   card: {
     position: 'relative',
-    height: '70vh',
+    height: '73vh',
   },
   slide: {
     position: 'absolute',
@@ -20,6 +20,7 @@ const useStyles = makeStyles({
     left: 0,
     right: 0,
     zIndex: 99,
+    overflow: 'auto',
   },
 });
 
@@ -58,7 +59,7 @@ const Entries: React.FC<EntriesProps> = ({ status, activeMonth }) => {
 
   const onAdd = useCallback(() => selectDate(new Date()), [selectDate]);
 
-  const onEdit = useCallback((e: EntryType) => selectDate(new Date(e.date)), [
+  const onEdit = useCallback((e: EntryType) => selectDate(e.date), [
     selectDate,
   ]);
 

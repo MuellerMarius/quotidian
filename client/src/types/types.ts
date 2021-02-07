@@ -3,7 +3,7 @@ export type EntryType = {
   __v?: number | null;
   user?: string;
   mood: number;
-  date: string;
+  date: Date;
   activities?: string[] | null;
   comment: string;
 };

@@ -55,9 +55,12 @@ const useApi = () => {
    */
   const getEntries = useCallback(() => {
     const onSuccess = (data: EntryType[]) => {
+      const entries = data.map(
+        (e) => ({ ...e, date: new Date(e.date) } as EntryType)
+      );
       dispatch!({
         type: ActionNames.SET_ENTRIES,
-        payload: { entries: data },
+        payload: { entries },
       });
     };
 
@@ -80,7 +83,7 @@ const useApi = () => {
     const onSuccess = (data: EntryType) => {
       dispatch!({
         type: ActionNames.ADD_ENTRY,
-        payload: { entry: data },
+        payload: { entry: { ...data, date: new Date(data.date) } },
       });
     };
 
@@ -103,7 +106,7 @@ const useApi = () => {
     const onSuccess = (data: EntryType) => {
       dispatch!({
         type: ActionNames.UPDATE_ENTRY,
-        payload: { entry: data },
+        payload: { entry: { ...data, date: new Date(data.date) } },
       });
     };
 
