@@ -8,6 +8,7 @@ const LinkMenuItem: React.FC<RouteComponentProps & LinkProps> = ({
   location,
   to,
   onClick,
+  staticContext,
   ...rest
 }) => (
   <MenuItem
