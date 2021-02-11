@@ -178,6 +178,7 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
           <MoodSelector
             mood={editedEntry.mood}
             onChange={(mood) => setEditedEntry({ ...editedEntry, mood })}
+            autoFocus
           />
         </Grid>
 

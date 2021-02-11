@@ -19,18 +19,23 @@ const useStyles = makeStyles({
 });
 
 const MoodAvatarRadio: React.FC<MoodAvatarRadioProps> = (props) => {
-  const { mood } = props;
+  const { mood, autoFocus } = props;
 
   return (
     <Radio
       checkedIcon={<MoodAvatar mood={mood} />}
       icon={<MoodAvatar mood={mood} inactive />}
       value={mood}
+      autoFocus={autoFocus}
       {...props}
     />
   );
 };
-const MoodSelector: React.FC<MoodSelectorProps> = ({ mood, onChange }) => {
+const MoodSelector: React.FC<MoodSelectorProps> = ({
+  mood,
+  onChange,
+  autoFocus,
+}) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
@@ -46,7 +51,12 @@ const MoodSelector: React.FC<MoodSelectorProps> = ({ mood, onChange }) => {
           classes={{ root: classes.root, label: classes.label }}
           key={element}
           value={element}
-          control={<MoodAvatarRadio mood={element} />}
+          control={
+            <MoodAvatarRadio
+              mood={element}
+              autoFocus={element === 0 && autoFocus}
+            />
+          }
           label={t(`moods.${element}`)}
           labelPlacement="bottom"
         />

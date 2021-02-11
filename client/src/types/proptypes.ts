@@ -14,9 +14,10 @@ export type MoodAvatarProps = {
 export type MoodSelectorProps = {
   mood: number;
   onChange: (mood: number) => void;
+  autoFocus?: boolean;
 };
 
-export type MoodAvatarRadioProps = { mood: number };
+export type MoodAvatarRadioProps = { mood: number; autoFocus?: boolean };
 
 export type EntryListProps = {
   status: StatusType;
