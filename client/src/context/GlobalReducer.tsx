@@ -13,7 +13,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
     case ActionNames.SET_COMMON_USER_DATA:
       return { ...state, ...action.payload.data };
     case ActionNames.SET_ACTIVITIES:
-      return { ...state, activities: action.payload.data };
+      return { ...state, activities: action.payload.activities };
     case ActionNames.SET_ENTRIES:
       return { ...state, entries: action.payload.entries };
     case ActionNames.ADD_ENTRY:

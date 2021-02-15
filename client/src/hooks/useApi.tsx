@@ -86,10 +86,10 @@ const useApi = () => {
    *   Get all activities from user
    */
   const getActivities = useCallback(() => {
-    const onSuccess = (data: ActivityCatType) => {
+    const onSuccess = (activities: ActivityCatType[]) => {
       dispatch!({
         type: ActionNames.SET_ACTIVITIES,
-        payload: { data },
+        payload: { activities },
       });
     };
 

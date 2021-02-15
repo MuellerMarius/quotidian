@@ -6,8 +6,8 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next/';
-import { MoodAvatarRadioProps, MoodSelectorProps } from '../types/proptypes';
-import MoodAvatar from './MoodAvatar';
+import { MoodAvatarRadioProps, MoodSelectorProps } from '../../types/proptypes';
+import MoodAvatar from '../MoodAvatar';
 
 const useStyles = makeStyles({
   root: {

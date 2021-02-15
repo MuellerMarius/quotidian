@@ -4,7 +4,7 @@ export type EntryType = {
   user?: string;
   mood: number;
   date: Date;
-  activities?: string[] | null;
+  activities: string[];
   comment: string;
 };
 
@@ -22,7 +22,7 @@ export type ActivityType = {
 
 export type CommonUserDataType = {
   entries: EntryType[];
-  activities: ActivityCatType;
+  activities: ActivityCatType[];
 };
 
 export type SeverityType = 'error' | 'success' | 'info' | 'warning';
@@ -40,7 +40,7 @@ export type StateType = {
   selectedDate: Date | null | undefined;
   snackbar: SnackBarType;
   entries: EntryType[] | null | undefined;
-  activities: ActivityCatType | undefined;
+  activities: ActivityCatType[];
   dispatch?: React.Dispatch<ActionType>;
 };
 
@@ -67,10 +67,7 @@ type Payload = {
     data: CommonUserDataType;
   };
   [ActionNames.SET_ACTIVITIES]: {
-    data: ActivityCatType;
-  };
-  [ActionNames.SET_ACTIVITIES]: {
-    data: ActivityCatType;
+    activities: ActivityCatType[];
   };
   [ActionNames.SET_ENTRIES]: {
     entries: EntryType[] | null;

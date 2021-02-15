@@ -15,10 +15,8 @@ router.get('/', auth, async (req, res) => {
     const entries = await Entry.find({ user: req.user.sub }).sort({ date: -1 });
     const userActivities = await UserActivities.findOne({ user: req.user.sub });
 
-    console.log('hier');
     res.status(200).json({ entries, activities: userActivities.categories });
   } catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 });

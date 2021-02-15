@@ -6,7 +6,7 @@ const initialState = {
   selectedDate: undefined,
   snackbar: { message: '', severity: undefined, open: false },
   entries: undefined,
-  activities: undefined,
+  activities: [],
 };
 
 const GlobalContext = createContext<StateType>(initialState);

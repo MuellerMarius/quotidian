@@ -1,11 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  Avatar,
   Button,
-  Card,
-  CardContent,
-  Chip,
-  Divider,
   Grid,
   makeStyles,
   TextField,
@@ -13,23 +8,16 @@ import {
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next/';
 import { isSameDay } from 'date-fns';
-import { EntryEditorProps } from '../types/proptypes';
+import { EntryEditorProps } from '../../types/proptypes';
 import MoodSelector from './MoodSelector';
-import { ActionNames, EntryType } from '../types/types';
-import { useGlobalContext } from '../context/GlobalContext';
-import useApi from '../hooks/useApi';
+import { ActionNames, EntryType } from '../../types/types';
+import { useGlobalContext } from '../../context/GlobalContext';
+import useApi from '../../hooks/useApi';
+import ActivitySelector from './ActivitySelector';
 
 const useStyles = makeStyles({
   form: {
     padding: 25,
-  },
-  chipRoot: {
-    marginRight: 7,
-    marginBottom: 5,
-  },
-  dividerRoot: {
-    marginTop: 8,
-    marginBottom: 5,
   },
   flexStart: {
     alignSelf: 'flex-start',
@@ -59,7 +47,7 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
       let entry = entries?.find((elem) => isSameDay(elem.date, date));
 
       if (!entry) {
-        entry = { mood: 3, date, comment: '' };
+        entry = { mood: 3, date, comment: '', activities: [] };
       }
       return entry;
     },
@@ -140,6 +128,18 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
     selectDate(null);
   };
 
+  const handleActivityChange = (activity: string) => {
+    if (editedEntry.activities.includes(activity)) {
+      // remove activity
+      const activities = editedEntry.activities.filter((a) => a !== activity);
+      setEditedEntry({ ...editedEntry, activities });
+    } else {
+      // add activity
+      const activities = [...editedEntry.activities, activity];
+      setEditedEntry({ ...editedEntry, activities });
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     saveEntry();
     e.preventDefault();
@@ -183,56 +183,10 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
         </Grid>
 
         <Grid item classes={{ root: classes.fullWidth }}>
-          <Card variant="outlined">
-            <CardContent>
-              <Typography variant="subtitle1" component="h5">
-                {t('activities')}
-              </Typography>
-
-              <Typography variant="subtitle2" component="h5" color="secondary">
-                Diverses
-              </Typography>
-              <Chip
-                color="primary"
-                avatar={<Avatar>F</Avatar>}
-                label="Sport"
-                classes={{ root: classes.chipRoot }}
-                clickable
-              />
-              <Chip
-                variant="outlined"
-                avatar={<Avatar>V</Avatar>}
-                label="Vietnamesisch"
-                classes={{ root: classes.chipRoot }}
-                clickable
-              />
-              <Chip
-                variant="outlined"
-                avatar={<Avatar>M</Avatar>}
-                label="Meditation"
-                classes={{ root: classes.chipRoot }}
-                clickable
-              />
-              <Divider classes={{ root: classes.dividerRoot }} />
-              <Typography variant="subtitle2" component="h5" color="secondary">
-                Sport
-              </Typography>
-              <Chip
-                variant="outlined"
-                avatar={<Avatar>V</Avatar>}
-                label="Vietnamesisch"
-                classes={{ root: classes.chipRoot }}
-                clickable
-              />
-              <Chip
-                variant="outlined"
-                avatar={<Avatar>M</Avatar>}
-                label="Meditation"
-                classes={{ root: classes.chipRoot }}
-                clickable
-              />
-            </CardContent>
-          </Card>
+          <ActivitySelector
+            active={editedEntry.activities}
+            onChange={handleActivityChange}
+          />
         </Grid>
 
         <Grid item classes={{ root: classes.fullWidth }}>

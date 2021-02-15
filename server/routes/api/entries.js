@@ -32,6 +32,7 @@ router.post('/', auth, (req, res) => {
     comment: req.body.comment,
     mood: req.body.mood,
     date: req.body.date,
+    activities: req.body.activities,
   });
 
   newEntry
@@ -53,6 +54,7 @@ router.patch('/:id', auth, async (req, res) => {
     entry.date = req.body.date;
     entry.mood = req.body.mood;
     entry.comment = req.body.comment;
+    entry.activities = req.body.activities;
   }
 
   const updatedEntry = await entry

@@ -17,6 +17,11 @@ export type MoodSelectorProps = {
   autoFocus?: boolean;
 };
 
+export type ActivitySelectorProps = {
+  active: string[];
+  onChange: (category: string) => void;
+};
+
 export type MoodAvatarRadioProps = { mood: number; autoFocus?: boolean };
 
 export type EntryListProps = {
