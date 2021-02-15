@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
 
 const ProtectedMainScreen = () => {
   const { isLoading, isAuthenticated } = useAuth0();
-  const { status, getEntries } = useApi();
+  const { status, getCommonUserData } = useApi();
   const classes = useStyles();
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      getEntries();
+      getCommonUserData();
     }
-  }, [getEntries, isAuthenticated, isLoading]);
+  }, [getCommonUserData, isAuthenticated, isLoading]);
 
   return (
     <Grid container direction="column" classes={{ root: classes.root }}>

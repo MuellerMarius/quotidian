@@ -8,10 +8,21 @@ export type EntryType = {
   comment: string;
 };
 
+export type ActivityCatType = {
+  _id: string;
+  name: string;
+  activities: ActivityType[];
+};
+
 export type ActivityType = {
-  user: string;
+  _id: string;
   name: string;
   icon: string;
+};
+
+export type CommonUserDataType = {
+  entries: EntryType[];
+  activities: ActivityCatType;
 };
 
 export type SeverityType = 'error' | 'success' | 'info' | 'warning';
@@ -29,11 +40,13 @@ export type StateType = {
   selectedDate: Date | null | undefined;
   snackbar: SnackBarType;
   entries: EntryType[] | null | undefined;
-  activities: ActivityType[] | undefined;
+  activities: ActivityCatType | undefined;
   dispatch?: React.Dispatch<ActionType>;
 };
 
 export enum ActionNames {
+  SET_COMMON_USER_DATA,
+  SET_ACTIVITIES,
   SET_ENTRIES,
   ADD_ENTRY,
   UPDATE_ENTRY,
@@ -50,6 +63,15 @@ type ActionMap<M extends { [index: string]: any }> = {
 };
 
 type Payload = {
+  [ActionNames.SET_COMMON_USER_DATA]: {
+    data: CommonUserDataType;
+  };
+  [ActionNames.SET_ACTIVITIES]: {
+    data: ActivityCatType;
+  };
+  [ActionNames.SET_ACTIVITIES]: {
+    data: ActivityCatType;
+  };
   [ActionNames.SET_ENTRIES]: {
     entries: EntryType[] | null;
   };

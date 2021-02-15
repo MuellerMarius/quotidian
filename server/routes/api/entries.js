@@ -81,7 +81,7 @@ router.delete('/:id', auth, async (req, res) => {
 
     res.status(200).json({ success: true });
   } catch (error) {
-    res.status(400).json({ msg: e.message, success: false });
+    res.status(400).json({ msg: error.message, success: false });
   }
 });
 

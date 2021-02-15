@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 const entries = require('./routes/api/entries');
+const activities = require('./routes/api/activities');
+const common = require('./routes/api/common');
 
 const publicPath = path.join(__dirname, '..', 'client', 'build');
 
@@ -33,6 +35,8 @@ mongoose
 //
 
 app.use('/api/entries', entries);
+app.use('/api/activities', activities);
+app.use('/api/', common);
 app.get('*', (req, res) => res.sendFile(path.join(publicPath, 'index.html')));
 
 //

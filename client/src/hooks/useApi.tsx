@@ -1,7 +1,13 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useCallback, useState } from 'react';
 import { useGlobalContext } from '../context/GlobalContext';
-import { ActionNames, EntryType, StatusType } from '../types/types';
+import {
+  ActionNames,
+  ActivityCatType,
+  CommonUserDataType,
+  EntryType,
+  StatusType,
+} from '../types/types';
 
 const handleHttpErrors = (response: Response) => {
   if (!response.ok) {
@@ -24,7 +30,7 @@ const useApi = () => {
   const [status, setStatus] = useState<StatusType>('idle');
   const { dispatch } = useGlobalContext();
   const { getAccessTokenSilently } = useAuth0();
-  const apiBaseUrl = `${process.env.REACT_APP_SERVER_URL}/api/entries`;
+  const apiBaseUrl = `${process.env.REACT_APP_SERVER_URL}/api`;
 
   const apiFetch = useCallback(
     async (
@@ -51,6 +57,55 @@ const useApi = () => {
   );
 
   /**
+   *   Get common data (activites and entries) from user
+   */
+  const getCommonUserData = useCallback(() => {
+    const onSuccess = (data: CommonUserDataType) => {
+      const entries = data.entries.map(
+        (e) => ({ ...e, date: new Date(e.date) } as EntryType)
+      );
+      dispatch!({
+        type: ActionNames.SET_COMMON_USER_DATA,
+        payload: { data: { entries, activities: data.activities } },
+      });
+    };
+
+    const onError = (err: any) => {
+      dispatch!({
+        type: ActionNames.SHOW_SNACKBAR,
+        payload: {
+          snackbar: { message: 'snackbar.failed-load', severity: 'error' },
+        },
+      });
+    };
+
+    apiFetch(`${apiBaseUrl}/`, 'GET', null, onSuccess, onError);
+  }, [apiFetch, dispatch, apiBaseUrl]);
+
+  /**
+   *   Get all activities from user
+   */
+  const getActivities = useCallback(() => {
+    const onSuccess = (data: ActivityCatType) => {
+      dispatch!({
+        type: ActionNames.SET_ACTIVITIES,
+        payload: { data },
+      });
+    };
+
+    const onError = (err: any) => {
+      dispatch!({
+        type: ActionNames.SHOW_SNACKBAR,
+        payload: {
+          snackbar: { message: 'snackbar.failed-load', severity: 'error' },
+        },
+      });
+    };
+
+    apiFetch(`${apiBaseUrl}/activities`, 'GET', null, onSuccess, onError);
+  }, [apiFetch, dispatch, apiBaseUrl]);
+
+  /**
    *   Get all entries from user
    */
   const getEntries = useCallback(() => {
@@ -73,7 +128,7 @@ const useApi = () => {
       });
     };
 
-    apiFetch(apiBaseUrl, 'GET', null, onSuccess, onError);
+    apiFetch(`${apiBaseUrl}/entries`, 'GET', null, onSuccess, onError);
   }, [apiFetch, dispatch, apiBaseUrl]);
 
   /**
@@ -96,7 +151,13 @@ const useApi = () => {
       });
     };
 
-    apiFetch(apiBaseUrl, 'POST', JSON.stringify(entry), onSuccess, onError);
+    apiFetch(
+      `${apiBaseUrl}/entries`,
+      'POST',
+      JSON.stringify(entry),
+      onSuccess,
+      onError
+    );
   };
 
   /**
@@ -119,7 +180,7 @@ const useApi = () => {
       });
     };
 
-    const url = `${apiBaseUrl}/${entry._id}`;
+    const url = `${apiBaseUrl}/entries/${entry._id}`;
     apiFetch(url, 'PATCH', JSON.stringify(entry), onSuccess, onError);
   };
 
@@ -144,13 +205,21 @@ const useApi = () => {
         });
       };
 
-      const url = `${apiBaseUrl}/${entry._id}`;
+      const url = `${apiBaseUrl}/entries/${entry._id}`;
       apiFetch(url, 'DELETE', null, onSuccess, onError);
     },
     [apiBaseUrl, apiFetch, dispatch]
   );
 
-  return { status, getEntries, addEntry, deleteEntry, updateEntry };
+  return {
+    status,
+    getCommonUserData,
+    getActivities,
+    getEntries,
+    addEntry,
+    deleteEntry,
+    updateEntry,
+  };
 };
 
 export default useApi;
