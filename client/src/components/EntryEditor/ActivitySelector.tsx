@@ -1,13 +1,5 @@
-import {
-  Avatar,
-  Card,
-  CardContent,
-  Chip,
-  Divider,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
 import React from 'react';
+import { Avatar, Chip, Icon, makeStyles, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next/';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { ActivitySelectorProps } from '../../types/proptypes';
@@ -18,9 +10,9 @@ const useStyles = makeStyles({
     marginRight: 7,
     marginBottom: 5,
   },
-  dividerRoot: {
-    marginTop: 8,
-    marginBottom: 5,
+  categoryContainer: {
+    marginTop: 5,
+    marginBottom: 8,
   },
 });
 
@@ -30,15 +22,33 @@ const ActivitySelector: React.FC<ActivitySelectorProps> = (props) => {
   const { activities } = useGlobalContext();
   const classes = useStyles();
 
-  return (
-    <Card variant="outlined">
-      <CardContent>
-        <Typography variant="subtitle1" component="h5">
-          {t('activities')}
-        </Typography>
+  const noActivitiesExist = () => {
+    if (!activities) {
+      return true;
+    }
 
-        {activities?.map((category: ActivityCatType) => (
-          <div key={category._id}>
+    let result = true;
+    activities.forEach((category) => {
+      if (category.activities.length > 0) {
+        result = false;
+      }
+    });
+    return result;
+  };
+
+  if (noActivitiesExist()) {
+    return null;
+  }
+
+  return (
+    <>
+      <Typography variant="subtitle1" component="h5">
+        {t('activities')}
+      </Typography>
+
+      {activities.map((category: ActivityCatType) =>
+        category.activities.length > 0 ? (
+          <div key={category._id} className={classes.categoryContainer}>
             <Typography variant="subtitle2" component="h5" color="secondary">
               {category.name}
             </Typography>
@@ -46,18 +56,22 @@ const ActivitySelector: React.FC<ActivitySelectorProps> = (props) => {
               <Chip
                 color={active.includes(activity._id) ? 'primary' : 'secondary'}
                 variant={active.includes(activity._id) ? 'default' : 'outlined'}
-                avatar={<Avatar>F</Avatar>}
+                avatar={
+                  <Avatar>
+                    <Icon>{activity.icon}</Icon>
+                  </Avatar>
+                }
                 label={activity.name}
                 classes={{ root: classes.chipRoot }}
                 onClick={() => onChange(activity._id)}
+                key={activity._id}
                 clickable
               />
             ))}
-            <Divider classes={{ root: classes.dividerRoot }} />
           </div>
-        ))}
-      </CardContent>
-    </Card>
+        ) : null
+      )}
+    </>
   );
 };
 

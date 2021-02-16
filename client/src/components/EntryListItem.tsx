@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-  Avatar,
-  Chip,
   Divider,
+  Grid,
+  Icon,
   IconButton,
   ListItem,
   ListItemIcon,
@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import MoodAvatar from './MoodAvatar';
 import { EntryListItemProps } from '../types/proptypes';
+import { useGlobalContext } from '../context/GlobalContext';
 
 const useStyles = makeStyles({
   listitemroot: {
@@ -23,34 +24,46 @@ const useStyles = makeStyles({
   secondary: {
     marginTop: 8,
   },
-  chiproot: {
-    marginRight: 8,
+  iconRoot: {
+    marginRight: '5px',
+  },
+  gridRoot: {
+    lineHeight: 1,
   },
 });
 
-const SecondaryItem: React.FC<{ comment: string }> = ({ comment }) => {
+const SecondaryItem: React.FC<{ comment: string; act: string[] }> = (props) => {
+  const { comment, act: selectedActivityIds } = props;
+  const { activities } = useGlobalContext();
   const classes = useStyles();
+  const selectedActivities = activities
+    .map((cat) => [
+      ...cat.activities.filter((act) => selectedActivityIds.includes(act._id)),
+    ])
+    .flat();
 
   return (
-    <>
-      <Chip
-        variant="outlined"
-        size="small"
-        avatar={<Avatar component="span">F</Avatar>}
-        label="Sport"
-        component="span"
-        classes={{ root: classes.chiproot }}
-      />
-      <Chip
-        variant="outlined"
-        size="small"
-        avatar={<Avatar component="span">F</Avatar>}
-        label="Vietnamese"
-        component="span"
-        classes={{ root: classes.chiproot }}
-      />
-      {comment}
-    </>
+    <Grid container direction="row" alignItems="center" component="span">
+      {selectedActivities.map((act) => (
+        <Grid
+          item
+          component="span"
+          key={act._id}
+          classes={{ root: classes.gridRoot }}
+        >
+          <Icon
+            fontSize="small"
+            color="secondary"
+            classes={{ root: classes.iconRoot }}
+          >
+            {act.icon}
+          </Icon>
+        </Grid>
+      ))}
+      <Grid item component="span" classes={{ root: classes.gridRoot }}>
+        {comment}
+      </Grid>
+    </Grid>
   );
 };
 
@@ -61,7 +74,7 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { mood, comment, date } = entry;
+  const { mood, comment, date, activities } = entry;
 
   return (
     <>
@@ -78,7 +91,7 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
 
         <ListItemText
           primary={t('datekey', { date: new Date(date) })}
-          secondary={<SecondaryItem comment={comment} />}
+          secondary={<SecondaryItem comment={comment} act={activities} />}
           classes={{ secondary: classes.secondary }}
         />
         <ListItemSecondaryAction>
