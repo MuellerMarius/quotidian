@@ -10,14 +10,10 @@ const EntryScreen: React.FC<EntryScreenProps> = ({ status }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} md={6}>
-        <Card>
-          <Entries status={status} activeMonth={activeMonth} />
-        </Card>
+        <Entries status={status} activeMonth={activeMonth} />
       </Grid>
       <Grid item xs={12} md={6}>
-        <Card>
-          <Calendar activeMonth={activeMonth} setActiveMonth={setActiveMonth} />
-        </Card>
+        <Calendar activeMonth={activeMonth} setActiveMonth={setActiveMonth} />
       </Grid>
     </Grid>
   );

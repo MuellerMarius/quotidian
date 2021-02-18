@@ -15,12 +15,11 @@ const useStyles = makeStyles({
   },
   slide: {
     position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 99,
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#FFFFFF',
     overflow: 'auto',
+    zIndex: 99,
   },
 });
 
@@ -34,7 +33,7 @@ const initialDialogState = {
 const Entries: React.FC<EntriesProps> = ({ status, activeMonth }) => {
   const classes = useStyles();
   const { selectedDate, dispatch } = useGlobalContext();
-  const { deleteEntry } = useApi();
+  const { dbDelete } = useApi();
   const [isEntryEditorOpen, setEntryEditorOpen] = useState<boolean>(false);
   const [dialog, setDialog] = useState<DialogState>(initialDialogState);
 
@@ -51,10 +50,10 @@ const Entries: React.FC<EntriesProps> = ({ status, activeMonth }) => {
         open: true,
         title: 'confirm-delete.title',
         content: 'confirm-delete.description',
-        onConfirm: () => deleteEntry(entry),
+        onConfirm: () => dbDelete(entry),
       });
     },
-    [deleteEntry]
+    [dbDelete]
   );
 
   const onAdd = useCallback(() => selectDate(new Date()), [selectDate]);
@@ -81,23 +80,21 @@ const Entries: React.FC<EntriesProps> = ({ status, activeMonth }) => {
   }
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} elevation={0}>
       <Slide direction="left" in={isEntryEditorOpen} mountOnEnter unmountOnExit>
         <div className={classes.slide}>
           <EntryEditor setDialog={setDialog} />
         </div>
       </Slide>
-      <Slide direction="right" appear={false} in={!isEntryEditorOpen}>
-        <div className={classes.slide}>
-          <EntryList
-            status={status}
-            activeMonth={activeMonth}
-            onAdd={onAdd}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        </div>
-      </Slide>
+
+      <EntryList
+        status={status}
+        activeMonth={activeMonth}
+        onAdd={onAdd}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
+
       <ConfirmDialog
         title={dialog.title}
         content={dialog.content}

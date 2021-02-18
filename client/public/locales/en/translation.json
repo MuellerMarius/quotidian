@@ -8,12 +8,15 @@
   "confirm": "Confirm",
   "cancel": "Cancel",
   "save": "Save",
-  "edit acitivies": "Edit activities",
+  "edit activities": "Edit activities",
   "edit profile": "Edit profile",
   "add todays entry": "Add today's entry",
   "add new entry": "Add a new entry",
   "edit entry": "Edit entry",
   "activities": "Activities",
+  "add new activity": "Add a new activity",
+  "add new category": "Add a new group",
+  "actions": "Actions",
   "menu": {
     "entries": "Entries",
     "statistics": "Statistics"

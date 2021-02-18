@@ -95,7 +95,7 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
           classes={{ secondary: classes.secondary }}
         />
         <ListItemSecondaryAction>
-          <IconButton aria-label="delete" onClick={() => onDelete(entry)}>
+          <IconButton aria-label={t('delete')} onClick={() => onDelete(entry)}>
             <DeleteOutlineIcon fontSize="small" />
           </IconButton>
         </ListItemSecondaryAction>

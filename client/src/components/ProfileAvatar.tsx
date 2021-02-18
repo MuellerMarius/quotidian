@@ -115,7 +115,7 @@ const ProfileAvatar = () => {
           <ListItemIcon className={classes.listIcon}>
             <DirectionsRunOutlinedIcon fontSize="small" color="primary" />
           </ListItemIcon>
-          <ListItemText primary={t('edit acitivies')} />
+          <ListItemText primary={t('edit activities')} />
         </LinkMenuItem>
 
         <Divider light className={classes.divider} />
