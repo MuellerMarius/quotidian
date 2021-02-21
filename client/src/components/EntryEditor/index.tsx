@@ -28,8 +28,8 @@ const useStyles = makeStyles({
   fullWidth: {
     width: '100%',
   },
-  cancelBtn: {
-    marginRight: 15,
+  submitBtn: {
+    marginLeft: 15,
   },
 });
 
@@ -37,7 +37,7 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const { selectedDate, entries, dispatch } = useGlobalContext();
-  const { updateEntry, addEntry } = useApi();
+  const { dbUpdate, dbAdd } = useApi();
   const [editedEntry, setEditedEntry] = useState<EntryType | null | undefined>(
     undefined
   );
@@ -121,9 +121,9 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
 
   const saveEntry = () => {
     if (editedEntry._id) {
-      updateEntry(editedEntry);
+      dbUpdate(editedEntry);
     } else {
-      addEntry(editedEntry);
+      dbAdd(editedEntry);
     }
     selectDate(null);
   };
@@ -178,7 +178,6 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
           <MoodSelector
             mood={editedEntry.mood}
             onChange={(mood) => setEditedEntry({ ...editedEntry, mood })}
-            autoFocus
           />
         </Grid>
 
@@ -203,10 +202,11 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
         </Grid>
 
         <Grid item classes={{ root: classes.flexEnd }}>
-          <Button onClick={handleClose} classes={{ root: classes.cancelBtn }}>
+          <Button onClick={handleClose} disableRipple>
             {t('cancel')}
           </Button>
-          <Button onClick={saveEntry} color="primary">
+
+          <Button onClick={saveEntry} classes={{ root: classes.submitBtn }}>
             {t('save')}
           </Button>
         </Grid>

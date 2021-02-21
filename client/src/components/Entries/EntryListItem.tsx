@@ -12,9 +12,9 @@ import {
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import MoodAvatar from './MoodAvatar';
-import { EntryListItemProps } from '../types/proptypes';
-import { useGlobalContext } from '../context/GlobalContext';
+import MoodAvatar from '../MoodAvatar';
+import { EntryListItemProps } from '../../types/proptypes';
+import { useGlobalContext } from '../../context/GlobalContext';
 
 const useStyles = makeStyles({
   listitemroot: {

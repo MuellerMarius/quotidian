@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { EntryScreenProps } from '../types/proptypes';
 import Entries from '../components/Entries';
 import Calendar from '../components/Calendar';

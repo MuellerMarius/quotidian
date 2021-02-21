@@ -11,9 +11,9 @@ import { compareDesc, isSameMonth } from 'date-fns';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EntryListItemSkeleton from './EntryListItemSkeleton';
 import EntryListItem from './EntryListItem';
-import { useGlobalContext } from '../context/GlobalContext';
-import { EntryListProps } from '../types/proptypes';
-import { EntryType } from '../types/types';
+import { useGlobalContext } from '../../context/GlobalContext';
+import { EntryListProps } from '../../types/proptypes';
+import { EntryType } from '../../types/types';
 
 const useStyles = makeStyles({
   scrollableList: {

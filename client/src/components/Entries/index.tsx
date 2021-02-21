@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Card, makeStyles, Slide } from '@material-ui/core';
-import { useGlobalContext } from '../context/GlobalContext';
-import useApi from '../hooks/useApi';
-import ConfirmDialog from './ConfirmDialog';
-import { DialogState, EntryType, ActionNames } from '../types/types';
-import { EntriesProps } from '../types/proptypes';
-import EntryEditor from './EntryEditor';
+import { useGlobalContext } from '../../context/GlobalContext';
+import useApi from '../../hooks/useApi';
+import ConfirmDialog from '../ConfirmDialog';
+import { DialogState, EntryType, ActionNames } from '../../types/types';
+import { EntriesProps } from '../../types/proptypes';
+import EntryEditor from '../EntryEditor';
 import EntryList from './EntryList';
 
 const useStyles = makeStyles({
