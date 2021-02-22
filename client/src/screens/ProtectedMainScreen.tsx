@@ -48,7 +48,7 @@ const ProtectedMainScreen = () => {
               <StatisticsScreen />
             </Route>
             <Route path="/activities">
-              <ActivityScreen />
+              <ActivityScreen status={status} />
             </Route>
           </Switch>
         </main>

@@ -1,4 +1,10 @@
-import { DialogState, EntryType, StatusType } from './types';
+import {
+  ActivityCatType,
+  ActivityType,
+  DialogState,
+  EntryType,
+  StatusType,
+} from './types';
 
 export type LinkProps = {
   to: string;
@@ -61,3 +67,29 @@ export type CalendarProps = {
   activeMonth: Date;
   setActiveMonth: (month: Date) => void;
 };
+
+export type EditableTypoProps = {
+  text: string;
+  onSubmit: (value: string) => void;
+  onEscape?: () => void;
+  autoFocus?: boolean;
+};
+
+export type ActivityEditorProps = {
+  status: StatusType;
+};
+
+export type ActivityListItemProps = {
+  activity: ActivityType;
+};
+
+export type ActivityListCategoryProps = {
+  category: ActivityCatType;
+};
+
+export type ActivityListAddProps =
+  | {
+      type: 'activity';
+      category: ActivityCatType;
+    }
+  | { type: 'category' };

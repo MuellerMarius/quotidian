@@ -30,6 +30,9 @@ const useStyles = makeStyles({
   gridRoot: {
     lineHeight: 1,
   },
+  deleteButton: {
+    color: '#b9bcd0',
+  },
 });
 
 const SecondaryItem: React.FC<{ comment: string; act: string[] }> = (props) => {
@@ -96,7 +99,10 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
         />
         <ListItemSecondaryAction>
           <IconButton aria-label={t('delete')} onClick={() => onDelete(entry)}>
-            <DeleteOutlineIcon fontSize="small" />
+            <DeleteOutlineIcon
+              fontSize="small"
+              classes={{ root: classes.deleteButton }}
+            />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>

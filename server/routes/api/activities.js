@@ -32,7 +32,7 @@ router.post('/category', auth, (req, res) => {
   const newCategory = new ActivityCategory({
     _id: mongoose.Types.ObjectId(),
     name: req.body.name,
-    activities: [],
+    activities: req.body.activities,
   });
 
   UserActivities.updateOne(
@@ -98,7 +98,7 @@ router.post('/', auth, (req, res) => {
   UserActivities.updateOne(
     {
       user: req.user.sub,
-      categories: { $elemMatch: { _id: req.body.cat_id } },
+      categories: { $elemMatch: { _id: req.body.parentCatId } },
     },
     {
       $push: {

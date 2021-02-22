@@ -18,6 +18,7 @@ export type ActivityType = {
   _id: string;
   name: string;
   icon: string;
+  parentCatId?: string;
 };
 
 export type CommonUserDataType = {
@@ -47,6 +48,8 @@ export type StateType = {
 export enum ActionNames {
   SET_COMMON_USER_DATA,
   SET_ACTIVITIES,
+  ADD_ACTIVITY,
+  ADD_ACTIVITY_CATEGORY,
   SET_ENTRIES,
   ADD_ENTRY,
   UPDATE_ENTRY,
@@ -68,6 +71,12 @@ type Payload = {
   };
   [ActionNames.SET_ACTIVITIES]: {
     activities: ActivityCatType[];
+  };
+  [ActionNames.ADD_ACTIVITY]: {
+    activity: ActivityType;
+  };
+  [ActionNames.ADD_ACTIVITY_CATEGORY]: {
+    category: ActivityCatType;
   };
   [ActionNames.SET_ENTRIES]: {
     entries: EntryType[] | null;

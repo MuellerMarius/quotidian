@@ -4,10 +4,16 @@ import { useGlobalContext } from '../context/GlobalContext';
 import {
   ActionNames,
   ActivityCatType,
+  ActivityType,
   CommonUserDataType,
   EntryType,
   StatusType,
 } from '../types/types';
+import {
+  isActivityCatType,
+  isActivityType,
+  isEntryType,
+} from '../util/typescript';
 
 const handleHttpErrors = (response: Response) => {
   if (!response.ok) {
@@ -83,8 +89,78 @@ const useApi = () => {
   }, [apiFetch, dispatch, apiBaseUrl]);
 
   /**
-   *   Get all activities from user
+   *   Add a new element to the database
    */
+  const dbAdd = (item: EntryType | ActivityCatType | ActivityType) => {
+    if (isEntryType(item)) {
+      addEntry(item as EntryType);
+    } else if (isActivityCatType(item)) {
+      addActCategory(item as ActivityCatType);
+    } else if (isActivityType(item)) {
+      addActivity(item as ActivityType);
+    }
+  };
+
+  /**
+   *   Delete an element from the database
+   */
+  const dbDelete = (item: EntryType | ActivityCatType | ActivityType) => {
+    if (isEntryType(item)) {
+      deleteEntry(item as EntryType);
+    } else if (isActivityCatType(item)) {
+      // addActCategory(item as ActivityCatType);
+    } else if (isActivityType(item)) {
+      // addActivity(item as ActivityType);
+    }
+  };
+
+  /**
+   *   Update an element from the database
+   */
+  const dbUpdate = (item: EntryType | ActivityCatType | ActivityType) => {
+    if (isEntryType(item)) {
+      updateEntry(item as EntryType);
+    } else if (isActivityCatType(item)) {
+      // addActCategory(item as ActivityCatType);
+    } else if (isActivityType(item)) {
+      // addActivity(item as ActivityType);
+    }
+  };
+
+  /**
+   ******* ActivityCategories *******************************************
+   */
+
+  const addActCategory = (cat: ActivityCatType) => {
+    const onSuccess = (category: ActivityCatType) => {
+      dispatch!({
+        type: ActionNames.ADD_ACTIVITY_CATEGORY,
+        payload: { category },
+      });
+    };
+
+    const onError = (err: any) => {
+      dispatch!({
+        type: ActionNames.SHOW_SNACKBAR,
+        payload: {
+          snackbar: { message: 'snackbar.cat-failed-save', severity: 'error' },
+        },
+      });
+    };
+
+    apiFetch(
+      `${apiBaseUrl}/activities/category`,
+      'POST',
+      JSON.stringify(cat),
+      onSuccess,
+      onError
+    );
+  };
+
+  /**
+   ******* Activities **************************************************
+   */
+
   const getActivities = useCallback(() => {
     const onSuccess = (activities: ActivityCatType[]) => {
       dispatch!({
@@ -105,17 +181,11 @@ const useApi = () => {
     apiFetch(`${apiBaseUrl}/activities`, 'GET', null, onSuccess, onError);
   }, [apiFetch, dispatch, apiBaseUrl]);
 
-  /**
-   *   Get all entries from user
-   */
-  const getEntries = useCallback(() => {
-    const onSuccess = (data: EntryType[]) => {
-      const entries = data.map(
-        (e) => ({ ...e, date: new Date(e.date) } as EntryType)
-      );
+  const addActivity = (act: ActivityType) => {
+    const onSuccess = (activity: ActivityType) => {
       dispatch!({
-        type: ActionNames.SET_ENTRIES,
-        payload: { entries },
+        type: ActionNames.ADD_ACTIVITY,
+        payload: { activity: { ...activity, parentCatId: act.parentCatId } },
       });
     };
 
@@ -123,17 +193,24 @@ const useApi = () => {
       dispatch!({
         type: ActionNames.SHOW_SNACKBAR,
         payload: {
-          snackbar: { message: 'snackbar.failed-load', severity: 'error' },
+          snackbar: { message: 'snackbar.act-failed-save', severity: 'error' },
         },
       });
     };
 
-    apiFetch(`${apiBaseUrl}/entries`, 'GET', null, onSuccess, onError);
-  }, [apiFetch, dispatch, apiBaseUrl]);
+    apiFetch(
+      `${apiBaseUrl}/activities/`,
+      'POST',
+      JSON.stringify(act),
+      onSuccess,
+      onError
+    );
+  };
 
   /**
-   *   Post a new entry
+   ******* Entries *****************************************************
    */
+
   const addEntry = (entry: EntryType) => {
     const onSuccess = (data: EntryType) => {
       dispatch!({
@@ -160,9 +237,6 @@ const useApi = () => {
     );
   };
 
-  /**
-   *   Update an entry
-   */
   const updateEntry = (entry: EntryType) => {
     const onSuccess = (data: EntryType) => {
       dispatch!({
@@ -184,9 +258,6 @@ const useApi = () => {
     apiFetch(url, 'PATCH', JSON.stringify(entry), onSuccess, onError);
   };
 
-  /**
-   *   Delete entry by id
-   */
   const deleteEntry = useCallback(
     (entry: EntryType) => {
       const onSuccess = (data: EntryType) => {
@@ -214,11 +285,9 @@ const useApi = () => {
   return {
     status,
     getCommonUserData,
-    getActivities,
-    getEntries,
-    addEntry,
-    deleteEntry,
-    updateEntry,
+    dbAdd,
+    dbDelete,
+    dbUpdate,
   };
 };
 

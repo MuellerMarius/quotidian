@@ -17,6 +17,7 @@
   "add new activity": "Add a new activity",
   "add new category": "Add a new group",
   "group name": "Group name",
+  "act name": "Activity",
   "actions": "Actions",
   "menu": {
     "entries": "Entries",
@@ -48,9 +49,17 @@
   },
   "snackbar": {
     "added": "Entry was created successfully!",
+    "actAdded": "Activity was created successfully!",
+    "catAdded": "Category was created successfully!",
     "updated": "Entry was updated successfully!",
+    "actUpdated": "Activity was updated successfully!",
+    "catUpdated": "Category was updated successfully!",
     "failed-save": "Entry could not be saved!",
+    "act-failed-save": "Activity could not be saved!",
+    "cat-failed-save": "Category could not be saved!",
     "deleted": "Entry was deleted successfully!",
+    "actDeleted": "Activity was deleted successfully!",
+    "catDeleted": "Category was deleted successfully!",
     "failed-delete": "Entry could not be deleted!",
     "failed-load": "Entries could not be loaded!",
     "failed-load-single": "Entry could not be loaded!"

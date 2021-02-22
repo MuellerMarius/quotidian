@@ -17,6 +17,7 @@
   "add new activity": "Neue Aktivität hinzufügen",
   "add new category": "Neue Gruppe hinzufügen",
   "group name": "Gruppenname",
+  "act name": "Aktivität",
   "actions": "Aktionen",
   "moods": {
     "0": "Lausig",
@@ -48,10 +49,18 @@
   },
   "snackbar": {
     "added": "Eintrag erfolgreich erstellt!",
+    "actAdded": "Aktivität erfolgreich erstellt!",
+    "catAdded": "Kategorie erfolgreich erstellt!",
     "updated": "Eintrag erfolgreich geändert!",
+    "actUpdated": "Aktivität erfolgreich geändert!",
+    "catUpdated": "Kategorie erfolgreich geändert!",
     "failed-save": "Eintrag konnte nicht gespeichert werden!",
     "deleted": "Eintrag erfolgreich gelöscht!",
+    "actDeleted": "Aktitvität erfolgreich gelöscht!",
+    "catDeleted": "Kategorie erfolgreich gelöscht!",
     "failed-delete": "Eintrag konnte nicht gelöscht werden!",
+    "act-failed-delete": "Aktivität konnte nicht gelöscht werden!",
+    "cat-failed-delete": "Kategorie konnte nicht gelöscht werden!",
     "failed-load": "Einträge konnten nicht geladen werden!",
     "failed-load-single": "Eintrag konnten nicht geladen werden!"
   },
