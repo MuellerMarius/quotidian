@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import {
   Container,
@@ -62,7 +61,30 @@ const EntryList: React.FC<EntryListProps> = ({
     ?.filter((entry) => isSameMonth(entry.date, activeMonth))
     .sort(byDateDesc);
 
-  // TODO: Nested ternary
+  const renderListItems = () => {
+    if (status === 'loading' || status === 'idle') {
+      return Array.from({ length: 10 }, (_, k) => (
+        <EntryListItemSkeleton key={k} />
+      ));
+    }
+
+    if (!sortedEntries || sortedEntries.length === 0) {
+      <Container classes={{ root: classes.containerRoot }}>
+        <img src={empty_box} alt="Empty Box" className={classes.emptyImg} />
+        <Typography variant="body2">{t('no entries month')}</Typography>
+      </Container>;
+    }
+
+    return sortedEntries?.map((entry) => (
+      <EntryListItem
+        key={entry._id}
+        entry={entry}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
+    ));
+  };
+
   return (
     <List disablePadding className={classes.scrollableList}>
       <ListItem
@@ -77,23 +99,7 @@ const EntryList: React.FC<EntryListProps> = ({
         <ListItemText primary={t('add todays entry')} />
       </ListItem>
 
-      {status === 'loading' || status === 'idle' ? (
-        Array.from({ length: 10 }, (_, k) => <EntryListItemSkeleton key={k} />)
-      ) : sortedEntries && sortedEntries.length > 0 ? (
-        sortedEntries?.map((entry) => (
-          <EntryListItem
-            key={entry._id}
-            entry={entry}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        ))
-      ) : (
-        <Container classes={{ root: classes.containerRoot }}>
-          <img src={empty_box} alt="Empty Box" className={classes.emptyImg} />
-          <Typography variant="body2">{t('no entries month')}</Typography>
-        </Container>
-      )}
+      {renderListItems()}
     </List>
   );
 };
