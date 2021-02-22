@@ -159,6 +159,7 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
     });
   };
 
+  // TODO: if only 1 cat -> Comment & Buttons flicker
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <Grid container direction="column" spacing={4} alignItems="center">

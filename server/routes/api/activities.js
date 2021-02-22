@@ -112,5 +112,40 @@ router.post('/', auth, (req, res) => {
 });
 
 // TODO: delete & rename & move Activities
+/**
+ * @route   PATCH api/activities
+ * @desc    Change an existing activity
+ * @access  Private
+ */
 
+router.patch('/', auth, (req, res) => {
+  //   const newActivity = new Activity({
+  //     _id: mongoose.Types.ObjectId(),
+  //     name: req.body.name,
+  //     icon: req.body.icon,
+  //   });
+  //   UserActivities.updateOne(
+  //     {
+  //       user: req.user.sub,
+  //       categories: { $elemMatch: { _id: req.body.cat_id } },
+  //     },
+  //     {
+  //       $push: {
+  //         'categories.$.activities': newActivity,
+  //       },
+  //     },
+  //     { upsert: true }
+  //   )
+  //     .then(() => res.status(200).json(newActivity))
+  //     .catch((err) => res.status(400).json(err));
+  //     UserActivities.updateOne(
+  //         {
+  //           user: req.user.sub,
+  //           categories: { $elemMatch: { _id: req.body.cat_id } },
+  //         },
+  //         { $set: { 'categories.$.name': req.body.name } }
+  //       )
+  //         .then((data) => res.status(200).json(data))
+  //         .catch((err) => res.status(400).json(err));
+});
 module.exports = router;

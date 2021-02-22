@@ -19,7 +19,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
         ...state,
         activities: [...state.activities, action.payload.category],
         snackbar: {
-          message: 'snackbar.added',
+          message: 'snackbar.catAdded',
           severity: 'success' as SeverityType,
           open: true,
         },
@@ -48,7 +48,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
         ...state,
         entries: [action.payload.entry, ...(state.entries as EntryType[])],
         snackbar: {
-          message: 'snackbar.catAdded',
+          message: 'snackbar.added',
           severity: 'success' as SeverityType,
           open: true,
         },
