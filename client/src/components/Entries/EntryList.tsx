@@ -69,10 +69,12 @@ const EntryList: React.FC<EntryListProps> = ({
     }
 
     if (!sortedEntries || sortedEntries.length === 0) {
-      <Container classes={{ root: classes.containerRoot }}>
-        <img src={empty_box} alt="Empty Box" className={classes.emptyImg} />
-        <Typography variant="body2">{t('no entries month')}</Typography>
-      </Container>;
+      return (
+        <Container classes={{ root: classes.containerRoot }}>
+          <img src={empty_box} alt="Empty Box" className={classes.emptyImg} />
+          <Typography variant="body2">{t('no entries month')}</Typography>
+        </Container>
+      );
     }
 
     return sortedEntries?.map((entry) => (
