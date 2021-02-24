@@ -50,6 +50,7 @@ export enum ActionNames {
   SET_ACTIVITIES,
   ADD_ACTIVITY,
   ADD_ACTIVITY_CATEGORY,
+  UPDATE_ACTIVITY_CATEGORY,
   SET_ENTRIES,
   ADD_ENTRY,
   UPDATE_ENTRY,
@@ -76,6 +77,9 @@ type Payload = {
     activity: ActivityType;
   };
   [ActionNames.ADD_ACTIVITY_CATEGORY]: {
+    category: ActivityCatType;
+  };
+  [ActionNames.UPDATE_ACTIVITY_CATEGORY]: {
     category: ActivityCatType;
   };
   [ActionNames.SET_ENTRIES]: {

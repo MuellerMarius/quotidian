@@ -121,7 +121,7 @@ const useApi = () => {
     if (isEntryType(item)) {
       updateEntry(item as EntryType);
     } else if (isActivityCatType(item)) {
-      // addActCategory(item as ActivityCatType);
+      updateActCategory(item as ActivityCatType);
     } else if (isActivityType(item)) {
       // addActivity(item as ActivityType);
     }
@@ -151,6 +151,32 @@ const useApi = () => {
     apiFetch(
       `${apiBaseUrl}/activities/category`,
       'POST',
+      JSON.stringify(cat),
+      onSuccess,
+      onError
+    );
+  };
+
+  const updateActCategory = (cat: ActivityCatType) => {
+    const onSuccess = (category: ActivityCatType) => {
+      dispatch!({
+        type: ActionNames.UPDATE_ACTIVITY_CATEGORY,
+        payload: { category },
+      });
+    };
+
+    const onError = (err: any) => {
+      dispatch!({
+        type: ActionNames.SHOW_SNACKBAR,
+        payload: {
+          snackbar: { message: 'snackbar.cat-failed-save', severity: 'error' },
+        },
+      });
+    };
+
+    apiFetch(
+      `${apiBaseUrl}/activities/category`,
+      'PATCH',
       JSON.stringify(cat),
       onSuccess,
       onError

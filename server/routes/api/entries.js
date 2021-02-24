@@ -48,19 +48,24 @@ router.post('/', auth, (req, res) => {
  */
 
 router.patch('/:id', auth, async (req, res) => {
-  const entry = await Entry.findById(req.params.id);
+  try {
+    const entry = await Entry.findById(req.params.id);
+    if (!entry) {
+      throw Error('Entry could not be found');
+    }
 
-  if (entry) {
     entry.date = req.body.date;
     entry.mood = req.body.mood;
     entry.comment = req.body.comment;
     entry.activities = req.body.activities;
-  }
 
-  const updatedEntry = await entry
-    .save()
-    .then((item) => res.status(200).json(item))
-    .catch((err) => res.status(400).json(err));
+    await entry
+      .save()
+      .then((item) => res.status(200).json(item))
+      .catch((err) => res.status(400).json(err));
+  } catch (error) {
+    res.status(400).json({ msg: error.message, success: false });
+  }
 });
 
 /**

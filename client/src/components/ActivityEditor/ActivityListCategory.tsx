@@ -9,6 +9,7 @@ import {
   Collapse,
   List,
   makeStyles,
+  CircularProgress,
 } from '@material-ui/core';
 import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
@@ -16,6 +17,7 @@ import EditableTypography from '../EditableTypography';
 import ActivityListItem from './ActivityListItem';
 import ActivityListAdd from './ActivityListAdd';
 import { ActivityListCategoryProps } from '../../types/proptypes';
+import useApi from '../../hooks/useApi';
 
 const useStyles = makeStyles({
   deleteButton: {
@@ -26,6 +28,7 @@ const useStyles = makeStyles({
 const ActivityListCategory: React.FC<ActivityListCategoryProps> = (props) => {
   const { category } = props;
   const { t } = useTranslation();
+  const { dbUpdate, status } = useApi();
   const [open, setOpen] = useState(true);
   const classes = useStyles();
 
@@ -34,7 +37,7 @@ const ActivityListCategory: React.FC<ActivityListCategoryProps> = (props) => {
   };
 
   const handleChange = (value: string) => {
-    alert(`category: ${category._id}, value:  ${value}`);
+    dbUpdate({ ...category, name: value });
   };
 
   const handleDelete = () => {
@@ -71,6 +74,12 @@ const ActivityListCategory: React.FC<ActivityListCategoryProps> = (props) => {
           }
         />
         <ListItemSecondaryAction>
+          {status === 'idle' && (
+            <IconButton disabled>
+              <CircularProgress size={16} />
+            </IconButton>
+          )}
+
           <IconButton
             aria-label={t('delete')}
             onClick={handleDelete}

@@ -24,6 +24,20 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
           open: true,
         },
       };
+    case ActionNames.UPDATE_ACTIVITY_CATEGORY:
+      return {
+        ...state,
+        activities: state.activities.map((cat) =>
+          cat._id === action.payload.category._id
+            ? { ...cat, name: action.payload.category.name }
+            : cat
+        ),
+        snackbar: {
+          message: 'snackbar.catUpdated',
+          severity: 'success' as SeverityType,
+          open: true,
+        },
+      };
     case ActionNames.ADD_ACTIVITY:
       return {
         ...state,

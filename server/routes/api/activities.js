@@ -50,16 +50,27 @@ router.post('/category', auth, (req, res) => {
  * @access  Private
  */
 
-router.patch('/category', auth, (req, res) => {
-  UserActivities.updateOne(
-    {
-      user: req.user.sub,
-      categories: { $elemMatch: { _id: req.body.cat_id } },
-    },
-    { $set: { 'categories.$.name': req.body.name } }
-  )
-    .then((data) => res.status(200).json(data))
-    .catch((err) => res.status(400).json(err));
+router.patch('/category', auth, async (req, res) => {
+  try {
+    const userData = await UserActivities.findOne({ user: req.user.sub });
+    if (!userData) {
+      throw Error('User does not exist');
+    }
+
+    const category = userData.categories.id(req.body._id);
+    if (!category) {
+      throw Error('Category does not exist');
+    }
+
+    category.name = req.body.name;
+
+    await userData
+      .save()
+      .then((item) => res.status(200).json(category))
+      .catch((err) => res.status(400).json(err));
+  } catch (error) {
+    res.status(400).json({ msg: error.message, success: false });
+  }
 });
 
 /**
