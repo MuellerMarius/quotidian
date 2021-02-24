@@ -74,7 +74,7 @@ const ActivityListCategory: React.FC<ActivityListCategoryProps> = (props) => {
           }
         />
         <ListItemSecondaryAction>
-          {status === 'idle' && (
+          {status === 'loading' && (
             <IconButton disabled>
               <CircularProgress size={16} />
             </IconButton>
