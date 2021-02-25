@@ -40,6 +40,14 @@
     "title": "Delete entry?",
     "description": "Are you sure you want to delete this entry? This action cannot be undone."
   },
+  "confirm-delete-category": {
+    "title": "Delete category?",
+    "description": "Are you sure you want to delete this category and all associated activities? This removes the activities from all the respective entries as well."
+  },
+  "confirm-delete-activity": {
+    "title": "Delete activity?",
+    "description": "Are you sure you want to delete this activity? This removes the activities from all the respective entries as well."
+  },
   "confirm-discard": {
     "title": "Discard changes?",
     "description": "You have some unsaved changes. Are you sure you want to discard those and continue?"
@@ -50,18 +58,20 @@
   },
   "snackbar": {
     "added": "Entry was created successfully!",
-    "actAdded": "Activity was created successfully!",
-    "catAdded": "Category was created successfully!",
+    "act-added": "Activity was created successfully!",
+    "cat-added": "Category was created successfully!",
     "updated": "Entry was updated successfully!",
-    "actUpdated": "Activity was updated successfully!",
-    "catUpdated": "Category was updated successfully!",
+    "act-updated": "Activity was updated successfully!",
+    "cat-updated": "Category was updated successfully!",
     "failed-save": "Entry could not be saved!",
     "act-failed-save": "Activity could not be saved!",
     "cat-failed-save": "Category could not be saved!",
     "deleted": "Entry was deleted successfully!",
-    "actDeleted": "Activity was deleted successfully!",
-    "catDeleted": "Category was deleted successfully!",
+    "act-deleted": "Activity was deleted successfully!",
+    "cat-deleted": "Category was deleted successfully!",
     "failed-delete": "Entry could not be deleted!",
+    "act-failed-delete": "Activity could not be deleted!",
+    "cat-failed-delete": "Category could not be deleted!",
     "failed-load": "Entries could not be loaded!",
     "failed-load-single": "Entry could not be loaded!"
   },

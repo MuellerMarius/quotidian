@@ -40,6 +40,14 @@
     "title": "Eintrag löschen?",
     "description": "Sind sie sicher, dass sie diesen Eintrag wirklich unwiderruflich löschen möchten?"
   },
+  "confirm-delete-category": {
+    "title": "Kategorie löschen?",
+    "description": "Sind sie sicher, dass sie diese Kategorie und alle Aktivitäten wirklich löschen möchten? Die Aktivitäten werden dabei auch aus allen Einträgen unwiderruflich entfernt."
+  },
+  "confirm-delete-activity": {
+    "title": "Aktivität löschen?",
+    "description": "Sind sie sicher, dass sie diese Aktivität wirklich löschen möchten? Diese Aktivität wird dabei auch aus allen Einträgen unwiderruflich entfernt."
+  },
   "confirm-discard": {
     "title": "Änderungen verwerfen?",
     "description": "Sind haben noch ungespeicherte Änderungen. Sind sie sicher, dass Sie diese verwerfen wollen?"
@@ -50,20 +58,20 @@
   },
   "snackbar": {
     "added": "Eintrag erfolgreich erstellt!",
-    "actAdded": "Aktivität erfolgreich erstellt!",
-    "catAdded": "Kategorie erfolgreich erstellt!",
+    "act-added": "Aktivität erfolgreich erstellt!",
+    "cat-added": "Kategorie erfolgreich erstellt!",
     "updated": "Eintrag erfolgreich geändert!",
-    "actUpdated": "Aktivität erfolgreich geändert!",
-    "catUpdated": "Kategorie erfolgreich geändert!",
+    "act-updated": "Aktivität erfolgreich geändert!",
+    "cat-updated": "Kategorie erfolgreich geändert!",
     "failed-save": "Eintrag konnte nicht gespeichert werden!",
     "deleted": "Eintrag erfolgreich gelöscht!",
-    "actDeleted": "Aktitvität erfolgreich gelöscht!",
-    "catDeleted": "Kategorie erfolgreich gelöscht!",
+    "act-deleted": "Aktitvität erfolgreich gelöscht!",
+    "cat-deleted": "Kategorie erfolgreich gelöscht!",
     "failed-delete": "Eintrag konnte nicht gelöscht werden!",
     "act-failed-delete": "Aktivität konnte nicht gelöscht werden!",
     "cat-failed-delete": "Kategorie konnte nicht gelöscht werden!",
     "failed-load": "Einträge konnten nicht geladen werden!",
-    "failed-load-single": "Eintrag konnten nicht geladen werden!"
+    "failed-load-single": "Eintrag konnte nicht geladen werden!"
   },
   "datekey": "{{date, EEEE, dd.MM.yyyy}}"
 }

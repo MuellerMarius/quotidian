@@ -25,7 +25,6 @@ const useStyles = makeStyles({
 
 const initialDialogState = {
   open: false,
-  entry: null,
   title: '',
   content: '',
 };

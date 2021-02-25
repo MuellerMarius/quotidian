@@ -19,7 +19,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
         ...state,
         activities: [...state.activities, action.payload.category],
         snackbar: {
-          message: 'snackbar.catAdded',
+          message: 'snackbar.cat-added',
           severity: 'success' as SeverityType,
           open: true,
         },
@@ -33,7 +33,19 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
             : cat
         ),
         snackbar: {
-          message: 'snackbar.catUpdated',
+          message: 'snackbar.cat-updated',
+          severity: 'success' as SeverityType,
+          open: true,
+        },
+      };
+    case ActionNames.DELETE_ACTIVITY_CATEGORY:
+      return {
+        ...state,
+        activities: state.activities.filter(
+          (cat) => cat._id !== action.payload.category._id
+        ),
+        snackbar: {
+          message: 'snackbar.cat-deleted',
           severity: 'success' as SeverityType,
           open: true,
         },
@@ -50,7 +62,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
             : cat
         ),
         snackbar: {
-          message: 'snackbar.actAdded',
+          message: 'snackbar.act-added',
           severity: 'success' as SeverityType,
           open: true,
         },
