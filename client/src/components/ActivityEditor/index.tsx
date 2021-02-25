@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { List, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { ActivityEditorProps } from '../../types/proptypes';
 import ActivityListAdd from './ActivityListAdd';
 import { useGlobalContext } from '../../context/GlobalContext';
 import ActivityListCategory from './ActivityListCategory';
+import { DialogState } from '../../types/types';
+import ConfirmDialog from '../ConfirmDialog';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,10 +34,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const initialDialogState = {
+  open: false,
+  entry: null,
+  title: '',
+  content: '',
+};
+
 const ActivityEditor: React.FC<ActivityEditorProps> = (props) => {
   const { status } = props;
   const { activities } = useGlobalContext();
   const classes = useStyles();
+  const [dialog, setDialog] = useState<DialogState>(initialDialogState);
 
   if (status === 'idle' || status === 'loading') {
     return (
@@ -53,12 +63,27 @@ const ActivityEditor: React.FC<ActivityEditorProps> = (props) => {
   }
 
   return (
-    <List>
-      {activities.map((cat) => (
-        <ActivityListCategory category={cat} key={cat._id} />
-      ))}
-      <ActivityListAdd type="category" />
-    </List>
+    <>
+      <List>
+        {activities.map((cat) => (
+          <ActivityListCategory
+            category={cat}
+            key={cat._id}
+            setDialog={setDialog}
+          />
+        ))}
+        <ActivityListAdd type="category" />
+      </List>
+
+      <ConfirmDialog
+        title={dialog.title}
+        content={dialog.content}
+        open={dialog.open}
+        onClose={() => setDialog({ ...dialog, open: false })}
+        onCancel={dialog.onCancel}
+        onConfirm={dialog.onConfirm}
+      />
+    </>
   );
 };
 

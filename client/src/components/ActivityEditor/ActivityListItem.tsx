@@ -10,10 +10,12 @@ import {
   createStyles,
   makeStyles,
   Theme,
+  CircularProgress,
 } from '@material-ui/core';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditableTypography from '../EditableTypography';
 import { ActivityListItemProps } from '../../types/proptypes';
+import useApi from '../../hooks/useApi';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const ActivityListItem: React.FC<ActivityListItemProps> = (props) => {
   const { activity } = props;
   const { t } = useTranslation();
+  const { status } = useApi();
   const classes = useStyles();
 
   const handleIconChange = () => {
@@ -65,6 +68,11 @@ const ActivityListItem: React.FC<ActivityListItemProps> = (props) => {
         }
       />
       <ListItemSecondaryAction>
+        {status === 'loading' && (
+          <IconButton disabled>
+            <CircularProgress size={16} />
+          </IconButton>
+        )}
         <IconButton
           aria-label={t('delete')}
           onClick={handleDelete}

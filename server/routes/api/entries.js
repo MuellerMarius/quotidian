@@ -26,7 +26,6 @@ router.get('/', auth, (req, res) => {
  */
 
 router.post('/', auth, (req, res) => {
-  // TODO: add categories to add
   const newEntry = new Entry({
     user: req.user.sub,
     comment: req.body.comment,
@@ -64,7 +63,7 @@ router.patch('/:id', auth, async (req, res) => {
       .then((item) => res.status(200).json(item))
       .catch((err) => res.status(400).json(err));
   } catch (error) {
-    res.status(400).json({ msg: error.message, success: false });
+    res.status(400).json(error);
   }
 });
 
@@ -81,14 +80,13 @@ router.delete('/:id', auth, async (req, res) => {
       throw Error('Entry does not exist');
     }
 
-    const removed = await entry.remove();
-    if (!removed) {
+    if (!(await entry.remove())) {
       throw Error('Entry could not be deleted');
     }
 
-    res.status(200).json({ success: true });
+    res.status(200).json(entry);
   } catch (error) {
-    res.status(400).json({ msg: error.message, success: false });
+    res.status(400).json(error);
   }
 });
 

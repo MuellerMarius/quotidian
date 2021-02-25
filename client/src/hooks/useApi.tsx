@@ -62,10 +62,23 @@ const useApi = () => {
     [getAccessTokenSilently]
   );
 
+  const showSnackbarError = useCallback(
+    (msg: string) => {
+      dispatch!({
+        type: ActionNames.SHOW_SNACKBAR,
+        payload: {
+          snackbar: { message: msg, severity: 'error' },
+        },
+      });
+    },
+    [dispatch]
+  );
+
   /**
    *   Get common data (activites and entries) from user
    */
   const getCommonUserData = useCallback(() => {
+    const onError = () => showSnackbarError('snackbar.failed-load');
     const onSuccess = (data: CommonUserDataType) => {
       const entries = data.entries.map(
         (e) => ({ ...e, date: new Date(e.date) } as EntryType)
@@ -76,17 +89,8 @@ const useApi = () => {
       });
     };
 
-    const onError = (err: any) => {
-      dispatch!({
-        type: ActionNames.SHOW_SNACKBAR,
-        payload: {
-          snackbar: { message: 'snackbar.failed-load', severity: 'error' },
-        },
-      });
-    };
-
     apiFetch(`${apiBaseUrl}/`, 'GET', null, onSuccess, onError);
-  }, [apiFetch, dispatch, apiBaseUrl]);
+  }, [apiFetch, dispatch, apiBaseUrl, showSnackbarError]);
 
   /**
    *   Add a new element to the database
@@ -108,7 +112,7 @@ const useApi = () => {
     if (isEntryType(item)) {
       deleteEntry(item as EntryType);
     } else if (isActivityCatType(item)) {
-      // addActCategory(item as ActivityCatType);
+      deleteCategory(item as ActivityCatType);
     } else if (isActivityType(item)) {
       // addActivity(item as ActivityType);
     }
@@ -132,19 +136,11 @@ const useApi = () => {
    */
 
   const addActCategory = (cat: ActivityCatType) => {
+    const onError = () => showSnackbarError('snackbar.cat-failed-save');
     const onSuccess = (category: ActivityCatType) => {
       dispatch!({
         type: ActionNames.ADD_ACTIVITY_CATEGORY,
         payload: { category },
-      });
-    };
-
-    const onError = (err: any) => {
-      dispatch!({
-        type: ActionNames.SHOW_SNACKBAR,
-        payload: {
-          snackbar: { message: 'snackbar.cat-failed-save', severity: 'error' },
-        },
       });
     };
 
@@ -158,19 +154,11 @@ const useApi = () => {
   };
 
   const updateActCategory = (cat: ActivityCatType) => {
+    const onError = () => showSnackbarError('snackbar.cat-failed-save');
     const onSuccess = (category: ActivityCatType) => {
       dispatch!({
         type: ActionNames.UPDATE_ACTIVITY_CATEGORY,
         payload: { category },
-      });
-    };
-
-    const onError = (err: any) => {
-      dispatch!({
-        type: ActionNames.SHOW_SNACKBAR,
-        payload: {
-          snackbar: { message: 'snackbar.cat-failed-save', severity: 'error' },
-        },
       });
     };
 
@@ -183,11 +171,30 @@ const useApi = () => {
     );
   };
 
+  const deleteCategory = (cat: ActivityCatType) => {
+    const onError = () => showSnackbarError('snackbar.cat-failed-delete');
+    const onSuccess = (category: ActivityCatType) => {
+      dispatch!({
+        type: ActionNames.DELETE_ACTIVITY_CATEGORY,
+        payload: { category },
+      });
+    };
+
+    apiFetch(
+      `${apiBaseUrl}/activities/category`,
+      'DELETE',
+      JSON.stringify(cat),
+      onSuccess,
+      onError
+    );
+  };
+
   /**
    ******* Activities **************************************************
    */
 
   const getActivities = useCallback(() => {
+    const onError = () => showSnackbarError('snackbar.failed-load');
     const onSuccess = (activities: ActivityCatType[]) => {
       dispatch!({
         type: ActionNames.SET_ACTIVITIES,
@@ -195,32 +202,15 @@ const useApi = () => {
       });
     };
 
-    const onError = (err: any) => {
-      dispatch!({
-        type: ActionNames.SHOW_SNACKBAR,
-        payload: {
-          snackbar: { message: 'snackbar.failed-load', severity: 'error' },
-        },
-      });
-    };
-
     apiFetch(`${apiBaseUrl}/activities`, 'GET', null, onSuccess, onError);
-  }, [apiFetch, dispatch, apiBaseUrl]);
+  }, [apiFetch, dispatch, apiBaseUrl, showSnackbarError]);
 
   const addActivity = (act: ActivityType) => {
+    const onError = (err: any) => showSnackbarError('snackbar.act-failed-save');
     const onSuccess = (activity: ActivityType) => {
       dispatch!({
         type: ActionNames.ADD_ACTIVITY,
         payload: { activity: { ...activity, parentCatId: act.parentCatId } },
-      });
-    };
-
-    const onError = (err: any) => {
-      dispatch!({
-        type: ActionNames.SHOW_SNACKBAR,
-        payload: {
-          snackbar: { message: 'snackbar.act-failed-save', severity: 'error' },
-        },
       });
     };
 
@@ -238,19 +228,11 @@ const useApi = () => {
    */
 
   const addEntry = (entry: EntryType) => {
+    const onError = () => showSnackbarError('snackbar.failed-save');
     const onSuccess = (data: EntryType) => {
       dispatch!({
         type: ActionNames.ADD_ENTRY,
         payload: { entry: { ...data, date: new Date(data.date) } },
-      });
-    };
-
-    const onError = (err: any) => {
-      dispatch!({
-        type: ActionNames.SHOW_SNACKBAR,
-        payload: {
-          snackbar: { message: 'snackbar.failed-save', severity: 'error' },
-        },
       });
     };
 
@@ -264,6 +246,7 @@ const useApi = () => {
   };
 
   const updateEntry = (entry: EntryType) => {
+    const onError = () => showSnackbarError('snackbar.failed-save');
     const onSuccess = (data: EntryType) => {
       dispatch!({
         type: ActionNames.UPDATE_ENTRY,
@@ -271,42 +254,22 @@ const useApi = () => {
       });
     };
 
-    const onError = (err: any) => {
-      dispatch!({
-        type: ActionNames.SHOW_SNACKBAR,
-        payload: {
-          snackbar: { message: 'snackbar.failed-save', severity: 'error' },
-        },
-      });
-    };
-
     const url = `${apiBaseUrl}/entries/${entry._id}`;
     apiFetch(url, 'PATCH', JSON.stringify(entry), onSuccess, onError);
   };
 
-  const deleteEntry = useCallback(
-    (entry: EntryType) => {
-      const onSuccess = (data: EntryType) => {
-        dispatch!({
-          type: ActionNames.DELETE_ENTRY,
-          payload: { entry },
-        });
-      };
+  const deleteEntry = (entry: EntryType) => {
+    const onError = () => showSnackbarError('snackbar.failed-delete');
+    const onSuccess = (data: EntryType) => {
+      dispatch!({
+        type: ActionNames.DELETE_ENTRY,
+        payload: { entry: data },
+      });
+    };
 
-      const onError = (err: any) => {
-        dispatch!({
-          type: ActionNames.SHOW_SNACKBAR,
-          payload: {
-            snackbar: { message: 'snackbar.failed-delete', severity: 'error' },
-          },
-        });
-      };
-
-      const url = `${apiBaseUrl}/entries/${entry._id}`;
-      apiFetch(url, 'DELETE', null, onSuccess, onError);
-    },
-    [apiBaseUrl, apiFetch, dispatch]
-  );
+    const url = `${apiBaseUrl}/entries/${entry._id}`;
+    apiFetch(url, 'DELETE', null, onSuccess, onError);
+  };
 
   return {
     status,

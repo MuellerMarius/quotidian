@@ -26,9 +26,9 @@ const useStyles = makeStyles({
 });
 
 const ActivityListCategory: React.FC<ActivityListCategoryProps> = (props) => {
-  const { category } = props;
+  const { category, setDialog } = props;
   const { t } = useTranslation();
-  const { dbUpdate, status } = useApi();
+  const { dbUpdate, dbDelete, status } = useApi();
   const [open, setOpen] = useState(true);
   const classes = useStyles();
 
@@ -41,7 +41,13 @@ const ActivityListCategory: React.FC<ActivityListCategoryProps> = (props) => {
   };
 
   const handleDelete = () => {
-    alert(`delete category: ${category._id}`);
+    setDialog({
+      open: true,
+      title: 'confirm-delete-category.title',
+      content: 'confirm-delete-category.description',
+      onCancel: () => null,
+      onConfirm: () => dbDelete(category),
+    });
   };
 
   return (
@@ -93,7 +99,11 @@ const ActivityListCategory: React.FC<ActivityListCategoryProps> = (props) => {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           {category.activities.map((act) => (
-            <ActivityListItem activity={act} key={act._id} />
+            <ActivityListItem
+              activity={act}
+              key={act._id}
+              setDialog={setDialog}
+            />
           ))}
           <ActivityListAdd type="activity" category={category} />
         </List>

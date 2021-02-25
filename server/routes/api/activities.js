@@ -5,6 +5,7 @@ const auth = require('../../middleware/auth');
 const UserActivities = require('../../models/UserActivities');
 const ActivityCategory = require('../../models/ActivityCategory');
 const Activity = require('../../models/Activity');
+const Entry = require('../../models/Entry');
 
 /**
  * @route   GET api/activities
@@ -69,7 +70,7 @@ router.patch('/category', auth, async (req, res) => {
       .then((item) => res.status(200).json(category))
       .catch((err) => res.status(400).json(err));
   } catch (error) {
-    res.status(400).json({ msg: error.message, success: false });
+    res.status(400).json(error);
   }
 });
 
@@ -79,18 +80,36 @@ router.patch('/category', auth, async (req, res) => {
  * @access  Private
  */
 
-// TODO: remove all activities from entries
-router.delete('/category', auth, (req, res) => {
-  UserActivities.updateOne(
-    {
-      user: req.user.sub,
-    },
-    {
-      $pull: { categories: { _id: req.body.cat_id } },
+router.delete('/category', auth, async (req, res) => {
+  try {
+    const userData = await UserActivities.findOne({ user: req.user.sub });
+    if (!userData) {
+      throw Error('User does not exist');
     }
-  )
-    .then((data) => res.status(200).json(data))
-    .catch((err) => res.status(400).json(err));
+
+    const category = userData.categories.id(req.body._id);
+    if (!category) {
+      throw Error('Category does not exist');
+    }
+
+    // remove ids from all entries
+    const ids = category.activities.map((act) => act._id);
+    await Entry.updateMany(
+      { user: req.user.sub },
+      { $pullAll: { activities: ids } }
+    );
+
+    if (!(await category.remove())) {
+      throw Error('Category could not be removed');
+    }
+
+    await userData
+      .save()
+      .then(() => res.status(200).json(category))
+      .catch((err) => res.status(400).json(err));
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 /**

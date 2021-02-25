@@ -81,10 +81,12 @@ export type ActivityEditorProps = {
 
 export type ActivityListItemProps = {
   activity: ActivityType;
+  setDialog: (dialog: DialogState) => void;
 };
 
 export type ActivityListCategoryProps = {
   category: ActivityCatType;
+  setDialog: (dialog: DialogState) => void;
 };
 
 export type ActivityListAddProps =
