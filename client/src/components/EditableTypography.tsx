@@ -66,10 +66,13 @@ const EditableTypography: React.FC<EditableTypoProps> = (props) => {
   };
 
   const handleSubmit = () => {
-    if (text !== value) {
+    if (value && text !== value) {
       onSubmit(value);
-    } else if (onEscape) {
-      onEscape();
+    } else {
+      setValue(beforeEditing);
+      if (onEscape) {
+        onEscape();
+      }
     }
     toggleEditing();
   };
