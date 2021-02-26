@@ -141,41 +141,81 @@ router.post('/', auth, (req, res) => {
     .catch((err) => res.status(400).json(err));
 });
 
-// TODO: delete & rename & move Activities
 /**
  * @route   PATCH api/activities
  * @desc    Change an existing activity
  * @access  Private
  */
 
-router.patch('/', auth, (req, res) => {
-  //   const newActivity = new Activity({
-  //     _id: mongoose.Types.ObjectId(),
-  //     name: req.body.name,
-  //     icon: req.body.icon,
-  //   });
-  //   UserActivities.updateOne(
-  //     {
-  //       user: req.user.sub,
-  //       categories: { $elemMatch: { _id: req.body.cat_id } },
-  //     },
-  //     {
-  //       $push: {
-  //         'categories.$.activities': newActivity,
-  //       },
-  //     },
-  //     { upsert: true }
-  //   )
-  //     .then(() => res.status(200).json(newActivity))
-  //     .catch((err) => res.status(400).json(err));
-  //     UserActivities.updateOne(
-  //         {
-  //           user: req.user.sub,
-  //           categories: { $elemMatch: { _id: req.body.cat_id } },
-  //         },
-  //         { $set: { 'categories.$.name': req.body.name } }
-  //       )
-  //         .then((data) => res.status(200).json(data))
-  //         .catch((err) => res.status(400).json(err));
+router.patch('/', auth, async (req, res) => {
+  try {
+    const userData = await UserActivities.findOne({ user: req.user.sub });
+    if (!userData) {
+      throw Error('User does not exist');
+    }
+
+    const category = userData.categories.id(req.body.parentCatId);
+    if (!category) {
+      throw Error('Category does not exist');
+    }
+
+    const activity = category.activities.id(req.body._id);
+    if (!activity) {
+      throw Error('Activity does not exist');
+    }
+
+    activity.name = req.body.name;
+    activity.icon = req.body.icon;
+
+    await userData
+      .save()
+      .then(() => res.status(200).json(activity))
+      .catch((err) => res.status(400).json(err));
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
+
+/**
+ * @route   DELETE api/activities
+ * @desc    Delete an existing activity
+ * @access  Private
+ */
+
+router.delete('/', auth, async (req, res) => {
+  try {
+    const userData = await UserActivities.findOne({ user: req.user.sub });
+    if (!userData) {
+      throw Error('User does not exist');
+    }
+
+    const category = userData.categories.id(req.body.parentCatId);
+    if (!category) {
+      throw Error('Category does not exist');
+    }
+
+    const activity = category.activities.id(req.body._id);
+    if (!activity) {
+      throw Error('Activity does not exist');
+    }
+
+    // remove ids from all entries
+    await Entry.updateMany(
+      { user: req.user.sub },
+      { $pull: { activities: activity._id } }
+    );
+
+    if (!(await activity.remove())) {
+      throw Error('Category could not be removed');
+    }
+
+    await userData
+      .save()
+      .then(() => res.status(200).json(activity))
+      .catch((err) => res.status(400).json(err));
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
 module.exports = router;

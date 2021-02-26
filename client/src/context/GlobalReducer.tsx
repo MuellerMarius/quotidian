@@ -14,6 +14,46 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
       return { ...state, ...action.payload.data };
     case ActionNames.SET_ACTIVITIES:
       return { ...state, activities: action.payload.activities };
+    case ActionNames.UPDATE_ACTIVITY:
+      return {
+        ...state,
+        activities: state.activities.map((cat) =>
+          cat._id === action.payload.activity.parentCatId
+            ? {
+                ...cat,
+                activities: cat.activities.map((act) =>
+                  act._id === action.payload.activity._id
+                    ? action.payload.activity
+                    : act
+                ),
+              }
+            : cat
+        ),
+        snackbar: {
+          message: 'snackbar.act-updated',
+          severity: 'success' as SeverityType,
+          open: true,
+        },
+      };
+    case ActionNames.DELETE_ACTIVITY:
+      return {
+        ...state,
+        activities: state.activities.map((cat) =>
+          cat._id === action.payload.activity.parentCatId
+            ? {
+                ...cat,
+                activities: cat.activities.filter(
+                  (act) => act._id !== action.payload.activity._id
+                ),
+              }
+            : cat
+        ),
+        snackbar: {
+          message: 'snackbar.act-deleted',
+          severity: 'success' as SeverityType,
+          open: true,
+        },
+      };
     case ActionNames.ADD_ACTIVITY_CATEGORY:
       return {
         ...state,

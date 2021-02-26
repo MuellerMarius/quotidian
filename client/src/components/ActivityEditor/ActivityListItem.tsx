@@ -30,9 +30,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const ActivityListItem: React.FC<ActivityListItemProps> = (props) => {
-  const { activity } = props;
+  const { activity, setDialog } = props;
   const { t } = useTranslation();
-  const { status } = useApi();
+  const { status, dbUpdate, dbDelete } = useApi();
   const classes = useStyles();
 
   const handleIconChange = () => {
@@ -40,11 +40,22 @@ const ActivityListItem: React.FC<ActivityListItemProps> = (props) => {
   };
 
   const handleNameChange = (value: string) => {
-    alert(`activity: ${activity._id}, value: ${value}`);
+    const newActivity = {
+      ...activity,
+      name: value,
+    };
+
+    dbUpdate(newActivity);
   };
 
   const handleDelete = () => {
-    alert(`delete activity: ${activity._id}`);
+    setDialog({
+      open: true,
+      title: 'confirm-delete-activity.title',
+      content: 'confirm-delete-activity.description',
+      onCancel: () => null,
+      onConfirm: () => dbDelete(activity),
+    });
   };
 
   return (

@@ -100,7 +100,7 @@ const ActivityListCategory: React.FC<ActivityListCategoryProps> = (props) => {
         <List component="div" disablePadding>
           {category.activities.map((act) => (
             <ActivityListItem
-              activity={act}
+              activity={{ ...act, parentCatId: category._id }}
               key={act._id}
               setDialog={setDialog}
             />

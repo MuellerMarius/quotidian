@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const initialDialogState = {
   open: false,
-  entry: null,
   title: '',
   content: '',
 };

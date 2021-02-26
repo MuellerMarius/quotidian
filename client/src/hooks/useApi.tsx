@@ -114,7 +114,7 @@ const useApi = () => {
     } else if (isActivityCatType(item)) {
       deleteCategory(item as ActivityCatType);
     } else if (isActivityType(item)) {
-      // addActivity(item as ActivityType);
+      deleteActivity(item as ActivityType);
     }
   };
 
@@ -127,7 +127,7 @@ const useApi = () => {
     } else if (isActivityCatType(item)) {
       updateActCategory(item as ActivityCatType);
     } else if (isActivityType(item)) {
-      // addActivity(item as ActivityType);
+      updateActivity(item as ActivityType);
     }
   };
 
@@ -206,7 +206,7 @@ const useApi = () => {
   }, [apiFetch, dispatch, apiBaseUrl, showSnackbarError]);
 
   const addActivity = (act: ActivityType) => {
-    const onError = (err: any) => showSnackbarError('snackbar.act-failed-save');
+    const onError = () => showSnackbarError('snackbar.act-failed-save');
     const onSuccess = (activity: ActivityType) => {
       dispatch!({
         type: ActionNames.ADD_ACTIVITY,
@@ -217,6 +217,42 @@ const useApi = () => {
     apiFetch(
       `${apiBaseUrl}/activities/`,
       'POST',
+      JSON.stringify(act),
+      onSuccess,
+      onError
+    );
+  };
+
+  const updateActivity = (act: ActivityType) => {
+    const onError = (err: any) => showSnackbarError('snackbar.act-failed-save');
+    const onSuccess = (activity: ActivityType) => {
+      dispatch!({
+        type: ActionNames.UPDATE_ACTIVITY,
+        payload: { activity: { ...activity, parentCatId: act.parentCatId } },
+      });
+    };
+
+    apiFetch(
+      `${apiBaseUrl}/activities/`,
+      'PATCH',
+      JSON.stringify(act),
+      onSuccess,
+      onError
+    );
+  };
+
+  const deleteActivity = (act: ActivityType) => {
+    const onError = () => showSnackbarError('snackbar.act-failed-delete');
+    const onSuccess = (activity: ActivityType) => {
+      dispatch!({
+        type: ActionNames.DELETE_ACTIVITY,
+        payload: { activity: { ...activity, parentCatId: act.parentCatId } },
+      });
+    };
+
+    apiFetch(
+      `${apiBaseUrl}/activities/`,
+      'DELETE',
       JSON.stringify(act),
       onSuccess,
       onError
