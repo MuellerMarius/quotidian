@@ -37,18 +37,11 @@ const ActivityScreen: React.FC<EntryScreenProps> = ({ status }) => {
       </Typography>
       <Grid container spacing={4}>
         <Grid item xs={12} sm={5} lg={4} xl={3}>
-          <List subheader={<ListSubheader>{t('actions')}</ListSubheader>}>
-            <ListItem button>
-              <ListItemIcon>
-                <CreateNewFolderIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('add new category')} />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <PlaylistAddIcon />
-              </ListItemIcon>
-              <ListItemText primary={t('add new activity')} />
+          <List>
+            <ListItem>
+              <Typography variant="body2">
+                {t('activity-description')}
+              </Typography>
             </ListItem>
           </List>
         </Grid>
