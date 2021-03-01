@@ -197,7 +197,7 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
             onChange={(e) =>
               setEditedEntry({ ...editedEntry, comment: e.target.value })
             }
-            autoComplete="false"
+            InputProps={{ autoComplete: 'off' }}
             fullWidth
           />
         </Grid>

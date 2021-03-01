@@ -95,3 +95,12 @@ export type ActivityListAddProps =
       category: ActivityCatType;
     }
   | { type: 'category' };
+
+export type IconPickerProps = {
+  onChange: (icon: string) => void;
+};
+
+export type IconSearchFilterProps = {
+  onSearch: (filter: string) => void;
+  onReset: () => void;
+};

@@ -20,6 +20,7 @@
   "group name": "Gruppenname",
   "act name": "Aktivität",
   "actions": "Aktionen",
+  "search icons": "Icon suchen...",
   "moods": {
     "0": "Lausig",
     "1": "Schlecht",
@@ -65,7 +66,7 @@
     "cat-updated": "Kategorie erfolgreich geändert!",
     "failed-save": "Eintrag konnte nicht gespeichert werden!",
     "deleted": "Eintrag erfolgreich gelöscht!",
-    "act-deleted": "Aktitvität erfolgreich gelöscht!",
+    "act-deleted": "Aktivität erfolgreich gelöscht!",
     "cat-deleted": "Kategorie erfolgreich gelöscht!",
     "failed-delete": "Eintrag konnte nicht gelöscht werden!",
     "act-failed-delete": "Aktivität konnte nicht gelöscht werden!",

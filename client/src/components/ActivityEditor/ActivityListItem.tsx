@@ -11,11 +11,13 @@ import {
   makeStyles,
   Theme,
   CircularProgress,
+  Popover,
 } from '@material-ui/core';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditableTypography from '../EditableTypography';
 import { ActivityListItemProps } from '../../types/proptypes';
 import useApi from '../../hooks/useApi';
+import IconPicker from './IconPicker';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,6 +28,20 @@ const useStyles = makeStyles((theme: Theme) =>
     deleteButton: {
       color: '#b9bcd0',
     },
+    popover: {
+      overflow: 'visible',
+      marginTop: 10,
+      '&:before': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        borderLeft: '10px solid transparent',
+        borderRight: '10px solid transparent',
+        borderBottom: '10px solid #fff',
+        left: 'calc(50% - 10px)',
+        top: '-10px',
+      },
+    },
   })
 );
 
@@ -33,19 +49,20 @@ const ActivityListItem: React.FC<ActivityListItemProps> = (props) => {
   const { activity, setDialog } = props;
   const { t } = useTranslation();
   const { status, dbUpdate, dbDelete } = useApi();
+  const [iconRef, setIconRef] = React.useState<HTMLButtonElement | null>(null);
   const classes = useStyles();
 
-  const handleIconChange = () => {
-    alert(`icon ${activity._id}`);
+  const openIconPicker = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setIconRef(event.currentTarget);
   };
 
-  const handleNameChange = (value: string) => {
-    const newActivity = {
-      ...activity,
-      name: value,
-    };
+  const handleIconChange = (icon: string) => {
+    setIconRef(null);
+    dbUpdate({ ...activity, icon });
+  };
 
-    dbUpdate(newActivity);
+  const handleNameChange = (name: string) => {
+    dbUpdate({ ...activity, name });
   };
 
   const handleDelete = () => {
@@ -64,11 +81,28 @@ const ActivityListItem: React.FC<ActivityListItemProps> = (props) => {
         <IconButton
           edge="start"
           aria-label={activity.icon}
-          onClick={handleIconChange}
+          onClick={openIconPicker}
           size="small"
         >
           <Icon>{activity.icon}</Icon>
         </IconButton>
+        <Popover
+          id={`${activity.name}-icon-picker`}
+          open={Boolean(iconRef)}
+          anchorEl={iconRef}
+          onClose={() => setIconRef(null)}
+          classes={{ paper: classes.popover }}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        >
+          <IconPicker onChange={handleIconChange} />
+        </Popover>
       </ListItemIcon>
       <ListItemText
         primary={
