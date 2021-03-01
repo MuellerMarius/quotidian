@@ -77,6 +77,7 @@ const IconPicker: React.FC<IconPickerProps> = (props) => {
 
   const resetSearchFilter = useCallback(() => {
     if (isSearchActive) {
+      setPage(1);
       setIcons(materialIcons.slice(0, iconsOnPage));
       setIsSearchActive(false);
     }
@@ -101,13 +102,13 @@ const IconPicker: React.FC<IconPickerProps> = (props) => {
           </GridListTile>
         ))}
       </GridList>
-      {isLoadingSpinnerVisible() && (
-        <CircularProgress
-          classes={{ root: classes.loadingSpinner }}
-          size={20}
-          ref={loading}
-        />
-      )}
+
+      <CircularProgress
+        style={{ display: isLoadingSpinnerVisible() ? 'block' : 'none' }}
+        classes={{ root: classes.loadingSpinner }}
+        ref={loading}
+        size={20}
+      />
     </div>
   );
 };
