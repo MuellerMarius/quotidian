@@ -159,7 +159,6 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
     });
   };
 
-  // TODO: if only 1 cat -> Comment & Buttons flicker
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <Grid container direction="column" spacing={4} alignItems="center">
@@ -167,10 +166,7 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
           <Typography variant="h5" component="h5">
             {editedEntry._id ? t('edit entry') : t('add new entry')}
           </Typography>
-        </Grid>
-
-        <Grid item>
-          <Typography color="secondary">
+          <Typography variant="caption" color="secondary">
             {t('datekey', { date: editedEntry.date })}
           </Typography>
         </Grid>
@@ -198,6 +194,7 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
               setEditedEntry({ ...editedEntry, comment: e.target.value })
             }
             InputProps={{ autoComplete: 'off' }}
+            variant="outlined"
             fullWidth
           />
         </Grid>
