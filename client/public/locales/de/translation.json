@@ -22,7 +22,9 @@
   "act name": "Aktivität",
   "actions": "Aktionen",
   "search icons": "Icon suchen...",
+  "show": "Zeige",
   "moods": {
+    "name": "Stimmungen",
     "0": "Lausig",
     "1": "Schlecht",
     "2": "Okay",

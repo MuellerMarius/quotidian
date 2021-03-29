@@ -10,6 +10,8 @@ $nice-dates-font-size-base: 0.95rem;
 $nice-dates-font-size-big: 1.1rem;
 $mood-scale: 0.85;
 $mood-opacity: 0.8;
+$marked-opacity: 0.8;
+$marked-scale: 0.85;
 
 .nice-dates-day::before {
   background-color: $light-blue;
@@ -62,4 +64,10 @@ $mood-opacity: 0.8;
 .nice-dates-day.-super-mood > .nice-dates-day_month,
 .nice-dates-day.-super-mood.-outside > .nice-dates-day_date {
   color: #ddd;
+}
+
+.nice-dates-day.-marked::before {
+  background-color: #99e1d0;
+  opacity: $marked-opacity;
+  transform: scale($marked-scale);
 }
