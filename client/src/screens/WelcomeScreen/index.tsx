@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Switch, Route, Link } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
+import ResetPassword from './ResetPassword';
 import logo_lg from './img/logo_lg.png';
 
 const useStyles = makeStyles({
@@ -66,7 +67,7 @@ const WelcomeScreen = () => {
               <Signup />
             </Route>
             <Route exact path="/resetpw">
-              ResetPW{/* <Resetpw /> */}
+              <ResetPassword />
             </Route>
             <Route path="/">
               <Login />
@@ -79,6 +80,11 @@ const WelcomeScreen = () => {
         <Typography variant="body2">
           <Switch>
             <Route exact path="/signup">
+              {t('user.already member')}{' '}
+              <Link to="/">{t('user.click login')}</Link>
+            </Route>
+
+            <Route exact path="/resetpw">
               {t('user.already member')}{' '}
               <Link to="/">{t('user.click login')}</Link>
             </Route>

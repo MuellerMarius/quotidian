@@ -3,13 +3,11 @@ import {
   TextField,
   InputAdornment,
   IconButton,
-  Typography,
   Button,
   makeStyles,
 } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import FormValidation from '../../util/FormValidation';
 import { FormValidationConfig } from '../../types/types';
 
