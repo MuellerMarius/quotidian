@@ -9,6 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Switch, Route, Link } from 'react-router-dom';
 import Login from './Login';
+import Signup from './Signup';
 import logo_lg from './img/logo_lg.png';
 
 const useStyles = makeStyles({
@@ -62,7 +63,7 @@ const WelcomeScreen = () => {
 
           <Switch>
             <Route exact path="/signup">
-              Signup {/* <Signup /> */}
+              <Signup />
             </Route>
             <Route exact path="/resetpw">
               ResetPW{/* <Resetpw /> */}
