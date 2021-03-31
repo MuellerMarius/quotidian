@@ -124,3 +124,24 @@ export type DialogState = {
   onConfirm?: (...args: any[]) => void | null | undefined;
   onCancel?: (...args: any[]) => void | null | undefined;
 };
+
+export type FormValidationType =
+  | 'email'
+  | 'password'
+  | 'nonEmptyField'
+  | 'date'
+  | 'equals';
+
+export type FormRuleType =
+  | {
+      type: Exclude<FormValidationType, 'equals'>;
+    }
+  | {
+      type: 'equals';
+      field: string;
+    };
+
+export type FormValidationConfig = {
+  inputName: string;
+  rules: FormRuleType[];
+};

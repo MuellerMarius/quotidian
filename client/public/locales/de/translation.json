@@ -60,6 +60,18 @@
     "title": "Änderungen verwerfen?",
     "description": "Sind sind dabei ein anderes Datum auszuwählen und haben noch ungespeicherte Änderungen. Sind sie sicher, dass Sie diese verwerfen wollen?"
   },
+  "user": {
+    "username": "Benutzername",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "forgotpw": "Password vergessen?",
+    "new to quotidian": "Neu bei quotidian?",
+    "already member": "Schon ein Nutzer?",
+    "click signup": "Hier geht's zur Anmeldung!",
+    "click login": "Hier geht's zum Login!",
+    "invalid email": "Keine gültige E-Mail Adresse",
+    "invalid pw": "Password muss min. 6 Zeichen lang sein"
+  },
   "snackbar": {
     "added": "Eintrag erfolgreich erstellt!",
     "act-added": "Aktivität erfolgreich erstellt!",
