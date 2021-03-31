@@ -61,7 +61,7 @@
     "description": "You are about to switch to another date and still have some unsaved changes. Are you sure you want to discard those and continue?"
   },
   "user": {
-    "username": "Username",
+    "name": "Name",
     "email": "Email",
     "password": "Password",
     "forgotpw": "Password vergessen?",
@@ -70,7 +70,10 @@
     "click signup": "Click here to signup!",
     "click login": "Click here to login!",
     "invalid email": "Invalid email address",
-    "invalid pw": "Password needs to be at least 6 characters long"
+    "invalid pw": "Password needs to be at least 6 characters long",
+    "pw advice": "Password needs to be at least 6 characters long",
+    "request pw reset": "Reset password",
+    "not empty": "Field must not be empty"
   },
   "snackbar": {
     "added": "Entry was created successfully!",

@@ -30,7 +30,7 @@ const validationConfig: FormValidationConfig[] = [
     rules: [{ type: 'email' }],
   },
   {
-    inputName: 'user',
+    inputName: 'name',
     rules: [{ type: 'nonEmptyField' }],
   },
   {
@@ -46,14 +46,14 @@ const Signup = () => {
   const [valError, setValError] = useState<string[]>([]);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
-  const [user, setUser] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
 
   const submitForm = () => {
     const { areInputsValid, validationErrors } = formValidator.validate({
       email,
       password,
-      user,
+      name,
     });
     setValError(validationErrors);
 
@@ -77,16 +77,16 @@ const Signup = () => {
         onChange={(e) => setEmail(e.target.value)}
       />
       <TextField
-        id="user"
-        label={t('user.username')}
-        value={user}
+        id="name"
+        label={t('user.name')}
+        value={name}
         autoComplete="user"
         classes={{ root: classes.inputFieldRoot }}
         variant="outlined"
         fullWidth
         error={valError.includes('user')}
         helperText={valError.includes('user') ? t('user.not empty') : null}
-        onChange={(e) => setUser(e.target.value)}
+        onChange={(e) => setName(e.target.value)}
       />
       <TextField
         id="password"

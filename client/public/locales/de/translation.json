@@ -61,7 +61,7 @@
     "description": "Sind sind dabei ein anderes Datum auszuwählen und haben noch ungespeicherte Änderungen. Sind sie sicher, dass Sie diese verwerfen wollen?"
   },
   "user": {
-    "username": "Benutzername",
+    "name": "Name",
     "email": "E-Mail",
     "password": "Passwort",
     "forgotpw": "Password vergessen?",
@@ -70,7 +70,10 @@
     "click signup": "Hier geht's zur Anmeldung!",
     "click login": "Hier geht's zum Login!",
     "invalid email": "Keine gültige E-Mail Adresse",
-    "invalid pw": "Password muss min. 6 Zeichen lang sein"
+    "invalid pw": "Password muss min. 6 Zeichen lang sein",
+    "pw advice": "Password muss min. 6 Zeichen lang sein",
+    "request pw reset": "Passwort zurücksetzen",
+    "not empty": "Feld darf nicht leer sein"
   },
   "snackbar": {
     "added": "Eintrag erfolgreich erstellt!",
