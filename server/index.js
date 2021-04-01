@@ -3,11 +3,11 @@ const helmet = require('helmet');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const path = require('path');
 const entries = require('./routes/api/entries');
 const activities = require('./routes/api/activities');
 const common = require('./routes/api/common');
+const user = require('./routes/user');
 
 const publicPath = path.join(__dirname, '..', 'client', 'build');
 
@@ -15,7 +15,7 @@ dotenv.config();
 const app = express();
 app.use(helmet());
 app.use(cors({ origin: process.env.CLIENT_ORIGIN_URLS.split(',') }));
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(express.static(publicPath));
 
 //
@@ -34,6 +34,7 @@ mongoose
 // Routes //////////////////////////////////////////////////////////
 //
 
+app.use('/api/user', user);
 app.use('/api/entries', entries);
 app.use('/api/activities', activities);
 app.use('/api/', common);
