@@ -15,7 +15,7 @@ router.get('/', auth, (req, res) => {
     .sort({ date: -1 })
     .then((results) => res.status(200).json(results))
     .catch((err) => {
-      res.status(500).json(err);
+      res.status(500).send(err.toString());
     });
 });
 
@@ -37,7 +37,7 @@ router.post('/', auth, (req, res) => {
   newEntry
     .save()
     .then((item) => res.status(200).json(item))
-    .catch((err) => res.status(400).json(err));
+    .catch((err) => res.status(400).send(err.toString()));
 });
 
 /**
@@ -58,12 +58,10 @@ router.patch('/:id', auth, async (req, res) => {
     entry.comment = req.body.comment;
     entry.activities = req.body.activities;
 
-    await entry
-      .save()
-      .then((item) => res.status(200).json(item))
-      .catch((err) => res.status(400).json(err));
+    const updatedEntry = entry.save();
+    res.status(200).json(updatedEntry);
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).json(error.toString());
   }
 });
 
@@ -86,7 +84,7 @@ router.delete('/:id', auth, async (req, res) => {
 
     res.status(200).json(entry);
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).send(error.toString());
   }
 });
 
