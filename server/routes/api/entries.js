@@ -11,7 +11,7 @@ const Entry = require('../../models/Entry');
 
 router.get('/', auth, (req, res) => {
   // TODO: add possibility to filter (certain date/month or mood)
-  Entry.find({ user: req.user.sub })
+  Entry.find({ user: req.user._id })
     .sort({ date: -1 })
     .then((results) => res.status(200).json(results))
     .catch((err) => {
@@ -27,7 +27,7 @@ router.get('/', auth, (req, res) => {
 
 router.post('/', auth, (req, res) => {
   const newEntry = new Entry({
-    user: req.user.sub,
+    user: req.user._id,
     comment: req.body.comment,
     mood: req.body.mood,
     date: req.body.date,
@@ -74,7 +74,7 @@ router.patch('/:id', auth, async (req, res) => {
 router.delete('/:id', auth, async (req, res) => {
   try {
     const entry = await Entry.findById(req.params.id);
-    if (!entry || entry.user !== req.user.sub) {
+    if (!entry || entry.user !== req.user._id) {
       throw Error('Entry does not exist');
     }
 

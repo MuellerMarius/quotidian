@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
@@ -14,7 +15,10 @@ const publicPath = path.join(__dirname, '..', 'client', 'build');
 dotenv.config();
 const app = express();
 app.use(helmet());
-app.use(cors({ origin: process.env.CLIENT_ORIGIN_URLS.split(',') }));
+app.use(cookieParser());
+app.use(
+  cors({ origin: process.env.CLIENT_ORIGIN_URLS.split(','), credentials: true })
+);
 app.use(express.json());
 app.use(express.static(publicPath));
 

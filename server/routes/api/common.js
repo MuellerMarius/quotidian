@@ -12,11 +12,12 @@ const UserActivities = require('../../models/UserActivities');
 
 router.get('/', auth, async (req, res) => {
   try {
-    const entries = await Entry.find({ user: req.user.sub }).sort({ date: -1 });
-    const userActivities = await UserActivities.findOne({ user: req.user.sub });
+    const entries = await Entry.find({ user: req.user._id }).sort({ date: -1 });
+    const userActivities = await UserActivities.findOne({ user: req.user._id });
 
     res.status(200).json({ entries, activities: userActivities.categories });
   } catch (err) {
+    console.log(err);
     res.status(400).send(err.toString());
   }
 });
