@@ -52,13 +52,16 @@ router.patch('/:id', auth, async (req, res) => {
     if (!entry) {
       throw Error('Entry could not be found');
     }
+    if (!req.user._id.equals(entry.user)) {
+      throw Error('User has no permission to change this entry');
+    }
 
     entry.date = req.body.date;
     entry.mood = req.body.mood;
     entry.comment = req.body.comment;
     entry.activities = req.body.activities;
 
-    const updatedEntry = entry.save();
+    const updatedEntry = await entry.save();
     res.status(200).json(updatedEntry);
   } catch (error) {
     res.status(400).json(error.toString());
@@ -74,8 +77,11 @@ router.patch('/:id', auth, async (req, res) => {
 router.delete('/:id', auth, async (req, res) => {
   try {
     const entry = await Entry.findById(req.params.id);
-    if (!entry || entry.user !== req.user._id) {
+    if (!entry) {
       throw Error('Entry does not exist');
+    }
+    if (!req.user._id.equals(entry.user)) {
+      throw Error('User has no permission to delete this entry');
     }
 
     if (!(await entry.remove())) {
