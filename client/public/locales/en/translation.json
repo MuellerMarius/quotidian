@@ -64,16 +64,19 @@
     "name": "Name",
     "email": "Email",
     "password": "Password",
-    "forgotpw": "Password vergessen?",
+    "forgotpw": "Forgot password?",
     "new to quotidian": "New to quotidian?",
     "already member": "Already a member?",
     "click signup": "Click here to signup!",
     "click login": "Click here to login!",
     "invalid email": "Invalid email address",
+    "email already used": "Email address already has an associated account",
     "invalid pw": "Password needs to be at least 6 characters long",
+    "wrong pw": "Email / password combination not correct",
     "pw advice": "Password needs to be at least 6 characters long",
     "request pw reset": "Reset password",
-    "not empty": "Field must not be empty"
+    "not empty": "Field must not be empty",
+    "agree to terms": "By creating an account, you agree to the Terms of Service."
   },
   "snackbar": {
     "added": "Entry was created successfully!",

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
-import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 import { Route, Switch } from 'react-router-dom';
 import UserProfileScreen from './UserProfileScreen';
 import StatisticsScreen from './StatisticsScreen';
@@ -8,7 +7,7 @@ import ActivityScreen from './ActivityScreen';
 import NavBar from '../components/NavBar';
 import useApi from '../hooks/useApi';
 import EntryScreen from './EntryScreen';
-import CenteredCircularProgress from '../components/CenteredCircularProgress';
+import { useAuth } from '../context/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,15 +19,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProtectedMainScreen = () => {
-  const { isLoading, isAuthenticated } = useAuth0();
   const { status, getCommonUserData } = useApi();
+  const { isAuthenticated } = useAuth();
   const classes = useStyles();
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated) {
+    if (isAuthenticated) {
       getCommonUserData();
     }
-  }, [getCommonUserData, isAuthenticated, isLoading]);
+  }, [getCommonUserData, isAuthenticated]);
 
   return (
     <Grid container direction="column" classes={{ root: classes.root }}>
@@ -57,6 +56,4 @@ const ProtectedMainScreen = () => {
   );
 };
 
-export default withAuthenticationRequired(ProtectedMainScreen, {
-  onRedirecting: () => <CenteredCircularProgress />,
-});
+export default ProtectedMainScreen;

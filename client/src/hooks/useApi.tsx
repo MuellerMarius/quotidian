@@ -1,32 +1,24 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import { useCallback, useState } from 'react';
 import { useGlobalContext } from '../context/GlobalContext';
 import {
-  ActionNames,
   ActivityCatType,
   ActivityType,
   CommonUserDataType,
   EntryType,
   StatusType,
 } from '../types/types';
+import { GlobalActionNames } from '../types/contexttypes';
 import {
   isActivityCatType,
   isActivityType,
   isEntryType,
 } from '../util/typescript';
-
-const handleHttpErrors = (response: Response) => {
-  if (!response.ok) {
-    throw Error(`${response.status}`);
-  }
-  return response;
-};
+import handleHttpErrors from '../util/http';
 
 const apiFetchOptions = (jwt: string, method: string, body: string | null) => ({
   method,
   headers: {
     Accept: 'application/json, text/plain, */*',
-    Authorization: `Bearer ${jwt}`,
     'Content-Type': 'application/json',
   },
   body,
@@ -35,7 +27,6 @@ const apiFetchOptions = (jwt: string, method: string, body: string | null) => ({
 const useApi = () => {
   const [status, setStatus] = useState<StatusType>('idle');
   const { dispatch } = useGlobalContext();
-  const { getAccessTokenSilently } = useAuth0();
   const apiBaseUrl = `${process.env.REACT_APP_SERVER_URL}/api`;
 
   const apiFetch = useCallback(
@@ -48,9 +39,11 @@ const useApi = () => {
     ) => {
       setStatus('loading');
       try {
-        const jwt = await getAccessTokenSilently();
-        const options = apiFetchOptions(jwt, method, body);
-        const response = await fetch(url, options);
+        const options = apiFetchOptions('', method, body);
+        const response = await fetch(url, {
+          ...options,
+          credentials: 'include',
+        });
         handleHttpErrors(response);
         onSuccess(await response.json());
         setStatus('resolved');
@@ -59,13 +52,13 @@ const useApi = () => {
         setStatus('error');
       }
     },
-    [getAccessTokenSilently]
+    []
   );
 
   const showSnackbarError = useCallback(
     (msg: string) => {
-      dispatch!({
-        type: ActionNames.SHOW_SNACKBAR,
+      dispatch({
+        type: GlobalActionNames.SHOW_SNACKBAR,
         payload: {
           snackbar: { message: msg, severity: 'error' },
         },
@@ -83,8 +76,8 @@ const useApi = () => {
       const entries = data.entries.map(
         (e) => ({ ...e, date: new Date(e.date) } as EntryType)
       );
-      dispatch!({
-        type: ActionNames.SET_COMMON_USER_DATA,
+      dispatch({
+        type: GlobalActionNames.SET_COMMON_USER_DATA,
         payload: { data: { entries, activities: data.activities } },
       });
     };
@@ -138,8 +131,8 @@ const useApi = () => {
   const addActCategory = (cat: ActivityCatType) => {
     const onError = () => showSnackbarError('snackbar.cat-failed-save');
     const onSuccess = (category: ActivityCatType) => {
-      dispatch!({
-        type: ActionNames.ADD_ACTIVITY_CATEGORY,
+      dispatch({
+        type: GlobalActionNames.ADD_ACTIVITY_CATEGORY,
         payload: { category },
       });
     };
@@ -156,8 +149,8 @@ const useApi = () => {
   const updateActCategory = (cat: ActivityCatType) => {
     const onError = () => showSnackbarError('snackbar.cat-failed-save');
     const onSuccess = (category: ActivityCatType) => {
-      dispatch!({
-        type: ActionNames.UPDATE_ACTIVITY_CATEGORY,
+      dispatch({
+        type: GlobalActionNames.UPDATE_ACTIVITY_CATEGORY,
         payload: { category },
       });
     };
@@ -174,8 +167,8 @@ const useApi = () => {
   const deleteCategory = (cat: ActivityCatType) => {
     const onError = () => showSnackbarError('snackbar.cat-failed-delete');
     const onSuccess = (category: ActivityCatType) => {
-      dispatch!({
-        type: ActionNames.DELETE_ACTIVITY_CATEGORY,
+      dispatch({
+        type: GlobalActionNames.DELETE_ACTIVITY_CATEGORY,
         payload: { category },
       });
     };
@@ -196,8 +189,8 @@ const useApi = () => {
   const getActivities = useCallback(() => {
     const onError = () => showSnackbarError('snackbar.failed-load');
     const onSuccess = (activities: ActivityCatType[]) => {
-      dispatch!({
-        type: ActionNames.SET_ACTIVITIES,
+      dispatch({
+        type: GlobalActionNames.SET_ACTIVITIES,
         payload: { activities },
       });
     };
@@ -208,8 +201,8 @@ const useApi = () => {
   const addActivity = (act: ActivityType) => {
     const onError = () => showSnackbarError('snackbar.act-failed-save');
     const onSuccess = (activity: ActivityType) => {
-      dispatch!({
-        type: ActionNames.ADD_ACTIVITY,
+      dispatch({
+        type: GlobalActionNames.ADD_ACTIVITY,
         payload: { activity: { ...activity, parentCatId: act.parentCatId } },
       });
     };
@@ -226,8 +219,8 @@ const useApi = () => {
   const updateActivity = (act: ActivityType) => {
     const onError = (err: any) => showSnackbarError('snackbar.act-failed-save');
     const onSuccess = (activity: ActivityType) => {
-      dispatch!({
-        type: ActionNames.UPDATE_ACTIVITY,
+      dispatch({
+        type: GlobalActionNames.UPDATE_ACTIVITY,
         payload: { activity: { ...activity, parentCatId: act.parentCatId } },
       });
     };
@@ -244,8 +237,8 @@ const useApi = () => {
   const deleteActivity = (act: ActivityType) => {
     const onError = () => showSnackbarError('snackbar.act-failed-delete');
     const onSuccess = (activity: ActivityType) => {
-      dispatch!({
-        type: ActionNames.DELETE_ACTIVITY,
+      dispatch({
+        type: GlobalActionNames.DELETE_ACTIVITY,
         payload: { activity: { ...activity, parentCatId: act.parentCatId } },
       });
     };
@@ -266,8 +259,8 @@ const useApi = () => {
   const addEntry = (entry: EntryType) => {
     const onError = () => showSnackbarError('snackbar.failed-save');
     const onSuccess = (data: EntryType) => {
-      dispatch!({
-        type: ActionNames.ADD_ENTRY,
+      dispatch({
+        type: GlobalActionNames.ADD_ENTRY,
         payload: { entry: { ...data, date: new Date(data.date) } },
       });
     };
@@ -284,8 +277,8 @@ const useApi = () => {
   const updateEntry = (entry: EntryType) => {
     const onError = () => showSnackbarError('snackbar.failed-save');
     const onSuccess = (data: EntryType) => {
-      dispatch!({
-        type: ActionNames.UPDATE_ENTRY,
+      dispatch({
+        type: GlobalActionNames.UPDATE_ENTRY,
         payload: { entry: { ...data, date: new Date(data.date) } },
       });
     };
@@ -297,8 +290,8 @@ const useApi = () => {
   const deleteEntry = (entry: EntryType) => {
     const onError = () => showSnackbarError('snackbar.failed-delete');
     const onSuccess = (data: EntryType) => {
-      dispatch!({
-        type: ActionNames.DELETE_ENTRY,
+      dispatch({
+        type: GlobalActionNames.DELETE_ENTRY,
         payload: { entry: data },
       });
     };

@@ -20,7 +20,7 @@ import { isSameDay } from 'date-fns';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { CalendarProps } from '../../types/proptypes';
 import getDateFnsLocale from '../../util/date';
-import { ActionNames } from '../../types/types';
+import { GlobalActionNames } from '../../types/contexttypes';
 import './style.scss';
 
 const useStyles = makeStyles({
@@ -82,7 +82,7 @@ const Calendar: React.FC<CalendarProps> = ({ activeMonth, setActiveMonth }) => {
   };
 
   const selectDate = (date: Date | null) => {
-    dispatch!({ type: ActionNames.SELECT_DATE, payload: { date } });
+    dispatch({ type: GlobalActionNames.SELECT_DATE, payload: { date } });
   };
 
   const handleModifiersSelect = (e: React.ChangeEvent<{ value: unknown }>) => {

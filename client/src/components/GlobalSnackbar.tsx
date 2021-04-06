@@ -3,7 +3,7 @@ import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 import { useGlobalContext } from '../context/GlobalContext';
-import { ActionNames } from '../types/types';
+import { GlobalActionNames } from '../types/contexttypes';
 
 const GlobalSnackbar = () => {
   const { dispatch, snackbar } = useGlobalContext();
@@ -13,7 +13,7 @@ const GlobalSnackbar = () => {
     if (reason === 'clickaway') {
       return;
     }
-    dispatch!({ type: ActionNames.HIDE_SNACKBAR, payload: {} });
+    dispatch({ type: GlobalActionNames.HIDE_SNACKBAR, payload: {} });
   };
 
   return (

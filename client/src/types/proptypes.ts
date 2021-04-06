@@ -8,7 +8,7 @@ import {
 
 export type LinkProps = {
   to: string;
-  onClick: React.MouseEventHandler<HTMLLIElement>;
+  onClick?: React.MouseEventHandler<HTMLElement>;
 };
 
 export type MoodAvatarProps = {

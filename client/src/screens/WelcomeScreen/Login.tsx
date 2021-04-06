@@ -6,12 +6,41 @@ import {
   Typography,
   Button,
   makeStyles,
+  CircularProgress,
 } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import FormValidation from '../../util/FormValidation';
 import { FormValidationConfig } from '../../types/types';
+import { useAuth } from '../../context/AuthContext';
+
+type StateType = {
+  email: string;
+  password: string;
+  showPassword: boolean;
+  isLoading: boolean;
+  valError: string[];
+};
+
+const initialState = {
+  email: '',
+  password: '',
+  showPassword: false,
+  isLoading: false,
+  valError: [''],
+};
+
+const validationConfig: FormValidationConfig[] = [
+  {
+    inputName: 'email',
+    rules: [{ type: 'email' }],
+  },
+  {
+    inputName: 'password',
+    rules: [{ type: 'password' }],
+  },
+];
 
 const useStyles = makeStyles({
   button: {
@@ -26,40 +55,36 @@ const useStyles = makeStyles({
   },
 });
 
-const validationConfig: FormValidationConfig[] = [
-  {
-    inputName: 'email',
-    rules: [{ type: 'email' }],
-  },
-  {
-    inputName: 'password',
-    rules: [{ type: 'password' }],
-  },
-];
-
 const Login = () => {
+  const formValidator = new FormValidation(validationConfig);
+  const [state, setState] = useState(initialState);
+  const { email, password, showPassword, isLoading, valError } = state;
+  const { login } = useAuth();
   const { t } = useTranslation();
   const classes = useStyles();
-  const formValidator = new FormValidation(validationConfig);
-  const [valError, setValError] = useState<string[]>([]);
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
+  const updateState = (updated: Partial<StateType>) => {
+    setState((old) => ({ ...old, ...updated }));
+  };
 
   const submitForm = () => {
     const { areInputsValid, validationErrors } = formValidator.validate({
       email,
       password,
     });
-    setValError(validationErrors);
+    updateState({ isLoading: true, valError: validationErrors });
 
     if (areInputsValid) {
-      alert('Login');
+      login(email, password).catch(() =>
+        updateState({ isLoading: false, valError: ['wrong-pw'] })
+      );
+    } else {
+      updateState({ isLoading: false });
     }
   };
 
   return (
-    <>
+    <form>
       <TextField
         id="email"
         label={t('user.email')}
@@ -70,7 +95,7 @@ const Login = () => {
         fullWidth
         error={valError.includes('email')}
         helperText={valError.includes('email') ? t('user.invalid email') : null}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => updateState({ email: e.target.value })}
       />
       <TextField
         id="password"
@@ -86,7 +111,7 @@ const Login = () => {
             <InputAdornment position="end">
               <IconButton
                 aria-label="toggle password visibility"
-                onClick={() => setShowPassword((v) => !v)}
+                onClick={() => updateState({ showPassword: !showPassword })}
                 onMouseDown={(e: React.MouseEvent<HTMLButtonElement>) =>
                   e.preventDefault()
                 }
@@ -97,9 +122,15 @@ const Login = () => {
             </InputAdornment>
           ),
         }}
-        error={valError.includes('password')}
-        helperText={valError.includes('password') ? t('user.invalid pw') : null}
-        onChange={(e) => setPassword(e.target.value)}
+        error={valError.includes('password') || valError.includes('wrong-pw')}
+        helperText={
+          valError.includes('password')
+            ? t('user.invalid pw')
+            : valError.includes('wrong-pw')
+            ? t('user.wrong pw')
+            : null
+        }
+        onChange={(e) => updateState({ password: e.target.value })}
       />
       <Link to="/resetpw" className={classes.linkRight}>
         <Typography variant="caption">{t('user.forgotpw')}</Typography>
@@ -109,11 +140,12 @@ const Login = () => {
         variant="contained"
         onClick={() => submitForm()}
         className={classes.button}
+        disabled={isLoading}
         fullWidth
       >
-        {t('login')}
+        {isLoading ? <CircularProgress size={22} /> : t('login')}
       </Button>
-    </>
+    </form>
   );
 };
 

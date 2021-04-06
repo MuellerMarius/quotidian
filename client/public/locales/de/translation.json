@@ -70,10 +70,13 @@
     "click signup": "Hier geht's zur Anmeldung!",
     "click login": "Hier geht's zum Login!",
     "invalid email": "Keine gültige E-Mail Adresse",
+    "email already used": "E-Mail Adresse bereits vergeben",
     "invalid pw": "Password muss min. 6 Zeichen lang sein",
+    "wrong pw": "E-Mail / Passwort Kombination nicht korrekt",
     "pw advice": "Password muss min. 6 Zeichen lang sein",
     "request pw reset": "Passwort zurücksetzen",
-    "not empty": "Feld darf nicht leer sein"
+    "not empty": "Feld darf nicht leer sein",
+    "agree to terms": "Mit der Erstellung eines Accounts akzeptierst du die Nutzungsbedingungen."
   },
   "snackbar": {
     "added": "Eintrag erfolgreich erstellt!",

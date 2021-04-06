@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 import {
-  Avatar,
   Button,
   Divider,
   ListItemIcon,
@@ -12,12 +10,15 @@ import {
   MenuItem,
   Typography,
 } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
+import Avatar from 'avataaars';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import DirectionsRunOutlinedIcon from '@material-ui/icons/DirectionsRunOutlined';
 import { useTranslation } from 'react-i18next';
 import LinkMenuItem from './LinkMenuItem';
+import { useAuth } from '../context/AuthContext';
 
 const useStyles = makeStyles({
   userInfo: {
@@ -48,8 +49,7 @@ const ProfileAvatar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const classes = useStyles();
   const { t } = useTranslation();
-  const { user, logout } = useAuth0();
-
+  const { user, logout } = useAuth();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -57,6 +57,17 @@ const ProfileAvatar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  if (!user) {
+    return (
+      <Skeleton
+        variant="circle"
+        width={34}
+        height={34}
+        style={{ marginRight: 34 }}
+      />
+    );
+  }
 
   return (
     <>
@@ -67,7 +78,21 @@ const ProfileAvatar = () => {
         onClick={handleClick}
         classes={{ root: classes.root, focusVisible: classes.focusVisible }}
       >
-        <Avatar alt={user.name} src={user.picture} />
+        {/* TODO: background color: https://github.com/fangpenlin/avataaars/pull/25 */}
+        <Avatar
+          style={{ width: '40px', height: '40px' }}
+          avatarStyle="Circle"
+          topType={user.avatar.topType}
+          accessoriesType={user.avatar.accessoriesType}
+          hairColor={user.avatar.hairColor}
+          facialHairType={user.avatar.facialHairType}
+          facialHairColor={user.avatar.facialHairColor}
+          clotheType={user.avatar.clotheType}
+          clotheColor={user.avatar.clotheColor}
+          eyebrowType={user.avatar.eyebrowType}
+          mouthType={user.avatar.mouthType}
+          skinColor={user.avatar.skinColor}
+        />
         <ArrowDropDownIcon fontSize="small" color="primary" />
       </Button>
 
@@ -120,9 +145,7 @@ const ProfileAvatar = () => {
 
         <Divider light className={classes.divider} />
 
-        <MenuItem
-          onClick={() => logout({ returnTo: `${window.location.origin}/home` })}
-        >
+        <MenuItem onClick={() => logout()}>
           <ListItemIcon className={classes.listIcon}>
             <ExitToAppIcon fontSize="small" color="primary" />
           </ListItemIcon>

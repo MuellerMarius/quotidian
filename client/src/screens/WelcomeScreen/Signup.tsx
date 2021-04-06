@@ -5,24 +5,33 @@ import {
   IconButton,
   Button,
   makeStyles,
+  Typography,
+  CircularProgress,
 } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import FormValidation from '../../util/FormValidation';
 import { FormValidationConfig } from '../../types/types';
+import { useAuth } from '../../context/AuthContext';
 
-const useStyles = makeStyles({
-  button: {
-    marginTop: 15,
-  },
-  inputFieldRoot: {
-    marginTop: 15,
-  },
-  linkRight: {
-    padding: 5,
-    float: 'right',
-  },
-});
+type StateType = {
+  name: string;
+  email: string;
+  password: string;
+  showPassword: boolean;
+  isLoading: boolean;
+  valError: string[];
+};
+
+const initialState = {
+  name: '',
+  email: '',
+  password: '',
+  showPassword: false,
+  isLoading: false,
+  valError: [''],
+};
 
 const validationConfig: FormValidationConfig[] = [
   {
@@ -39,15 +48,34 @@ const validationConfig: FormValidationConfig[] = [
   },
 ];
 
+const useStyles = makeStyles({
+  button: {
+    marginTop: 15,
+  },
+  inputFieldRoot: {
+    marginTop: 15,
+  },
+  linkRight: {
+    padding: 5,
+    float: 'right',
+  },
+  marginTop: {
+    marginTop: 8,
+  },
+});
+
 const Signup = () => {
-  const { t } = useTranslation();
-  const classes = useStyles();
   const formValidator = new FormValidation(validationConfig);
-  const [valError, setValError] = useState<string[]>([]);
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
+  const [state, setState] = useState<StateType>(initialState);
+  const { name, email, password, showPassword, isLoading, valError } = state;
+  const { signup } = useAuth();
+  const { t } = useTranslation();
+  const history = useHistory();
+  const classes = useStyles();
+
+  const updateState = (updated: Partial<StateType>) => {
+    setState((old) => ({ ...old, ...updated }));
+  };
 
   const submitForm = () => {
     const { areInputsValid, validationErrors } = formValidator.validate({
@@ -55,15 +83,24 @@ const Signup = () => {
       password,
       name,
     });
-    setValError(validationErrors);
+    updateState({ isLoading: true, valError: validationErrors });
 
     if (areInputsValid) {
-      alert('Login');
+      signup(name, email, password)
+        .then(() => history.push('/'))
+        .catch(() =>
+          updateState({
+            isLoading: false,
+            valError: [...validationErrors, 'email-taken'],
+          })
+        );
+    } else {
+      updateState({ isLoading: false });
     }
   };
 
   return (
-    <>
+    <form>
       <TextField
         id="email"
         label={t('user.email')}
@@ -72,21 +109,27 @@ const Signup = () => {
         classes={{ root: classes.inputFieldRoot }}
         variant="outlined"
         fullWidth
-        error={valError.includes('email')}
-        helperText={valError.includes('email') ? t('user.invalid email') : null}
-        onChange={(e) => setEmail(e.target.value)}
+        error={valError.includes('email') || valError.includes('email-taken')}
+        helperText={
+          valError.includes('email')
+            ? t('user.invalid email')
+            : valError.includes('email-taken')
+            ? t('user.email already used')
+            : null
+        }
+        onChange={(e) => updateState({ email: e.target.value })}
       />
       <TextField
         id="name"
         label={t('user.name')}
         value={name}
-        autoComplete="user"
+        autoComplete="name"
         classes={{ root: classes.inputFieldRoot }}
         variant="outlined"
         fullWidth
-        error={valError.includes('user')}
-        helperText={valError.includes('user') ? t('user.not empty') : null}
-        onChange={(e) => setName(e.target.value)}
+        error={valError.includes('name')}
+        helperText={valError.includes('name') ? t('user.not empty') : null}
+        onChange={(e) => updateState({ name: e.target.value })}
       />
       <TextField
         id="password"
@@ -102,7 +145,7 @@ const Signup = () => {
             <InputAdornment position="end">
               <IconButton
                 aria-label="toggle password visibility"
-                onClick={() => setShowPassword((v) => !v)}
+                onClick={() => updateState({ showPassword: !showPassword })}
                 onMouseDown={(e: React.MouseEvent<HTMLButtonElement>) =>
                   e.preventDefault()
                 }
@@ -119,18 +162,27 @@ const Signup = () => {
             ? t('user.invalid pw')
             : t('user.pw advice')
         }
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) => updateState({ password: e.target.value })}
       />
+      <Typography
+        variant="body2"
+        component="p"
+        color="secondary"
+        className={classes.marginTop}
+      >
+        {t('user.agree to terms')}
+      </Typography>
       <Button
         color="primary"
         variant="contained"
         onClick={() => submitForm()}
         className={classes.button}
+        disabled={isLoading}
         fullWidth
       >
-        {t('signup')}
+        {isLoading ? <CircularProgress size={22} /> : t('signup')}
       </Button>
-    </>
+    </form>
   );
 };
 

@@ -29,9 +29,7 @@ const ResetPassword = () => {
   const classes = useStyles();
   const formValidator = new FormValidation(validationConfig);
   const [valError, setValError] = useState<string[]>([]);
-  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   const submitForm = () => {
     const { areInputsValid, validationErrors } = formValidator.validate({
@@ -40,12 +38,13 @@ const ResetPassword = () => {
     setValError(validationErrors);
 
     if (areInputsValid) {
-      alert('Login');
+      // TODO: implement functionality
+      alert('Reset Password');
     }
   };
 
   return (
-    <>
+    <form>
       <TextField
         id="email"
         label={t('user.email')}
@@ -67,7 +66,7 @@ const ResetPassword = () => {
       >
         {t('user.request pw reset')}
       </Button>
-    </>
+    </form>
   );
 };
 
