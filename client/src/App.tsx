@@ -8,7 +8,7 @@ import CenteredCircularProgress from './components/CenteredCircularProgress';
 
 function App() {
   const { isAuthenticated, auth } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     auth()
