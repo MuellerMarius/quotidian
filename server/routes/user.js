@@ -105,4 +105,32 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+/**
+ * @route   POST api/user/update
+ * @desc    Change user profile
+ * @access  Private
+ */
+
+router.post('/update', auth, async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.user._id });
+    if (!user) {
+      throw Error('User could not be found');
+    }
+
+    user.name = req.body.user.name;
+    user.avatar = req.body.user.avatar;
+
+    await user.save();
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+    });
+  } catch (error) {
+    res.status(400).json(error.toString());
+  }
+});
+
 module.exports = router;

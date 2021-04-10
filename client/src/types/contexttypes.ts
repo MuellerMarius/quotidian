@@ -98,16 +98,19 @@ export type AuthStateType = {
 };
 
 export type AuthContextType = AuthStateType & {
-  dispatch: React.Dispatch<
-    ActionMap<AuthPayload>[keyof ActionMap<AuthPayload>]
-  >;
   auth: () => Promise<UserType>;
   login: (email: string, password: string) => Promise<UserType>;
   signup: (name: string, email: string, password: string) => Promise<UserType>;
   logout: () => Promise<UserType>;
+  updateUser: (user: UserType) => Promise<UserType>;
 };
 
-export type AuthApiRequestType = 'login' | 'logout' | 'signup' | 'auth';
+export type AuthApiRequestType =
+  | 'login'
+  | 'logout'
+  | 'signup'
+  | 'auth'
+  | 'update';
 
 export enum AuthActionNames {
   LOGOUT,

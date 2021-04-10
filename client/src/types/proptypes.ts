@@ -4,6 +4,7 @@ import {
   DialogState,
   EntryType,
   StatusType,
+  UserType,
 } from './types';
 
 export type LinkProps = {
@@ -103,4 +104,9 @@ export type IconPickerProps = {
 export type IconSearchFilterProps = {
   onSearch: (filter: string) => void;
   onReset: () => void;
+};
+
+export type AvatarEditorProps = {
+  user: UserType;
+  setAvatar: (key: string, value: string) => void;
 };

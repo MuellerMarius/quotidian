@@ -22,8 +22,7 @@ const useStyles = makeStyles({
   },
   footnote: {
     maxWidth: 350,
-    margin: 'auto',
-    marginTop: 35,
+    margin: '35px auto',
     padding: 15,
   },
   image: {

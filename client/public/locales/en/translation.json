@@ -64,6 +64,8 @@
     "name": "Name",
     "email": "Email",
     "password": "Password",
+    "avatar": "Avatar",
+    "change avatar": "Change avatar",
     "forgotpw": "Forgot password?",
     "new to quotidian": "New to quotidian?",
     "already member": "Already a member?",
@@ -83,6 +85,8 @@
     "act-added": "Activity was created successfully!",
     "cat-added": "Category was created successfully!",
     "updated": "Entry was updated successfully!",
+    "user-updated": "Profile was updated successfully!",
+    "user-updated-failed": "Profile could not be updated!",
     "act-updated": "Activity was updated successfully!",
     "cat-updated": "Category was updated successfully!",
     "failed-save": "Entry could not be saved!",
@@ -96,6 +100,19 @@
     "cat-failed-delete": "Category could not be deleted!",
     "failed-load": "Entries could not be loaded!",
     "failed-load-single": "Entry could not be loaded!"
+  },
+  "avatar": {
+    "topType": "Haircut",
+    "accessoriesType": "Glasses",
+    "hairColor": "Haircolor",
+    "hatColor": "Color of hat",
+    "facialHairType": "Beard",
+    "facialHairColor": "Beardcolor",
+    "clotheType": "Top",
+    "clotheColor": "Color of top",
+    "eyebrowType": "Eyebrowes",
+    "mouthType": "Mouth",
+    "skinColor": "Skincolor"
   },
   "datekey": "{{date, MM/dd/yyyy}}"
 }

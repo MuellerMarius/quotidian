@@ -4,14 +4,9 @@ import {
   makeStyles,
   List,
   ListItem,
-  ListItemIcon,
-  ListItemText,
   Typography,
   Grid,
-  ListSubheader,
 } from '@material-ui/core';
-import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import { EntryScreenProps } from '../types/proptypes';
 import ActivityEditor from '../components/ActivityEditor';
 

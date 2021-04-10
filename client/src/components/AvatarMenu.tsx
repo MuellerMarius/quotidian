@@ -45,7 +45,7 @@ const useStyles = makeStyles({
   },
 });
 
-const ProfileAvatar = () => {
+const AvatarMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const classes = useStyles();
   const { t } = useTranslation();
@@ -62,9 +62,9 @@ const ProfileAvatar = () => {
     return (
       <Skeleton
         variant="circle"
-        width={34}
-        height={34}
-        style={{ marginRight: 34 }}
+        width={36}
+        height={36}
+        style={{ marginRight: 36 }}
       />
     );
   }
@@ -80,7 +80,7 @@ const ProfileAvatar = () => {
       >
         {/* TODO: background color: https://github.com/fangpenlin/avataaars/pull/25 */}
         <Avatar
-          style={{ width: '40px', height: '40px' }}
+          style={{ width: '44px', height: '44px' }}
           avatarStyle="Circle"
           topType={user.avatar.topType}
           accessoriesType={user.avatar.accessoriesType}
@@ -156,4 +156,4 @@ const ProfileAvatar = () => {
   );
 };
 
-export default ProfileAvatar;
+export default AvatarMenu;

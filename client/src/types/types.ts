@@ -21,24 +21,26 @@ export type ActivityType = {
   parentCatId?: string;
 };
 
+export type AvatarType = {
+  topType: string;
+  accessoriesType: string;
+  hairColor: string;
+  hatColor: string;
+  facialHairType: string;
+  facialHairColor: string;
+  clotheType: string;
+  clotheColor: string;
+  eyebrowType: string;
+  mouthType: string;
+  skinColor: string;
+};
+
 export type UserType = {
   _id: string;
   name: string;
   email: string;
   token: string;
-  avatar: {
-    topType: string;
-    accessoriesType: string;
-    hairColor: string;
-    hatColor: string;
-    facialHairType: string;
-    facialHairColor: string;
-    clotheType: string;
-    clotheColor: string;
-    eyebrowType: string;
-    mouthType: string;
-    skinColor: string;
-  };
+  avatar: AvatarType;
 };
 
 export type CommonUserDataType = {

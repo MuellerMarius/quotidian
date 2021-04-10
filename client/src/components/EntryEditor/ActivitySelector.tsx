@@ -1,6 +1,5 @@
 import React from 'react';
 import { Avatar, Chip, Icon, makeStyles, Typography } from '@material-ui/core';
-import { useTranslation } from 'react-i18next/';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { ActivitySelectorProps } from '../../types/proptypes';
 import { ActivityCatType } from '../../types/types';
@@ -22,7 +21,6 @@ const useStyles = makeStyles({
 
 const ActivitySelector: React.FC<ActivitySelectorProps> = (props) => {
   const { active, onChange } = props;
-  const { t } = useTranslation();
   const { activities } = useGlobalContext();
   const classes = useStyles();
 

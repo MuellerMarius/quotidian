@@ -15,6 +15,19 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      topType: { type: String, default: 'NoHair' },
+      accessoriesType: { type: String, default: 'Blank' },
+      hairColor: { type: String, default: 'BrownDark' },
+      hatColor: { type: String, default: 'Black' },
+      facialHairType: { type: String, default: 'Blank' },
+      facialHairColor: { type: String, default: 'BrownDark' },
+      clotheType: { type: String, default: 'BlazerSweater' },
+      clotheColor: { type: String, default: 'Black' },
+      eyebrowType: { type: String, default: 'Default' },
+      mouthType: { type: String, default: 'Default' },
+      skinColor: { type: String, default: 'Light' },
+    },
   },
   { timestamps: true }
 );

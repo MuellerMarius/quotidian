@@ -26,11 +26,11 @@ const initialState = {
 
 const initialContext = {
   ...initialState,
-  dispatch: stub,
   auth: stub,
   login: stub,
   signup: stub,
   logout: stub,
+  updateUser: stub,
 };
 
 const apiFetchOptions: RequestInit = {
@@ -45,46 +45,50 @@ const apiFetchOptions: RequestInit = {
 const AuthContext = createContext<AuthContextType>(initialContext);
 
 export const AuthProvider: React.FC = ({ children }) => {
+  const apiBaseUrl = `${process.env.REACT_APP_SERVER_URL}/api`;
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
   const setLoading = (isLoading: boolean) => {
     dispatch({ type: AuthActionNames.SET_LOADING, payload: { isLoading } });
   };
 
-  const userApiRequest = (
-    action: AuthApiRequestType,
-    email?: string,
-    password?: string,
-    name?: string
-  ) =>
-    new Promise<UserType>((resolve, reject) => {
-      const apiBaseUrl = `${process.env.REACT_APP_SERVER_URL}/api`;
-      setLoading(true);
+  const userApiRequest = useCallback(
+    (
+      action: AuthApiRequestType,
+      email?: string,
+      password?: string,
+      name?: string,
+      user?: UserType
+    ) =>
+      new Promise<UserType>((resolve, reject) => {
+        setLoading(true);
 
-      fetch(`${apiBaseUrl}/user/${action}`, {
-        ...apiFetchOptions,
-        body: JSON.stringify({ email, password, name }),
-      })
-        .then((res) => handleHttpErrors(res))
-        .then(async (data) => {
-          if (action === 'logout') {
-            dispatch({
-              type: AuthActionNames.LOGOUT,
-              payload: {},
-            });
-          } else {
-            dispatch({
-              type: AuthActionNames.LOGIN,
-              payload: { user: await data.json() },
-            });
-          }
-          resolve((data as unknown) as UserType);
+        fetch(`${apiBaseUrl}/user/${action}`, {
+          ...apiFetchOptions,
+          body: JSON.stringify({ email, password, name, user }),
         })
-        .catch((err) => reject(err))
-        .finally(() => setLoading(false));
-    });
+          .then((res) => handleHttpErrors(res))
+          .then(async (data) => {
+            if (action === 'logout') {
+              dispatch({
+                type: AuthActionNames.LOGOUT,
+                payload: {},
+              });
+            } else {
+              dispatch({
+                type: AuthActionNames.LOGIN,
+                payload: { user: await data.json() },
+              });
+            }
+            resolve((data as unknown) as UserType);
+          })
+          .catch((err) => reject(err))
+          .finally(() => setLoading(false));
+      }),
+    [apiBaseUrl]
+  );
 
-  const auth = useCallback(() => userApiRequest('auth'), []);
+  const auth = useCallback(() => userApiRequest('auth'), [userApiRequest]);
 
   const logout = () => userApiRequest('logout');
 
@@ -94,6 +98,9 @@ export const AuthProvider: React.FC = ({ children }) => {
   const signup = (name: string, email: string, password: string) =>
     userApiRequest('signup', email, password, name);
 
+  const updateUser = (user: UserType) =>
+    userApiRequest('update', undefined, undefined, undefined, user);
+
   return (
     <AuthContext.Provider
       value={{
@@ -101,11 +108,11 @@ export const AuthProvider: React.FC = ({ children }) => {
         isLoading: state.isLoading,
         error: state.error,
         user: state.user,
-        dispatch,
         login,
         signup,
         auth,
         logout,
+        updateUser,
       }}
     >
       {children}
