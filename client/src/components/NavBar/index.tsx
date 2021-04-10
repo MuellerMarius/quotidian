@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import ProfileAvatar from '../ProfileAvatar';
+import AvatarMenu from '../AvatarMenu';
 import LanguageSelector from '../LanguageSelector';
 import logo_sm from './img/logo_sm.png';
 
@@ -72,7 +72,7 @@ const NavBar = () => {
           <LanguageSelector />
         </Grid>
         <Grid item>
-          <ProfileAvatar />
+          <AvatarMenu />
         </Grid>
       </Grid>
     </header>

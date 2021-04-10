@@ -1,20 +1,23 @@
+import { SeverityType, EntryType } from '../types/types';
 import {
-  StateType,
-  ActionType,
-  ActionNames,
-  SeverityType,
-  EntryType,
-} from '../types/types';
+  GlobalStateType,
+  ActionMap,
+  GlobalPayload,
+  GlobalActionNames,
+} from '../types/contexttypes';
 
-const GlobalReducer = (state: StateType, action: ActionType) => {
+const GlobalReducer = (
+  state: GlobalStateType,
+  action: ActionMap<GlobalPayload>[keyof ActionMap<GlobalPayload>]
+) => {
   switch (action.type) {
-    case ActionNames.SELECT_DATE:
+    case GlobalActionNames.SELECT_DATE:
       return { ...state, selectedDate: action.payload.date };
-    case ActionNames.SET_COMMON_USER_DATA:
+    case GlobalActionNames.SET_COMMON_USER_DATA:
       return { ...state, ...action.payload.data };
-    case ActionNames.SET_ACTIVITIES:
+    case GlobalActionNames.SET_ACTIVITIES:
       return { ...state, activities: action.payload.activities };
-    case ActionNames.UPDATE_ACTIVITY:
+    case GlobalActionNames.UPDATE_ACTIVITY:
       return {
         ...state,
         activities: state.activities.map((cat) =>
@@ -35,7 +38,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
           open: true,
         },
       };
-    case ActionNames.DELETE_ACTIVITY:
+    case GlobalActionNames.DELETE_ACTIVITY:
       return {
         ...state,
         activities: state.activities.map((cat) =>
@@ -54,7 +57,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
           open: true,
         },
       };
-    case ActionNames.ADD_ACTIVITY_CATEGORY:
+    case GlobalActionNames.ADD_ACTIVITY_CATEGORY:
       return {
         ...state,
         activities: [...state.activities, action.payload.category],
@@ -64,7 +67,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
           open: true,
         },
       };
-    case ActionNames.UPDATE_ACTIVITY_CATEGORY:
+    case GlobalActionNames.UPDATE_ACTIVITY_CATEGORY:
       return {
         ...state,
         activities: state.activities.map((cat) =>
@@ -78,7 +81,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
           open: true,
         },
       };
-    case ActionNames.DELETE_ACTIVITY_CATEGORY:
+    case GlobalActionNames.DELETE_ACTIVITY_CATEGORY:
       return {
         ...state,
         activities: state.activities.filter(
@@ -90,7 +93,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
           open: true,
         },
       };
-    case ActionNames.ADD_ACTIVITY:
+    case GlobalActionNames.ADD_ACTIVITY:
       return {
         ...state,
         activities: state.activities.map((cat) =>
@@ -107,9 +110,9 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
           open: true,
         },
       };
-    case ActionNames.SET_ENTRIES:
+    case GlobalActionNames.SET_ENTRIES:
       return { ...state, entries: action.payload.entries };
-    case ActionNames.ADD_ENTRY:
+    case GlobalActionNames.ADD_ENTRY:
       return {
         ...state,
         entries: [action.payload.entry, ...(state.entries as EntryType[])],
@@ -119,7 +122,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
           open: true,
         },
       };
-    case ActionNames.UPDATE_ENTRY:
+    case GlobalActionNames.UPDATE_ENTRY:
       return {
         ...state,
         entries: state.entries?.map((entry) =>
@@ -131,7 +134,7 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
           open: true,
         },
       };
-    case ActionNames.DELETE_ENTRY:
+    case GlobalActionNames.DELETE_ENTRY:
       return {
         ...state,
         entries: state.entries?.filter(
@@ -143,13 +146,13 @@ const GlobalReducer = (state: StateType, action: ActionType) => {
           open: true,
         },
       };
-    case ActionNames.HIDE_SNACKBAR:
+    case GlobalActionNames.HIDE_SNACKBAR:
       return {
         ...state,
         snackbar: { ...state.snackbar, open: false },
       };
 
-    case ActionNames.SHOW_SNACKBAR:
+    case GlobalActionNames.SHOW_SNACKBAR:
       return {
         ...state,
         snackbar: { open: true, ...action.payload.snackbar },

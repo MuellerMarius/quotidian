@@ -3,7 +3,8 @@ import { Card, makeStyles, Slide } from '@material-ui/core';
 import { useGlobalContext } from '../../context/GlobalContext';
 import useApi from '../../hooks/useApi';
 import ConfirmDialog from '../ConfirmDialog';
-import { DialogState, EntryType, ActionNames } from '../../types/types';
+import { DialogState, EntryType } from '../../types/types';
+import { GlobalActionNames } from '../../types/contexttypes';
 import { EntriesProps } from '../../types/proptypes';
 import EntryEditor from '../EntryEditor';
 import EntryList from './EntryList';
@@ -38,7 +39,7 @@ const Entries: React.FC<EntriesProps> = ({ status, activeMonth }) => {
 
   const selectDate = useCallback(
     (date: Date | null) => {
-      dispatch!({ type: ActionNames.SELECT_DATE, payload: { date } });
+      dispatch({ type: GlobalActionNames.SELECT_DATE, payload: { date } });
     },
     [dispatch]
   );

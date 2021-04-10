@@ -1,7 +1,5 @@
 import React from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
 import {
-  Button,
   Card,
   CardContent,
   CardMedia,
@@ -9,70 +7,95 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { Switch, Route, Link } from 'react-router-dom';
+import Login from './Login';
+import Signup from './Signup';
+import ResetPassword from './ResetPassword';
 import logo_lg from './img/logo_lg.png';
 
 const useStyles = makeStyles({
-  root: {
-    maxWidth: 300,
+  cardRoot: {
+    maxWidth: 350,
     margin: 'auto',
     marginTop: 220,
     overflow: 'unset',
   },
+  footnote: {
+    maxWidth: 350,
+    margin: '35px auto',
+    padding: 15,
+  },
   image: {
     objectFit: 'contain',
     position: 'relative',
-    top: -190,
-    marginBottom: -190,
+    top: -200,
+    marginBottom: -200,
   },
   divider: {
-    margin: 30,
+    margin: '10px 30px',
     border: '1px solid #EEE',
-  },
-  button: {
-    marginTop: 15,
   },
 });
 
 const WelcomeScreen = () => {
   const { t } = useTranslation();
-  const { loginWithRedirect } = useAuth0();
   const classes = useStyles();
 
   return (
-    <Card className={classes.root} raised>
-      <CardMedia
-        component="img"
-        alt="Quotidian Logo"
-        title="Quotidian Logo"
-        height="290"
-        image={logo_lg}
-        className={classes.image}
-      />
-      <CardContent>
-        <Typography variant="h5" component="h5" gutterBottom>
-          quotidian
+    <>
+      <Card className={classes.cardRoot} raised>
+        <CardMedia
+          component="img"
+          alt="Quotidian Logo"
+          title="Quotidian Logo"
+          height="290"
+          image={logo_lg}
+          className={classes.image}
+        />
+        <CardContent>
+          <Typography variant="h5" component="h5" gutterBottom>
+            quotidian
+          </Typography>
+          <Typography variant="body2" component="p" color="secondary">
+            {t('description')}
+          </Typography>
+          <hr className={classes.divider} />
+
+          <Switch>
+            <Route exact path="/signup">
+              <Signup />
+            </Route>
+            <Route exact path="/resetpw">
+              <ResetPassword />
+            </Route>
+            <Route path="/">
+              <Login />
+            </Route>
+          </Switch>
+        </CardContent>
+      </Card>
+
+      <Card variant="outlined" className={classes.footnote}>
+        <Typography variant="body2">
+          <Switch>
+            <Route exact path="/signup">
+              {t('user.already member')}{' '}
+              <Link to="/">{t('user.click login')}</Link>
+            </Route>
+
+            <Route exact path="/resetpw">
+              {t('user.already member')}{' '}
+              <Link to="/">{t('user.click login')}</Link>
+            </Route>
+
+            <Route path="/">
+              {t('user.new to quotidian')}{' '}
+              <Link to="/signup">{t('user.click signup')}</Link>
+            </Route>
+          </Switch>
         </Typography>
-
-        <Typography variant="subtitle2" component="p" color="secondary">
-          {t('description')}
-        </Typography>
-
-        <hr className={classes.divider} />
-
-        <Button color="primary" onClick={() => loginWithRedirect()} fullWidth>
-          {t('login')}
-        </Button>
-
-        <Button
-          color="primary"
-          onClick={() => loginWithRedirect({ screen_hint: 'signup' })}
-          className={classes.button}
-          fullWidth
-        >
-          {t('signup')}
-        </Button>
-      </CardContent>
-    </Card>
+      </Card>
+    </>
   );
 };
 

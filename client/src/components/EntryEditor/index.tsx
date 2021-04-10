@@ -10,7 +10,8 @@ import { useTranslation } from 'react-i18next/';
 import { isSameDay } from 'date-fns';
 import { EntryEditorProps } from '../../types/proptypes';
 import MoodSelector from './MoodSelector';
-import { ActionNames, EntryType } from '../../types/types';
+import { EntryType } from '../../types/types';
+import { GlobalActionNames } from '../../types/contexttypes';
 import { useGlobalContext } from '../../context/GlobalContext';
 import useApi from '../../hooks/useApi';
 import ActivitySelector from './ActivitySelector';
@@ -56,7 +57,7 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
 
   const selectDate = useCallback(
     (date: Date | null) => {
-      dispatch!({ type: ActionNames.SELECT_DATE, payload: { date } });
+      dispatch({ type: GlobalActionNames.SELECT_DATE, payload: { date } });
     },
     [dispatch]
   );
@@ -159,6 +160,7 @@ const EntryEditor: React.FC<EntryEditorProps> = ({ setDialog }) => {
     });
   };
 
+  // TODO: Input stil flickering
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
       <Grid container direction="column" spacing={4} alignItems="center">

@@ -60,11 +60,33 @@
     "title": "Änderungen verwerfen?",
     "description": "Sind sind dabei ein anderes Datum auszuwählen und haben noch ungespeicherte Änderungen. Sind sie sicher, dass Sie diese verwerfen wollen?"
   },
+  "user": {
+    "name": "Name",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "avatar": "Avatar",
+    "change avatar": "Avatar konfigurieren",
+    "forgotpw": "Password vergessen?",
+    "new to quotidian": "Neu bei quotidian?",
+    "already member": "Schon ein Nutzer?",
+    "click signup": "Hier geht's zur Anmeldung!",
+    "click login": "Hier geht's zum Login!",
+    "invalid email": "Keine gültige E-Mail Adresse",
+    "email already used": "E-Mail Adresse bereits vergeben",
+    "invalid pw": "Password muss min. 6 Zeichen lang sein",
+    "wrong pw": "E-Mail / Passwort Kombination nicht korrekt",
+    "pw advice": "Password muss min. 6 Zeichen lang sein",
+    "request pw reset": "Passwort zurücksetzen",
+    "not empty": "Feld darf nicht leer sein",
+    "agree to terms": "Mit der Erstellung eines Accounts akzeptierst du die Nutzungsbedingungen."
+  },
   "snackbar": {
     "added": "Eintrag erfolgreich erstellt!",
     "act-added": "Aktivität erfolgreich erstellt!",
     "cat-added": "Kategorie erfolgreich erstellt!",
     "updated": "Eintrag erfolgreich geändert!",
+    "user-updated": "Profil erfolgreich geändert!",
+    "user-updated-failed": "Profil konnte nicht geändert werden!",
     "act-updated": "Aktivität erfolgreich geändert!",
     "cat-updated": "Kategorie erfolgreich geändert!",
     "failed-save": "Eintrag konnte nicht gespeichert werden!",
@@ -76,6 +98,19 @@
     "cat-failed-delete": "Kategorie konnte nicht gelöscht werden!",
     "failed-load": "Einträge konnten nicht geladen werden!",
     "failed-load-single": "Eintrag konnte nicht geladen werden!"
+  },
+  "avatar": {
+    "topType": "Frisur",
+    "accessoriesType": "Brille",
+    "hairColor": "Haarfarbe",
+    "hatColor": "Hutfarbe",
+    "facialHairType": "Bart",
+    "facialHairColor": "Barthaarfarbe",
+    "clotheType": "Oberteil",
+    "clotheColor": "Oberteilfarbe",
+    "eyebrowType": "Augenbrauen",
+    "mouthType": "Mund",
+    "skinColor": "Hautfarbe"
   },
   "datekey": "{{date, EEEE, dd.MM.yyyy}}"
 }

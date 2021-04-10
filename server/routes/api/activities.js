@@ -14,7 +14,7 @@ const Entry = require('../../models/Entry');
  */
 
 router.get('/', auth, (req, res) => {
-  UserActivities.findOne({ user: req.user.sub })
+  UserActivities.findOne({ user: req.user._id })
     .then((result) => {
       res.status(200).json(result.categories);
     })
@@ -37,12 +37,12 @@ router.post('/category', auth, (req, res) => {
   });
 
   UserActivities.updateOne(
-    { user: req.user.sub },
+    { user: req.user._id },
     { $push: { categories: newCategory } },
     { upsert: true }
   )
     .then(() => res.status(200).json(newCategory))
-    .catch((err) => res.status(400).json(err));
+    .catch((err) => res.status(400).send(err.toString()));
 });
 
 /**
@@ -53,7 +53,7 @@ router.post('/category', auth, (req, res) => {
 
 router.patch('/category', auth, async (req, res) => {
   try {
-    const userData = await UserActivities.findOne({ user: req.user.sub });
+    const userData = await UserActivities.findOne({ user: req.user._id });
     if (!userData) {
       throw Error('User does not exist');
     }
@@ -65,12 +65,10 @@ router.patch('/category', auth, async (req, res) => {
 
     category.name = req.body.name;
 
-    await userData
-      .save()
-      .then((item) => res.status(200).json(category))
-      .catch((err) => res.status(400).json(err));
+    await userData.save();
+    res.status(200).json(category);
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).send(error.toString());
   }
 });
 
@@ -82,7 +80,7 @@ router.patch('/category', auth, async (req, res) => {
 
 router.delete('/category', auth, async (req, res) => {
   try {
-    const userData = await UserActivities.findOne({ user: req.user.sub });
+    const userData = await UserActivities.findOne({ user: req.user._id });
     if (!userData) {
       throw Error('User does not exist');
     }
@@ -95,7 +93,7 @@ router.delete('/category', auth, async (req, res) => {
     // remove ids from all entries
     const ids = category.activities.map((act) => act._id);
     await Entry.updateMany(
-      { user: req.user.sub },
+      { user: req.user._id },
       { $pullAll: { activities: ids } }
     );
 
@@ -103,12 +101,10 @@ router.delete('/category', auth, async (req, res) => {
       throw Error('Category could not be removed');
     }
 
-    await userData
-      .save()
-      .then(() => res.status(200).json(category))
-      .catch((err) => res.status(400).json(err));
+    const updatedData = await userData.save();
+    res.status(200).json(updatedData);
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).send(error.toString());
   }
 });
 
@@ -127,7 +123,7 @@ router.post('/', auth, (req, res) => {
 
   UserActivities.updateOne(
     {
-      user: req.user.sub,
+      user: req.user._id,
       categories: { $elemMatch: { _id: req.body.parentCatId } },
     },
     {
@@ -138,7 +134,7 @@ router.post('/', auth, (req, res) => {
     { upsert: true }
   )
     .then(() => res.status(200).json(newActivity))
-    .catch((err) => res.status(400).json(err));
+    .catch((err) => res.status(400).send(err.toString()));
 });
 
 /**
@@ -149,7 +145,7 @@ router.post('/', auth, (req, res) => {
 
 router.patch('/', auth, async (req, res) => {
   try {
-    const userData = await UserActivities.findOne({ user: req.user.sub });
+    const userData = await UserActivities.findOne({ user: req.user._id });
     if (!userData) {
       throw Error('User does not exist');
     }
@@ -167,12 +163,10 @@ router.patch('/', auth, async (req, res) => {
     activity.name = req.body.name;
     activity.icon = req.body.icon;
 
-    await userData
-      .save()
-      .then(() => res.status(200).json(activity))
-      .catch((err) => res.status(400).json(err));
+    await userData.save();
+    res.status(200).json(activity);
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).send(error.toString());
   }
 });
 
@@ -184,7 +178,7 @@ router.patch('/', auth, async (req, res) => {
 
 router.delete('/', auth, async (req, res) => {
   try {
-    const userData = await UserActivities.findOne({ user: req.user.sub });
+    const userData = await UserActivities.findOne({ user: req.user._id });
     if (!userData) {
       throw Error('User does not exist');
     }
@@ -201,7 +195,7 @@ router.delete('/', auth, async (req, res) => {
 
     // remove ids from all entries
     await Entry.updateMany(
-      { user: req.user.sub },
+      { user: req.user._id },
       { $pull: { activities: activity._id } }
     );
 
@@ -209,12 +203,10 @@ router.delete('/', auth, async (req, res) => {
       throw Error('Category could not be removed');
     }
 
-    await userData
-      .save()
-      .then(() => res.status(200).json(activity))
-      .catch((err) => res.status(400).json(err));
+    await userData.save();
+    res.status(200).json(activity);
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).send(error.toString());
   }
 });
 

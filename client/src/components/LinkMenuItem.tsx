@@ -5,10 +5,8 @@ import { LinkProps } from '../types/proptypes';
 
 const LinkMenuItem: React.FC<RouteComponentProps & LinkProps> = ({
   history,
-  location,
   to,
   onClick,
-  staticContext,
   ...rest
 }) => (
   <MenuItem

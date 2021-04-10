@@ -9,6 +9,15 @@ const UserActivitySchema = new mongoose.Schema({
   categories: [ActivityCategorySchema],
 });
 
+UserActivitySchema.statics.initialize = async function (id) {
+  const newActSchema = new this({
+    user: id,
+    categories: [],
+  });
+
+  await newActSchema.save();
+};
+
 module.exports = mongoose.model(
   'UserActivityCategory',
   UserActivitySchema,
