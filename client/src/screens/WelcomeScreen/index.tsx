@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import ResetPassword from './ResetPassword';
@@ -61,38 +61,39 @@ const WelcomeScreen = () => {
           </Typography>
           <hr className={classes.divider} />
 
-          <Switch>
-            <Route exact path="/signup">
-              <Signup />
-            </Route>
-            <Route exact path="/resetpw">
-              <ResetPassword />
-            </Route>
-            <Route path="/">
-              <Login />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/resetpw" element={<ResetPassword />} />
+            <Route path="/" element={<Login />} />
+          </Routes>
         </CardContent>
       </Card>
 
       <Card variant="outlined" className={classes.footnote}>
         <Typography variant="body2">
-          <Switch>
-            <Route exact path="/signup">
-              {t('user.already member')}{' '}
-              <Link to="/">{t('user.click login')}</Link>
-            </Route>
+          <Routes>
+            <Route
+              path="/signup"
+              element={
+                <span>
+                  {t('user.already member')}{' '}
+                  <Link to="/">{t('user.click login')}</Link>
+                </span>
+              }
+            />
 
-            <Route exact path="/resetpw">
-              {t('user.already member')}{' '}
-              <Link to="/">{t('user.click login')}</Link>
-            </Route>
+             <Route path="/resetpw" element={
+              <span>
+                {t('user.already member')}{' '}
+                <Link to="/">{t('user.click login')}</Link>
+              </span>} />
 
-            <Route path="/">
-              {t('user.new to quotidian')}{' '}
-              <Link to="/signup">{t('user.click signup')}</Link>
-            </Route>
-          </Switch>
+            <Route path="/" element={
+              <span>
+                {t('user.new to quotidian')}{' '}
+                <Link to="/signup">{t('user.click signup')}</Link>
+              </span>} />
+          </Routes>
         </Typography>
       </Card>
     </>

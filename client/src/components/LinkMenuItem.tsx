@@ -1,21 +1,20 @@
 import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { MenuItem } from '@material-ui/core';
 import { LinkProps } from '../types/proptypes';
 
-const LinkMenuItem: React.FC<RouteComponentProps & LinkProps> = ({
-  history,
-  to,
-  onClick,
-  ...rest
-}) => (
-  <MenuItem
-    {...rest}
-    onClick={(event) => {
-      onClick && onClick(event);
-      history.push(to);
-    }}
-  />
-);
+const LinkMenuItem: React.FC<LinkProps> = ({ to, onClick, ...rest }) => {
+  const navigate = useNavigate();
 
-export default withRouter(LinkMenuItem);
+  return (
+    <MenuItem
+      {...rest}
+      onClick={(event) => {
+        onClick && onClick(event);
+        navigate(to);
+      }}
+    />
+  );
+};
+
+export default LinkMenuItem;

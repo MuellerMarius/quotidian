@@ -8,7 +8,7 @@ import {
   Typography,
   CircularProgress,
 } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import FormValidation from '../../util/FormValidation';
@@ -70,7 +70,7 @@ const Signup = () => {
   const { name, email, password, showPassword, isLoading, valError } = state;
   const { signup } = useAuth();
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const classes = useStyles();
 
   const updateState = (updated: Partial<StateType>) => {
@@ -87,7 +87,7 @@ const Signup = () => {
 
     if (areInputsValid) {
       signup(name, email, password)
-        .then(() => history.push('/'))
+        .then(() => navigate('/'))
         .catch(() =>
           updateState({
             isLoading: false,

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import UserProfileScreen from './UserProfileScreen';
 import StatisticsScreen from './StatisticsScreen';
 import ActivityScreen from './ActivityScreen';
@@ -36,20 +36,15 @@ const ProtectedMainScreen = () => {
       </Grid>
       <Grid item>
         <main>
-          <Switch>
-            <Route exact path="/">
-              <EntryScreen status={status} />
-            </Route>
-            <Route path="/profile">
-              <UserProfileScreen />
-            </Route>
-            <Route path="/statistics">
-              <StatisticsScreen />
-            </Route>
-            <Route path="/activities">
-              <ActivityScreen status={status} />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path="/" element={<EntryScreen status={status} />} />
+            <Route path="/profile" element={<UserProfileScreen />} />
+            <Route path="/statistics" element={<StatisticsScreen />} />
+            <Route
+              path="/activities"
+              element={<ActivityScreen status={status} />}
+            />
+          </Routes>
         </main>
       </Grid>
     </Grid>

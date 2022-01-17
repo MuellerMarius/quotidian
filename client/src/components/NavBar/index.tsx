@@ -23,8 +23,12 @@ const useStyles = makeStyles({
     },
   },
   activeLink: {
+    paddingRight: 35,
     color: '#676973',
     fontWeight: 600,
+    '&:hover': {
+      color: '#39406D',
+    },
   },
 });
 
@@ -51,18 +55,20 @@ const NavBar = () => {
         <Grid item xs={3} sm={4} md={5} lg={6}>
           <nav className={classes.nav}>
             <NavLink
-              exact
+              end
               to="/"
-              className={classes.link}
-              activeClassName={classes.activeLink}
+              className={({ isActive }) =>
+                isActive ? classes.activeLink : classes.link
+              }
             >
               {t('menu.entries')}
             </NavLink>
             <NavLink
-              exact
+              end
               to="/statistics"
-              className={classes.link}
-              activeClassName={classes.activeLink}
+              className={({ isActive }) =>
+                isActive ? classes.activeLink : classes.link
+              }
             >
               {t('menu.statistics')}
             </NavLink>
