@@ -78,7 +78,8 @@
     "pw advice": "Password needs to be at least 6 characters long",
     "request pw reset": "Reset password",
     "not empty": "Field must not be empty",
-    "agree to terms": "By creating an account, you agree to the Terms of Service."
+    "agree to terms": "By creating an account, you agree to the Terms of Service.",
+    "not logged in": "No user currently logged in."
   },
   "snackbar": {
     "added": "Entry was created successfully!",

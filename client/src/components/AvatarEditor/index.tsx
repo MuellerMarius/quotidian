@@ -84,11 +84,11 @@ const AvatarEditor: React.FC<AvatarEditorProps> = ({ user, setAvatar }) => {
   ];
 
   if (!user) {
-    // TODO: return error
+    // AvatarEditor only placed within UserProfileScreen
+    // UserProfileScreen gives adequate error message
     return null;
   }
 
-  // TODO: hat color not supported yet
   return (
     <List disablePadding classes={{ root: classes.listRoot }}>
       <ListItem classes={{ root: classes.listItemRoot }}>

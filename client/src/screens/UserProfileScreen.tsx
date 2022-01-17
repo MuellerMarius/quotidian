@@ -41,9 +41,17 @@ const UserProfileScreen = () => {
     }));
   };
 
-  // TODO: Error handling
   if (!user) {
-    return null;
+    return (
+      <Typography
+        variant="h5"
+        component="h5"
+        id="profile-header"
+        classes={{ root: classes.marginBottom }}
+      >
+        {t('user.not logged in')}
+      </Typography>
+    );
   }
 
   return (

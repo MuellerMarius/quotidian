@@ -78,7 +78,8 @@
     "pw advice": "Password muss min. 6 Zeichen lang sein",
     "request pw reset": "Passwort zurücksetzen",
     "not empty": "Feld darf nicht leer sein",
-    "agree to terms": "Mit der Erstellung eines Accounts akzeptierst du die Nutzungsbedingungen."
+    "agree to terms": "Mit der Erstellung eines Accounts akzeptierst du die Nutzungsbedingungen.",
+    "not logged in": "Es ist kein Benutzer eingeloggt."
   },
   "snackbar": {
     "added": "Eintrag erfolgreich erstellt!",
