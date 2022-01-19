@@ -1,5 +1,6 @@
 import React from 'react';
-import { Avatar, Chip, Icon, makeStyles, Typography } from '@material-ui/core';
+import { Chip, Icon, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { ActivitySelectorProps } from '../../types/proptypes';
 import { ActivityCatType } from '../../types/types';
@@ -8,6 +9,9 @@ const useStyles = makeStyles({
   chipRoot: {
     marginRight: 7,
     marginBottom: 5,
+  },
+  chipFilled: {
+    marginRight: 8,
   },
   categoryContainer: {
     marginTop: 5,
@@ -57,14 +61,10 @@ const ActivitySelector: React.FC<ActivitySelectorProps> = (props) => {
             {category.activities?.map((activity) => (
               <Chip
                 color={active.includes(activity._id) ? 'primary' : 'secondary'}
-                variant={active.includes(activity._id) ? 'default' : 'outlined'}
-                avatar={
-                  <Avatar>
-                    <Icon>{activity.icon}</Icon>
-                  </Avatar>
-                }
+                variant={active.includes(activity._id) ? 'filled' : 'outlined'}
+                icon={<Icon>{activity.icon}</Icon>}
                 label={activity.name}
-                classes={{ root: classes.chipRoot }}
+                classes={{ root: classes.chipRoot, filled: classes.chipFilled }}
                 onClick={() => onChange(activity._id)}
                 key={activity._id}
                 clickable

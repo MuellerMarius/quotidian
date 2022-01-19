@@ -1,18 +1,13 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  makeStyles,
-  createStyles,
-  Theme,
-} from '@material-ui/core';
-import FlashOnIcon from '@material-ui/icons/FlashOn';
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
-import FolderOutlinedIcon from '@material-ui/icons/FolderOutlined';
-import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
+import { ListItem, ListItemIcon, ListItemText, Theme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import FlashOnIcon from '@mui/icons-material/FlashOn';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import EditableTypography from '../EditableTypography';
 import useApi from '../../hooks/useApi';
 import { ActivityListAddProps } from '../../types/proptypes';

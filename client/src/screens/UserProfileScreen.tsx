@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@mui/material/styles';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import Avatar from 'avataaars';
-import Typography from '@material-ui/core/Typography';
-import { Grid } from '@material-ui/core';
+import Typography from '@mui/material/Typography';
+import { Grid } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
 import EditableTypography from '../components/EditableTypography';
 import { UserType } from '../types/types';

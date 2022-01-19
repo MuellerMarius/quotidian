@@ -5,17 +5,17 @@ import {
   ListItemIcon,
   ListItemText,
   ListSubheader,
-  makeStyles,
   Menu,
   MenuItem,
   Typography,
-} from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { Skeleton } from '@mui/material';
 import Avatar from 'avataaars';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import DirectionsRunOutlinedIcon from '@material-ui/icons/DirectionsRunOutlined';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import DirectionsRunOutlinedIcon from '@mui/icons-material/DirectionsRunOutlined';
 import { useTranslation } from 'react-i18next';
 import LinkMenuItem from './LinkMenuItem';
 import { useAuth } from '../context/AuthContext';
@@ -61,7 +61,7 @@ const AvatarMenu = () => {
   if (!user) {
     return (
       <Skeleton
-        variant="circle"
+        variant="circular"
         width={36}
         height={36}
         style={{ marginRight: 36 }}
@@ -100,7 +100,6 @@ const AvatarMenu = () => {
         id="user-menu"
         elevation={2}
         anchorEl={anchorEl}
-        getContentAnchorEl={null}
         open={Boolean(anchorEl)}
         onClose={handleClose}
         anchorOrigin={{

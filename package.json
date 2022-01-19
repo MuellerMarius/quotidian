@@ -5,7 +5,7 @@
   "description": "A daily mood and habit tracker to make the best out of yourself",
   "main": "./server/index.js",
   "scripts": {
-    "postinstall": "cd client && npm install",
+    "postinstall": "cd client && npm install --force",
     "dev": "run-p dev:**",
     "dev:client": "cd client && npm run start",
     "dev:server": "nodemon server/index.js",

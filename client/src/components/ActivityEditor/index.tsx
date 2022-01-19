@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { List, createStyles, makeStyles, Theme } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import { List, Theme } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import { Skeleton } from '@mui/material';
 import { ActivityEditorProps } from '../../types/proptypes';
 import ActivityListAdd from './ActivityListAdd';
 import { useGlobalContext } from '../../context/GlobalContext';
@@ -47,18 +49,16 @@ const ActivityEditor: React.FC<ActivityEditorProps> = (props) => {
   const [dialog, setDialog] = useState<DialogState>(initialDialogState);
 
   if (status === 'idle' || status === 'loading') {
-    return (
-      <>
-        {Array.from(Array(5).keys()).map((id) => (
-          <Skeleton
-            key={id}
-            variant="rect"
-            height={45}
-            className={classes.marginBottom}
-          />
-        ))}
-      </>
-    );
+    return <>
+      {Array.from(Array(5).keys()).map((id) => (
+        <Skeleton
+          key={id}
+          variant="rectangular"
+          height={45}
+          className={classes.marginBottom}
+        />
+      ))}
+    </>;
   }
 
   return (

@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  ListItemText,
-  makeStyles,
-  Menu,
-  MenuItem,
-} from '@material-ui/core';
-import LanguageOutlinedIcon from '@material-ui/icons/LanguageOutlined';
+import { Button, ListItemText, Menu, MenuItem } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 import { useTranslation } from 'react-i18next';
 import { languages } from '../i18n';
 
@@ -51,7 +46,6 @@ const LanguageSelector = () => {
         id="language-menu"
         elevation={2}
         anchorEl={anchorEl}
-        getContentAnchorEl={null}
         open={Boolean(anchorEl)}
         onClose={() => handleClose()}
         anchorOrigin={{

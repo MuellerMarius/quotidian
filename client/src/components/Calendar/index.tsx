@@ -5,15 +5,16 @@ import {
   Icon,
   InputLabel,
   ListItemIcon,
-  makeStyles,
   MenuItem,
   Select,
   ListSubheader,
   ListItemText,
   ListItem,
-} from '@material-ui/core';
-import FolderOpenIcon from '@material-ui/icons/FolderOpen';
-import SentimentSatisfiedOutlinedIcon from '@material-ui/icons/SentimentSatisfiedOutlined';
+  SelectChangeEvent,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 import { useTranslation } from 'react-i18next';
 import { DatePickerCalendar } from 'react-nice-dates';
 import { isSameDay } from 'date-fns';
@@ -85,7 +86,7 @@ const Calendar: React.FC<CalendarProps> = ({ activeMonth, setActiveMonth }) => {
     dispatch({ type: GlobalActionNames.SELECT_DATE, payload: { date } });
   };
 
-  const handleModifiersSelect = (e: React.ChangeEvent<{ value: unknown }>) => {
+  const handleModifiersSelect = (e: SelectChangeEvent) => {
     setSelectedModifiers(e.target.value as string);
   };
 
@@ -134,7 +135,7 @@ const Calendar: React.FC<CalendarProps> = ({ activeMonth, setActiveMonth }) => {
           labelId="view-select-label"
           id="view-select"
           label={t('show')}
-          classes={{ root: classes.selectRoot }}
+          classes={{ select: classes.selectRoot }}
           value={selectedModifiers}
           onChange={handleModifiersSelect}
         >

@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  makeStyles,
-  GridList,
-  GridListTile,
+  ImageList,
+  ImageListItem,
   Icon,
   IconButton,
   CircularProgress,
-} from '@material-ui/core';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import IconSearchFilter from './IconSearchFilter';
 import materialIcons from '../../util/icons';
 import { IconPickerProps } from '../../types/proptypes';
@@ -93,15 +93,15 @@ const IconPicker: React.FC<IconPickerProps> = (props) => {
         onReset={resetSearchFilter}
       />
 
-      <GridList cols={6} cellHeight="auto" spacing={4}>
+      <ImageList cols={6} rowHeight="auto" gap={4}>
         {icons.map((icon) => (
-          <GridListTile key={icon} cols={1} classes={{ tile: classes.tile }}>
+          <ImageListItem key={icon} cols={1} classes={{ root: classes.tile }}>
             <IconButton onClick={() => onChange(icon)} size="small">
               <Icon>{icon}</Icon>
             </IconButton>
-          </GridListTile>
+          </ImageListItem>
         ))}
-      </GridList>
+      </ImageList>
 
       <CircularProgress
         style={{ display: isLoadingSpinnerVisible() ? 'block' : 'none' }}

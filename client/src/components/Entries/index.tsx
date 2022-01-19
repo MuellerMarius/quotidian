@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Card, makeStyles, Slide } from '@material-ui/core';
+import { Card, Slide } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useGlobalContext } from '../../context/GlobalContext';
 import useApi from '../../hooks/useApi';
 import ConfirmDialog from '../ConfirmDialog';

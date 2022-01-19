@@ -2,6 +2,11 @@
 
 Quotidian is a mood and habit tracker to make the best out of yourself
 
+# Problem spotting
+
+- new npm install needs --force attribute
+- for gyps python 2 (not python 3) is required -> change PATH settings
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

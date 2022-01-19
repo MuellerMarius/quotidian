@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import {
   FormControl,
   InputLabel,
   Select,
   MenuItem,
-  makeStyles,
   List,
   ListItem,
   Button,
@@ -14,7 +13,9 @@ import {
   IconButton,
   ListItemIcon,
   ListItemText,
-} from '@material-ui/core';
+  SelectChangeEvent,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useAuth } from '../../context/AuthContext';
 import {
   topTypes,
@@ -137,7 +138,7 @@ const AvatarEditor: React.FC<AvatarEditorProps> = ({ user, setAvatar }) => {
                     id="view-select"
                     label={t(`user.avatar.${option.key}`)}
                     value={user.avatar[option.key]}
-                    onChange={(e: React.ChangeEvent<{ value: unknown }>) =>
+                    onChange={(e: SelectChangeEvent) =>
                       setAvatar(option.key, e.target.value as string)
                     }
                   >

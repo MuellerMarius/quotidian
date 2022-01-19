@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, Button, makeStyles } from '@material-ui/core';
+import { TextField, Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useTranslation } from 'react-i18next';
 import FormValidation from '../../util/FormValidation';
 import { FormValidationConfig } from '../../types/types';

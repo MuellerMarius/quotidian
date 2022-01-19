@@ -1,12 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  makeStyles,
-  List,
-  ListItem,
-  Typography,
-  Grid,
-} from '@material-ui/core';
+import { List, ListItem, Typography, Grid } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { EntryScreenProps } from '../types/proptypes';
 import ActivityEditor from '../components/ActivityEditor';
 

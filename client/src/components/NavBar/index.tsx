@@ -1,5 +1,6 @@
 import React from 'react';
-import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 import AvatarMenu from '../AvatarMenu';
@@ -42,7 +43,7 @@ const NavBar = () => {
         container
         direction="row"
         alignItems="center"
-        justify="space-between"
+        justifyContent="space-between"
       >
         <Grid item>
           <img src={logo_sm} alt="Quotidian Logo" className={classes.logo} />

@@ -1,13 +1,13 @@
 {
+  "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "jsx-a11y"],
   "extends": [
     "airbnb-typescript",
     "react-app",
     "react-app/jest",
     "plugin:jsx-a11y/recommended",
-    "prettier/react"
+    "prettier"
   ],
-  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json"
   },
@@ -21,16 +21,17 @@
   },
   "rules": {
     "react/react-in-jsx-scope": 0,
-    "@typescript-eslint/comma-dangle": 0,
-    "linebreak-style": 0,
-    "object-curly-newline": 0,
     "react/jsx-props-no-spreading": 0,
     "react/prop-types": 0,
+    "@typescript-eslint/comma-dangle": 0,
+    "@typescript-eslint/indent": 0,
+    "jsx-a11y/no-autofocus": 0,
+    "linebreak-style": 0,
+    "object-curly-newline": 0,
     "operator-linebreak": 0,
     "implicit-arrow-linebreak": 0,
     "function-paren-newline": 0,
     "no-underscore-dangle": 0,
-    "@typescript-eslint/indent": 0,
     "no-confusing-arrow": 0,
     "no-nested-ternary": 0
   }

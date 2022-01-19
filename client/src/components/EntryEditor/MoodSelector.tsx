@@ -1,9 +1,5 @@
-import {
-  FormControlLabel,
-  makeStyles,
-  Radio,
-  RadioGroup,
-} from '@material-ui/core';
+import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
 import { useTranslation } from 'react-i18next/';
 import { MoodAvatarRadioProps, MoodSelectorProps } from '../../types/proptypes';
@@ -57,7 +53,7 @@ const MoodSelector: React.FC<MoodSelectorProps> = ({
               autoFocus={element === 0 && autoFocus}
             />
           }
-          label={t(`moods.${element}`)}
+          label={`${t(`moods.${element}`)}`}
           labelPlacement="bottom"
         />
       ))}

@@ -1,13 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MenuItem } from '@mui/material';
+import { Button, ButtonProps } from '@mui/material';
 import { LinkProps } from '../types/proptypes';
 
-const LinkMenuItem: React.FC<LinkProps> = ({ to, onClick, ...rest }) => {
+// TODO: unused
+const LinkButton: React.FC<LinkProps & ButtonProps> = ({
+  to,
+  onClick,
+  ...rest
+}) => {
   const navigate = useNavigate();
 
   return (
-    <MenuItem
+    <Button
       {...rest}
       onClick={(event) => {
         onClick && onClick(event);
@@ -17,4 +22,4 @@ const LinkMenuItem: React.FC<LinkProps> = ({ to, onClick, ...rest }) => {
   );
 };
 
-export default LinkMenuItem;
+export default LinkButton;

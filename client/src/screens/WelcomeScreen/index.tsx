@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
+import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useTranslation } from 'react-i18next';
 import { Routes, Route, Link } from 'react-router-dom';
 import Login from './Login';

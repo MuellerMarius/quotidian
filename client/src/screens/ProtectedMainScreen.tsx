@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Grid, makeStyles } from '@material-ui/core';
+import { Grid } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { Route, Routes } from 'react-router-dom';
 import UserProfileScreen from './UserProfileScreen';
 import StatisticsScreen from './StatisticsScreen';

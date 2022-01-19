@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles, InputAdornment, TextField } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+import { InputAdornment, TextField } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
 import { IconSearchFilterProps } from '../../types/proptypes';
 

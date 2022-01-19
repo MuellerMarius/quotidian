@@ -7,13 +7,13 @@ import {
   ListItemSecondaryAction,
   IconButton,
   Icon,
-  createStyles,
-  makeStyles,
   Theme,
   CircularProgress,
   Popover,
-} from '@material-ui/core';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+} from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditableTypography from '../EditableTypography';
 import { ActivityListItemProps } from '../../types/proptypes';
 import useApi from '../../hooks/useApi';
@@ -114,7 +114,7 @@ const ActivityListItem: React.FC<ActivityListItemProps> = (props) => {
       />
       <ListItemSecondaryAction>
         {status === 'loading' && (
-          <IconButton disabled>
+          <IconButton disabled size="large">
             <CircularProgress size={16} />
           </IconButton>
         )}

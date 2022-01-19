@@ -1,5 +1,5 @@
-import { Divider, ListItem, ListItemText, Typography } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import { Divider, ListItem, ListItemText, Typography } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import React from 'react';
 
 const EntryListItemSkeleton = () => (
@@ -7,7 +7,7 @@ const EntryListItemSkeleton = () => (
     <Divider variant="inset" component="li" />
     <ListItem alignItems="center">
       <Skeleton
-        variant="circle"
+        variant="circular"
         width={36}
         height={36}
         style={{ marginRight: 20 }}

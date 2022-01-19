@@ -8,11 +8,11 @@ import {
   IconButton,
   Collapse,
   List,
-  makeStyles,
   CircularProgress,
-} from '@material-ui/core';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditableTypography from '../EditableTypography';
 import ActivityListItem from './ActivityListItem';
 import ActivityListAdd from './ActivityListAdd';
@@ -50,66 +50,64 @@ const ActivityListCategory: React.FC<ActivityListCategoryProps> = (props) => {
     });
   };
 
-  return (
-    <>
-      <ListItem>
-        <ListItemIcon>
-          {open ? (
-            <IconButton
-              edge="start"
-              aria-label="collapse"
-              onClick={toggleCollapse}
-              size="small"
-            >
-              <ExpandLess />
-            </IconButton>
-          ) : (
-            <IconButton
-              edge="start"
-              aria-label="expand"
-              onClick={toggleCollapse}
-              size="small"
-            >
-              <ExpandMore />
-            </IconButton>
-          )}
-        </ListItemIcon>
-        <ListItemText
-          primary={
-            <EditableTypography text={category.name} onSubmit={handleChange} />
-          }
-        />
-        <ListItemSecondaryAction>
-          {status === 'loading' && (
-            <IconButton disabled>
-              <CircularProgress size={16} />
-            </IconButton>
-          )}
-
+  return <>
+    <ListItem>
+      <ListItemIcon>
+        {open ? (
           <IconButton
-            aria-label={t('delete')}
-            onClick={handleDelete}
-            classes={{ root: classes.deleteButton }}
+            edge="start"
+            aria-label="collapse"
+            onClick={toggleCollapse}
             size="small"
           >
-            <DeleteOutlineIcon fontSize="small" />
+            <ExpandLess />
           </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          {category.activities.map((act) => (
-            <ActivityListItem
-              activity={{ ...act, parentCatId: category._id }}
-              key={act._id}
-              setDialog={setDialog}
-            />
-          ))}
-          <ActivityListAdd type="activity" category={category} />
-        </List>
-      </Collapse>
-    </>
-  );
+        ) : (
+          <IconButton
+            edge="start"
+            aria-label="expand"
+            onClick={toggleCollapse}
+            size="small"
+          >
+            <ExpandMore />
+          </IconButton>
+        )}
+      </ListItemIcon>
+      <ListItemText
+        primary={
+          <EditableTypography text={category.name} onSubmit={handleChange} />
+        }
+      />
+      <ListItemSecondaryAction>
+        {status === 'loading' && (
+          <IconButton disabled size="large">
+            <CircularProgress size={16} />
+          </IconButton>
+        )}
+
+        <IconButton
+          aria-label={t('delete')}
+          onClick={handleDelete}
+          classes={{ root: classes.deleteButton }}
+          size="small"
+        >
+          <DeleteOutlineIcon fontSize="small" />
+        </IconButton>
+      </ListItemSecondaryAction>
+    </ListItem>
+    <Collapse in={open} timeout="auto" unmountOnExit>
+      <List component="div" disablePadding>
+        {category.activities.map((act) => (
+          <ActivityListItem
+            activity={{ ...act, parentCatId: category._id }}
+            key={act._id}
+            setDialog={setDialog}
+          />
+        ))}
+        <ActivityListAdd type="activity" category={category} />
+      </List>
+    </Collapse>
+  </>;
 };
 
 export default ActivityListCategory;

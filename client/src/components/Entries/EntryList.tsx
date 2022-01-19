@@ -1,16 +1,9 @@
 import React from 'react';
-import {
-  Container,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
+import { Container, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useTranslation } from 'react-i18next';
 import { compareDesc, isSameMonth } from 'date-fns';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EntryListItemSkeleton from './EntryListItemSkeleton';
 import EntryListItem from './EntryListItem';
 import { useGlobalContext } from '../../context/GlobalContext';

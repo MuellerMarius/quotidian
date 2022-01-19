@@ -8,10 +8,10 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
-  makeStyles,
-} from '@material-ui/core';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useTranslation } from 'react-i18next';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import MoodAvatar from '../MoodAvatar';
 import { EntryListItemProps } from '../../types/proptypes';
 import { useGlobalContext } from '../../context/GlobalContext';
@@ -25,6 +25,7 @@ const useStyles = makeStyles({
     marginTop: 8,
   },
   iconRoot: {
+    fontSize: 16,
     marginRight: '5px',
   },
   gridRoot: {
@@ -54,11 +55,7 @@ const SecondaryItem: React.FC<{ comment: string; act: string[] }> = (props) => {
           key={act._id}
           classes={{ root: classes.gridRoot }}
         >
-          <Icon
-            fontSize="small"
-            color="secondary"
-            classes={{ root: classes.iconRoot }}
-          >
+          <Icon color="secondary" classes={{ root: classes.iconRoot }}>
             {act.icon}
           </Icon>
         </Grid>
@@ -94,11 +91,19 @@ const EntryListItem: React.FC<EntryListItemProps> = ({
 
         <ListItemText
           primary={t('datekey', { date: new Date(date) })}
-          secondary={<SecondaryItem comment={comment} act={activities} />}
+          secondary={
+            comment || activities.length > 0 ? (
+              <SecondaryItem comment={comment} act={activities} />
+            ) : null
+          }
           classes={{ secondary: classes.secondary }}
         />
         <ListItemSecondaryAction>
-          <IconButton aria-label={t('delete')} onClick={() => onDelete(entry)}>
+          <IconButton
+            aria-label={t('delete')}
+            onClick={() => onDelete(entry)}
+            size="large"
+          >
             <DeleteOutlineIcon
               fontSize="small"
               classes={{ root: classes.deleteButton }}

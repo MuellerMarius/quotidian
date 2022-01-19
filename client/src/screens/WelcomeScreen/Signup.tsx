@@ -4,12 +4,12 @@ import {
   InputAdornment,
   IconButton,
   Button,
-  makeStyles,
   Typography,
   CircularProgress,
-} from '@material-ui/core';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useNavigate } from 'react-router-dom';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import FormValidation from '../../util/FormValidation';
 import { FormValidationConfig } from '../../types/types';
@@ -150,7 +150,7 @@ const Signup = () => {
                   e.preventDefault()
                 }
                 edge="end"
-              >
+                size="large">
                 {showPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
             </InputAdornment>

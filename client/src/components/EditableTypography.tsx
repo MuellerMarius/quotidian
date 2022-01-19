@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import BorderColorOutlinedIcon from '@material-ui/icons/BorderColorOutlined';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import {
-  createStyles,
-  IconButton,
-  InputBase,
-  makeStyles,
-  Theme,
-  Tooltip,
-} from '@material-ui/core';
+import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import { IconButton, InputBase, Theme, Tooltip } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { EditableTypoProps } from '../types/proptypes';
 
 const useStyles = makeStyles((theme: Theme) =>
