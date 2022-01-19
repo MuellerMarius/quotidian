@@ -59,7 +59,7 @@ const WelcomeScreen = () => {
           <Routes>
             <Route path="/signup" element={<Signup />} />
             <Route path="/resetpw" element={<ResetPassword />} />
-            <Route path="/" element={<Login />} />
+            <Route path="*" element={<Login />} />
           </Routes>
         </CardContent>
       </Card>
@@ -77,17 +77,25 @@ const WelcomeScreen = () => {
               }
             />
 
-             <Route path="/resetpw" element={
-              <span>
-                {t('user.already member')}{' '}
-                <Link to="/">{t('user.click login')}</Link>
-              </span>} />
+            <Route
+              path="/resetpw"
+              element={
+                <span>
+                  {t('user.already member')}{' '}
+                  <Link to="/">{t('user.click login')}</Link>
+                </span>
+              }
+            />
 
-            <Route path="/" element={
-              <span>
-                {t('user.new to quotidian')}{' '}
-                <Link to="/signup">{t('user.click signup')}</Link>
-              </span>} />
+            <Route
+              path="*"
+              element={
+                <span>
+                  {t('user.new to quotidian')}{' '}
+                  <Link to="/signup">{t('user.click signup')}</Link>
+                </span>
+              }
+            />
           </Routes>
         </Typography>
       </Card>
